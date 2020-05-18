@@ -4,9 +4,9 @@
  * Email: dcochra2@inf.ed.ac.uk
  */
 
-import { SHA3,MD5 } from "crypto-js";
+import { SHA3, MD5 } from "crypto-js";
 //import Forge from "node-Forge";
-var Forge = require('node-forge');
+var Forge = require("node-forge");
 /**
  *
  * Coping string to the clipboard
@@ -52,16 +52,18 @@ export function hashWithKeccak(seedString, message, log) {
   const randomValue = SHA3(concatMessageSeed, { outputLength: 256 }).toString();
   const concatMessageRandomValue = message16.concat(randomValue);
   const hashValue = SHA3(concatMessageRandomValue, {
-    outputLength: 256
+    outputLength: 256,
   }).toString();
   const date_time = timeAndDate();
-  log.push({date:date_time[0],
-    time:date_time[1],
-    val:message,
-    randomVal:randomValue})
+  log.push({
+    date: date_time[0],
+    time: date_time[1],
+    val: message,
+    randomVal: randomValue,
+  });
   return {
     randomValue,
-    hashValue
+    hashValue,
   };
 }
 
@@ -75,9 +77,8 @@ export function generateSeed() {
   return firstPart.concat(secondPart);
 }
 
-
 export async function hashFile(file, callback) {
-  await fileHash(file, MD5, function(x) {
+  await fileHash(file, MD5, function (x) {
     callback(x.toString());
   });
 }
@@ -87,24 +88,24 @@ async function fileHash(file, hasher, callback) {
   var reader = new FileReader();
 
   //What to do when we gets data?
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     var hash = hasher(e.target.result);
     callback(hash);
   };
   reader.readAsBinaryString(file);
 }
 
-export function isAddress(str){
-  var re = new RegExp('^0(x|X)[0-9a-fA-F]{40}$');
+export function isAddress(str) {
+  var re = new RegExp("^0(x|X)[0-9a-fA-F]{40}$");
   return re.test(str);
 }
 
-export function timeAndDate(){
+export function timeAndDate() {
   const date_time = new Date();
   const date = {
     year: date_time.getFullYear(),
-    month: date_time.getMonth()+1,
-    day: date_time.getDate()
+    month: date_time.getMonth() + 1,
+    day: date_time.getDate(),
   };
   const time = {
     hour: date_time.getHours(),
@@ -114,31 +115,26 @@ export function timeAndDate(){
   return [date, time];
 }
 
-
-
-export function signApproval (address, S, privateKey, log) {
-  const randomValue = generateSeed()
-  const message = randomValue
-    .concat(address)
-    .concat(S)
-    .concat("approved");
+export function signApproval(address, S, privateKey, log) {
+  const randomValue = generateSeed();
+  const message = randomValue.concat(address).concat(S).concat("approved");
   const keyInfo = Forge.pki.privateKeyFromPem(privateKey);
   const md = Forge.md.sha256.create();
   md.update(message, "utf8"); // DC@20-04-21: changed to encryptedMessage, from encryptedMessageWithInfo
   const pss = Forge.pss.create({
     md: Forge.md.sha1.create(),
     mgf: Forge.mgf.mgf1.create(Forge.md.sha1.create()),
-    saltLength: 20
+    saltLength: 20,
   });
   const signature = keyInfo.sign(md, pss);
   const signatureHex = Forge.util.bytesToHex(signature);
   const d_t = timeAndDate();
   log.push({
-    date:d_t[0],
-    time:d_t[1],
-    clientAdd:address,
-    message:S,
-    randomVal:randomValue
+    date: d_t[0],
+    time: d_t[1],
+    clientAdd: address,
+    message: S,
+    randomVal: randomValue,
   });
   return (
     SHA3(signatureHex.concat(randomValue), { outputLength: 256 }).toString(),
@@ -148,17 +144,27 @@ export function signApproval (address, S, privateKey, log) {
   );
 }
 
-function dateToString(date){
+function dateToString(date) {
   // DC@20-04-24: New function, converts date Object to 'YYYY-MM-DD'
-  const day0 = date.day < 10 ? '0' : '';
-  return date.year + '-' + addSpacingZeroes(date.month, 2) + '-'
-    + addSpacingZeroes(date.day, 2);
+  const day0 = date.day < 10 ? "0" : "";
+  return (
+    date.year +
+    "-" +
+    addSpacingZeroes(date.month, 2) +
+    "-" +
+    addSpacingZeroes(date.day, 2)
+  );
 }
 
-function timeToString(time){
+function timeToString(time) {
   // DC@20-04-24: New function, converts time Object to 'HH:MM:SS'
-  return addSpacingZeroes(time.hour, 2) + ':' + addSpacingZeroes(time.minute, 2)
-    + ':' + addSpacingZeroes(time.second, 2);
+  return (
+    addSpacingZeroes(time.hour, 2) +
+    ":" +
+    addSpacingZeroes(time.minute, 2) +
+    ":" +
+    addSpacingZeroes(time.second, 2)
+  );
 }
 
 function addSpacingZeroes(value, minWidth) {
@@ -167,25 +173,25 @@ function addSpacingZeroes(value, minWidth) {
   // addSpacingZeroes(8, 2) == '08'; addSpacingZeroes(18, 2) == '18';
   // addSpacingZeroes(324, 2) == '324';
   const width = Math.ceil(Math.log10(value, 10));
-  const zeroes = width<minWidth ? '0'.repeat(minWidth-width) : '';
+  const zeroes = width < minWidth ? "0".repeat(minWidth - width) : "";
   return zeroes + value;
 }
 
-export function lineWrap(text, maxLength, separator='\n'){
-  if(text){
-    var wrappedText = '';
-    for(var i = 0; i < text.length; i+=maxLength){
-      wrappedText += text.slice(i, i+maxLength)
-        + (i+maxLength<text.length?separator:'');
+export function lineWrap(text, maxLength, separator = "\n") {
+  if (text) {
+    var wrappedText = "";
+    for (var i = 0; i < text.length; i += maxLength) {
+      wrappedText +=
+        text.slice(i, i + maxLength) +
+        (i + maxLength < text.length ? separator : "");
     }
     return wrappedText;
-  }
-  else{
+  } else {
     return;
   }
 }
 
-export function writeLineToLog(lineData, userRole, log){
+export function writeLineToLog(lineData, userRole, log) {
   // DC@20-04-24: New function, for use by client or validator page (to be
   // extended later for service user). Adds one line to a log file, which
   // records each time the client encrypts a value, or the validator signs
@@ -197,16 +203,21 @@ export function writeLineToLog(lineData, userRole, log){
 
   // The line always starts with the time and date
   log = log || [];
-  var line = {date:lineData.date, time:lineData.time};
-  if (userRole === 'client') {
+  var line = { date: lineData.date, time: lineData.time };
+  if (userRole === "client") {
     // The client's log records date, time, value encrypted, and random value
-    line += ',' + lineData.val + ',' + lineData.randomVal;
-  } else if (userRole === 'validator') {
+    line += "," + lineData.val + "," + lineData.randomVal;
+  } else if (userRole === "validator") {
     // The validator's log records time, date, client address, signature, and
     // random value
-    line += ',' + lineData.clientAddress + ',' + lineData.signature
-        + ',' + lineData.randomVal;
-  } else if (userRole === 'svc_user') {
+    line +=
+      "," +
+      lineData.clientAddress +
+      "," +
+      lineData.signature +
+      "," +
+      lineData.randomVal;
+  } else if (userRole === "svc_user") {
     // placeholder - service user yet to be implemented
     console.log("Service User doesn't yet generate log files");
     return log;
@@ -215,6 +226,11 @@ export function writeLineToLog(lineData, userRole, log){
     throw "User Role not recognised; only 'client', 'validator', and 'svc_user' are recognised.";
   }
   log.push(line);
-  console.log("Added to log: "+line);
+  console.log("Added to log: " + line);
   return log;
 }
+
+// export function getTimeString() {
+//   const now = new Date();
+//   return `${now.getFullYear()}_${now.getMonth()}_${now.getDay()}_${now.getHours()}_${now.getMinutes()}_${now.getSeconds()}`;
+// }

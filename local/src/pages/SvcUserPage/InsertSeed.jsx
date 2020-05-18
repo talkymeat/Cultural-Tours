@@ -21,48 +21,48 @@ import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormLabel from "@material-ui/core/FormLabel";
-import Forge from 'node-forge';
-import FileSaver from 'file-saver';
-import Notification from '../../components/Notification';
-import Upload from '../../components/Upload';
+import Forge from "node-forge";
+import FileSaver from "file-saver";
+import Notification from "../../components/Notification";
+import Upload from "../../components/Upload";
 import * as Utilities from "../../utilities";
 import Zip from "jszip";
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   seedInput: {
     width: "400px",
-    marginRight: theme.spacing(4)
+    marginRight: theme.spacing(4),
   },
   title: {
-    marginBottom: theme.spacing(8)
+    marginBottom: theme.spacing(8),
   },
   backButton: {
-    marginRight: theme.spacing(4)
+    marginRight: theme.spacing(4),
   },
   stepButtons: {
     display: "flex",
     justifyContent: "center",
     marginTop: theme.spacing(4),
-    '& a': {
-      textDecoration: 'none'
-    }
+    "& a": {
+      textDecoration: "none",
+    },
   },
   form: {
-    marginBottom: theme.spacing(8)
+    width: "100%",
+    marginBottom: theme.spacing(8),
   },
   fieldRow: {
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   formControl: {
     width: "80%",
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   dropzone: {
     border: "1px dashed #ddd",
@@ -73,26 +73,26 @@ const useStyles = makeStyles(theme => ({
     background: "#fefefe",
     "& p": {
       color: "#666",
-      fontSize: 16
+      fontSize: 16,
     },
     "& svg": {
-      color: theme.palette.primary.light
+      color: theme.palette.primary.light,
     },
     "& img": {
-      maxHeight: "100px"
+      maxHeight: "100px",
     },
     "& + .MuiGrid-container": {
       marginBottom: theme.spacing(1),
-      marginTop: theme.spacing(1)
-    }
+      marginTop: theme.spacing(1),
+    },
   },
   dropzoneError: {
-    border: `1px dashed ${theme.palette.warning.main}`
-  }
+    border: `1px dashed ${theme.palette.warning.main}`,
+  },
 }));
 
 const StepButton = styled(Button)(({ theme }) => ({
-  minWidth: "120px"
+  minWidth: "120px",
 }));
 
 function InsertSeedPageWrapper(props) {
@@ -103,60 +103,59 @@ function InsertSeedPageWrapper(props) {
 class InsertSeedPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { // DC@20-04-21: removed seed
+    this.state = {
+      // DC@20-04-21: removed seed
       generateDialogStatus: false,
       isHaveKey: "1",
-      clientAddress: '',
+      clientAddress: "",
       publicKey: [],
-      message: 'Please fill all the information.',
-      open: false
+      message: "Please fill all the information.",
+      open: false,
     };
   }
   // componentDidMount() {
   //   console.log(this.props);
   // }
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    }, () => {
-      console.log(this.state)
-    });
+  handleChange = (e) => {
+    this.setState(
+      {
+        [e.target.name]: e.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
 
   handleGenerateDialogClose = () => {
     this.setState({
-      generateDialogStatus: false
+      generateDialogStatus: false,
     });
   };
 
- // DC@20-04-21: Removed handleSeedGenerate
+  // DC@20-04-21: Removed handleSeedGenerate
 
   handleFileUpload = (key, files) => {
     console.log(files);
     this.setState({
-      [key]: files
-    })
+      [key]: files,
+    });
   };
 
   loadFileAsPubText = (files) => {
     var fileReader = new FileReader();
     var st = this.state;
-    fileReader.onload = function(fileLoadedEvent){
+    fileReader.onload = function (fileLoadedEvent) {
       console.log("It loaded without error");
-      Object.assign(
-        st,
-        {
-          "publicKey":
-          fileLoadedEvent.target.result,
-          "publicKeyFile":
-          files
-        }
-      )
+      Object.assign(st, {
+        publicKey: fileLoadedEvent.target.result,
+        publicKeyFile: files,
+      });
     };
     console.log(files[0], "  ");
     fileReader.readAsText(files[0], "UTF-8");
-  }
+  };
 
   handleSubmit = () => {
     const { publicKey, publicKeyFile, clientAddress } = this.state; // DC@20-04-21: removed seed
@@ -165,38 +164,55 @@ class InsertSeedPage extends Component {
     if (!check.result) {
       this.setState({
         open: true,
-        message: check.message
+        message: check.message,
       });
       return;
     } else {
       handleNext();
-      updateValueEntry("seedAndSign", { publicKey, publicKeyFile, clientAddress, approval:"" }); // DC@20-04-21: removed seed
+      updateValueEntry("seedAndSign", {
+        publicKey,
+        publicKeyFile,
+        clientAddress,
+        approval: "",
+      }); // DC@20-04-21: removed seed
     }
   };
 
   validationCheck = () => {
     const { publicKey, clientAddress } = this.state; // DC@20-04-21: removed seed
-    if (!publicKey || !clientAddress) { // DC@20-04-21: removed seed
-      return {result: false, message: 'Please fill all the fields before next step.'};
+    if (!publicKey || !clientAddress) {
+      // DC@20-04-21: removed seed
+      return {
+        result: false,
+        message: "Please fill all the fields before next step.",
+      };
     }
     if (!Utilities.isAddress(clientAddress)) {
       return {
         result: false,
-        message: 'Please input the client address in the correct format; "Ox" followed by 40 hexidecimal digits.'
-      }
+        message:
+          'Please input the client address in the correct format; "Ox" followed by 40 hexidecimal digits.',
+      };
     }
-    return { result: true }
-  }
+    return { result: true };
+  };
 
   handleClose = () => {
     this.setState({
-      open: false
-    })
-  }
+      open: false,
+    });
+  };
 
   render() {
     const { classes, theme } = this.props;
-    const { generateDialogStatus, isHaveKey, clientAddress, message, open, publicKey } = this.state; // DC@20-04-21: removed seed
+    const {
+      generateDialogStatus,
+      isHaveKey,
+      clientAddress,
+      message,
+      open,
+      publicKey,
+    } = this.state; // DC@20-04-21: removed seed
     // DC@20-04-21: changed 'INSERT or GENERATE ENCRYPTION KEY FOR VALIDATION' to 'RSA KEY'
     // DC@20-04-21: Removed box for inserting/generating Encryption Key - I've pasted it in, commented out, at the bottom of the file
     return (
@@ -208,35 +224,31 @@ class InsertSeedPage extends Component {
               INSERT RSA PUBLIC KEY
             </Typography>
             <form noValidate className={classes.form}>
-
               <FormControl className={classes.formControl}>
-                  <React.Fragment>
-                    <FormLabel
-                      component="legend"
-                      style={{
-                        marginBottom: theme.spacing(2)
-                      }}
-                    >
-                      Public Key
-                    </FormLabel>
+                <React.Fragment>
+                  <FormLabel
+                    component="legend"
+                    style={{
+                      marginBottom: theme.spacing(2),
+                    }}
+                  >
+                    Public Key
+                  </FormLabel>
 
-                    <Upload
-                      handleFileUpload={files => {
-                        this.handleFileUpload(
-                          "publicKey",
-                          files.map(file => file.file)
-                        );
-                      }}
-                      files={publicKey}
-                    />
-                  </React.Fragment>
-
+                  <Upload
+                    handleFileUpload={(files) => {
+                      this.handleFileUpload(
+                        "publicKey",
+                        files.map((file) => file.file)
+                      );
+                    }}
+                    files={publicKey}
+                  />
+                </React.Fragment>
               </FormControl>
 
               <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="client-address">
-                  Client Address
-                </InputLabel>
+                <InputLabel htmlFor="client-address">Client Address</InputLabel>
                 <Input
                   size="42"
                   value={clientAddress}
@@ -244,7 +256,7 @@ class InsertSeedPage extends Component {
                   inputProps={{
                     name: "clientAddress",
                     id: "client-address",
-                    placeholder: "Pleace Input Client Address"
+                    placeholder: "Pleace Input Client Address",
                   }}
                 />
               </FormControl>
@@ -253,7 +265,7 @@ class InsertSeedPage extends Component {
             <Divider variant="middle" style={{ width: "100%" }} />
 
             <div className={classes.stepButtons}>
-            <Link to="/">
+              <Link to="/">
                 <StepButton className={classes.backButton} variant="outlined">
                   Back To Home
                 </StepButton>
@@ -281,8 +293,6 @@ class InsertSeedPage extends Component {
 export default withTheme(InsertSeedPageWrapper);
 
 // DC@20-04-21: Code removed, stored here in case it's needed again:
-
-
 
 // handleGenerateSeed = () => {
 //   let emptyArray = new Uint32Array(2);

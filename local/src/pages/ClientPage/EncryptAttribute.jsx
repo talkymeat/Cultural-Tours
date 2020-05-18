@@ -15,45 +15,46 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { LooksOne, LooksTwo } from "@material-ui/icons";
+import { LooksOne, LooksTwo, Looks3, Looks } from "@material-ui/icons";
 import * as Utilities from "../../utilities";
-import Notification from '../../components/Notification';
-import moment from 'moment';
-
+import Notification from "../../components/Notification";
+import moment from "moment";
+import Input from "@material-ui/core/Input";
+import { FormHelperText } from "@material-ui/core";
 
 import AgeNode from "./EncryptAttributeAge";
 import DegreeNode from "./EncryptAttributeDegree";
 import LicenseNode from "./EncryptAttributeLicense";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   instruction: {
     marginBottom: theme.spacing(3),
     textAlign: "left",
     width: "100%",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   backButton: {
-    marginRight: theme.spacing(4)
+    marginRight: theme.spacing(4),
   },
   stepButtons: {
     display: "flex",
     justifyContent: "center",
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   form: {
     width: "100%",
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   formControl: {
     width: "60%",
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   divider: {
     width: "100%",
@@ -61,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4),
     marginLeft: 0,
-    marginRight: 0
+    marginRight: 0,
   },
   dropzone: {
     border: "1px dashed #ddd",
@@ -72,26 +73,26 @@ const useStyles = makeStyles(theme => ({
     background: "#fefefe",
     "& p": {
       color: "#666",
-      fontSize: 16
+      fontSize: 16,
     },
     "& svg": {
-      color: theme.palette.primary.light
+      color: theme.palette.primary.light,
     },
     "& img": {
-      maxHeight: "100px"
+      maxHeight: "100px",
     },
     "& + .MuiGrid-container": {
       marginBottom: theme.spacing(1),
-      marginTop: theme.spacing(1)
-    }
+      marginTop: theme.spacing(1),
+    },
   },
   dropzoneError: {
-    border: `1px dashed ${theme.palette.warning.main}`
-  }
+    border: `1px dashed ${theme.palette.warning.main}`,
+  },
 }));
 
 const StepButton = styled(Button)(({ theme }) => ({
-  minWidth: "120px"
+  minWidth: "120px",
 }));
 
 function SelectTypePageWrapper(props) {
@@ -107,7 +108,6 @@ class SelectTypePage extends Component {
       age: "",
       proofOfAge: null,
       proofOfAgeOriginalValue: [],
-      ageDirty: false,
       notificationOpen: false,
       degree: "",
       degreeDescription: "",
@@ -118,20 +118,18 @@ class SelectTypePage extends Component {
       licenseExpireDate: null,
       proofOfLicense: null,
       proofOfLicenseOriginalValue: [],
-      notificationMessage: "Please Fill the Information."
+      notificationMessage: "Please fill all the information.",
+      clientAddress: "",
     };
   }
   // componentDidMount() {
   //   console.log("props", this.props);
   // }
 
-  handleChange = e => {
-    this.setState(
-      {
-        [e.target.name]: e.target.value,
-        [`${e.target.name}Dirty`]: true
-      }
-    );
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   };
 
   handleGenerateSeed = () => {
@@ -144,112 +142,162 @@ class SelectTypePage extends Component {
 
   handleFocus = () => {
     this.setState({
-      seedDirty: true
+      seedDirty: true,
     });
   };
 
   handleGenerateDialogClose = () => {
     this.setState({
-      generateDialogStatus: false
+      generateDialogStatus: false,
     });
   };
 
   handleFileUpload = (key, files) => {
-    let value = ""
-    if(files.length > 0) {
+    let value = "";
+    if (files.length > 0) {
       Utilities.hashFile(files[0], (result) => {
         value = result;
         this.setState({
           [key]: value,
-          [key+'OriginalValue']:files
+          [key + "OriginalValue"]: files,
         });
-      })
+      });
     } else {
       this.setState({
-        [key]: '',
-        [key+'OriginalValue']:[]
+        [key]: "",
+        [key + "OriginalValue"]: [],
       });
     }
   };
 
   handleClose = () => {
     this.setState({
-      notificationOpen: false
+      notificationOpen: false,
     });
   };
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     this.setState({
-      licenseExpireDate: moment(new Date(date).valueOf()).format("YYYY-MM-DD")
+      licenseExpireDate: moment(new Date(date).valueOf()).format("YYYY-MM-DD"),
     });
   };
 
   handleSubmit = () => {
-    const { type } = this.state;
+    const { type, clientAddress } = this.state;
     var { log } = this.props;
     const { valueEntry } = this.props;
     const { handleNext, updateValueEntry } = this.props;
-    let valueEntities = { };
-    let valueKey = '';
+    let valueEntities = {};
+    let valueKey = "";
     let isPassvalidation = false;
     let values = {};
+    if (!Utilities.isAddress(clientAddress)) {
+      this.setState({
+        notificationOpen: true,
+        notificationMessage:
+          "Please input the correct format of client address.",
+      });
+      return;
+    }
     switch (type) {
       case 0:
-        valueKey = 'age'
+        valueKey = "age";
         values = {
           age: this.state.age,
-          proofOfAge: this.state.proofOfAge
+          proofOfAge: this.state.proofOfAge,
+          clientAddress,
         };
 
-        isPassvalidation = Object.keys(values).every(k => !!values[k]);
+        isPassvalidation = Object.keys(values).every((k) => !!values[k]);
         if (isPassvalidation) {
           valueEntities = {
+            clientAddress,
             age: this.state.age,
-            ageResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.age, log),
-            proofOfAgeResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.proofOfAge, log),
-            proofOfAgeOriginalValue: this.state.proofOfAgeOriginalValue
-          }
+            ageResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.age,
+              log
+            ),
+            proofOfAgeResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.proofOfAge,
+              log
+            ),
+            proofOfAgeOriginalValue: this.state.proofOfAgeOriginalValue,
+          };
         }
         break;
       case 1:
-        valueKey = 'degree';
+        valueKey = "degree";
         values = {
+          clientAddress,
           degree: this.state.degree,
           degreeDescription: this.state.degreeDescription,
-          proofOfDegree: this.state.proofOfDegree
+          proofOfDegree: this.state.proofOfDegree,
         };
-        isPassvalidation = Object.keys(values).every(k => !!values[k]);
-        if(isPassvalidation) {
+        isPassvalidation = Object.keys(values).every((k) => !!values[k]);
+        if (isPassvalidation) {
           valueEntities = {
+            clientAddress,
             degree: this.state.degree,
             degreeDescription: this.state.degreeDescription,
-            degreeResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.degree, log),
-            degreeDescriptionResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.degreeDescription, log),
-            proofOfDegreeResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.proofOfDegree, log),
-            proofOfDegreeOriginalValue: this.state.proofOfDegreeOriginalValue
-          }
+            degreeResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.degree,
+              log
+            ),
+            degreeDescriptionResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.degreeDescription,
+              log
+            ),
+            proofOfDegreeResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.proofOfDegree,
+              log
+            ),
+            proofOfDegreeOriginalValue: this.state.proofOfDegreeOriginalValue,
+          };
         }
         break;
       case 2:
-        valueKey = 'license';
+        valueKey = "license";
         values = {
+          clientAddress,
           license: this.state.license,
           licenseDescription: this.state.licenseDescription,
           licenseExpireDate: this.state.licenseExpireDate,
-          proofOfLicense: this.state.proofOfLicense
+          proofOfLicense: this.state.proofOfLicense,
         };
-        isPassvalidation = Object.keys(values).every(k => !!values[k]);
+        isPassvalidation = Object.keys(values).every((k) => !!values[k]);
         if (isPassvalidation) {
           valueEntities = {
+            clientAddress,
             license: this.state.license,
             licenseDescription: this.state.licenseDescription,
             licenseExpireDate: this.state.licenseExpireDate,
-            licenseResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.license, log),
-            licenseDescriptionResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.licenseDescription, log),
-            licenseExpireDateResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.licenseExpireDate, log),
-            proofOfLicenseResult: Utilities.hashWithKeccak(Utilities.generateSeed(), this.state.proofOfLicense, log),
-            proofOfLicenseOriginalValue: this.state.proofOfLicenseOriginalValue
-          }
+            licenseResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.license,
+              log
+            ),
+            licenseDescriptionResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.licenseDescription,
+              log
+            ),
+            licenseExpireDateResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.licenseExpireDate,
+              log
+            ),
+            proofOfLicenseResult: Utilities.hashWithKeccak(
+              Utilities.generateSeed(),
+              this.state.proofOfLicense,
+              log
+            ),
+            proofOfLicenseOriginalValue: this.state.proofOfLicenseOriginalValue,
+          };
         }
         break;
 
@@ -258,7 +306,8 @@ class SelectTypePage extends Component {
     }
     if (!isPassvalidation) {
       this.setState({
-        notificationOpen: true
+        notificationOpen: true,
+        notificationMessage: "Please fill all the Information.",
       });
     } else {
       handleNext();
@@ -270,7 +319,7 @@ class SelectTypePage extends Component {
     }
   };
 
-  renderContent = type => {
+  renderContent = (type) => {
     const { classes, theme } = this.props;
     const {
       age,
@@ -281,7 +330,7 @@ class SelectTypePage extends Component {
       licenseExpireDate,
       proofOfAgeOriginalValue,
       proofOfDegreeOriginalValue,
-      proofOfLicenseOriginalValue
+      proofOfLicenseOriginalValue,
     } = this.state;
     switch (type) {
       case 0:
@@ -331,8 +380,13 @@ class SelectTypePage extends Component {
 
   render() {
     const { classes } = this.props; // DC@20-04-20: Removed handleBack
-    const { type, notificationOpen, notificationMessage } = this.state;
-    const Attribute = ['AGE', 'DEGREE', 'LICENSE'];
+    const {
+      type,
+      notificationOpen,
+      notificationMessage,
+      clientAddress,
+    } = this.state;
+    const Attribute = ["AGE", "DEGREE", "LICENSE"];
     return (
       <React.Fragment>
         <CssBaseLine />
@@ -341,6 +395,29 @@ class SelectTypePage extends Component {
             <form noValidate className={classes.form}>
               <Typography variant="caption" className={classes.instruction}>
                 <LooksOne color="primary" />
+                <Typography variant="caption" style={{ marginLeft: "8px" }}>
+                  Pleace Input the Address of Your Account
+                </Typography>
+              </Typography>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="client-age">Address</InputLabel>
+                <Input
+                  value={clientAddress}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: "clientAddress",
+                    id: "client-address",
+                  }}
+                />
+                <FormHelperText>
+                  Don't know your account address?{" "}
+                  <a href="http://www.google.com" target="_blank">
+                    CLICK HERE!
+                  </a>
+                </FormHelperText>
+              </FormControl>
+              <Typography variant="caption" className={classes.instruction}>
+                <LooksTwo color="primary" />
                 <Typography variant="caption" style={{ marginLeft: "8px" }}>
                   SELECT WHAT KIND OF DATA FOR ENCRYPTION.
                 </Typography>
@@ -353,24 +430,28 @@ class SelectTypePage extends Component {
                   onChange={this.handleChange}
                   inputProps={{
                     name: "type",
-                    id: "client-type"
+                    id: "client-type",
                   }}
                   defaultValue={0}
                 >
-                  <MenuItem id="select-age" value={0}>Age</MenuItem>
-                  <MenuItem id="select-degree" value={1}>Degree</MenuItem>
-                  <MenuItem id="select-license" value={2}>License</MenuItem>
+                  <MenuItem id="select-age" value={0}>
+                    Age
+                  </MenuItem>
+                  <MenuItem id="select-degree" value={1}>
+                    Degree
+                  </MenuItem>
+                  <MenuItem id="select-license" value={2}>
+                    License
+                  </MenuItem>
                 </Select>
               </FormControl>
 
               <Divider variant="middle" className={classes.divider} />
 
               <Typography variant="caption" className={classes.instruction}>
-                <LooksTwo color="primary" />
+                <Looks3 color="primary" />
                 <Typography variant="caption" style={{ marginLeft: "8px" }}>
-                  INSERT {
-                    Attribute[type]
-                  }.
+                  INSERT {Attribute[type]}.
                 </Typography>
               </Typography>
 
@@ -378,11 +459,10 @@ class SelectTypePage extends Component {
             </form>
 
             <Notification
-            open={notificationOpen}
-            onClose={this.handleClose}
-            message={notificationMessage}
+              open={notificationOpen}
+              onClose={this.handleClose}
+              message={notificationMessage}
             />
-
 
             <Divider variant="middle" style={{ width: "100%" }} />
 
