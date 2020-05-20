@@ -9,8 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Chip from "@material-ui/core/Chip";
-import Upload from '../../components/Upload';
-
+import Upload from "../../components/Upload";
 
 export default function AgeNode(props) {
   const {
@@ -23,9 +22,10 @@ export default function AgeNode(props) {
     ageRandomValue,
     proofOfAgeRandomValue,
     canEdit,
+    validatorAddress,
     clientAddress,
     signatureRandomValue,
-    approval
+    approval,
   } = props;
   // DC@20-04-23: Typo - "Pleace" >> "Please"
   return (
@@ -38,7 +38,7 @@ export default function AgeNode(props) {
           inputProps={{
             name: "age",
             id: "svc-user-age",
-            placeholder: "Please Input Age, Range from 18 to 100"
+            placeholder: "Please Input Age, Range from 18 to 100",
           }}
           disabled={canEdit}
         />
@@ -52,7 +52,7 @@ export default function AgeNode(props) {
           inputProps={{
             name: "ageRandomValue",
             id: "svc-user-age-random",
-            placeholder: "Please Input Random Value of Age"
+            placeholder: "Please Input Random Value of Age",
           }}
           disabled={canEdit}
         />
@@ -63,7 +63,7 @@ export default function AgeNode(props) {
           variant="caption"
           style={{
             marginBottom: theme.spacing(1),
-            marginTop: theme.spacing(2)
+            marginTop: theme.spacing(2),
           }}
         >
           Upload Proof of Age
@@ -71,20 +71,24 @@ export default function AgeNode(props) {
 
         {canEdit ? (
           <Chip
-            label={proofOfAgeOriginalValue.length && proofOfAgeOriginalValue[0].name}
+            label={
+              proofOfAgeOriginalValue.length && proofOfAgeOriginalValue[0].name
+            }
             className={classes.chip}
             variant="outlined"
             color="default"
           />
-        ) : <Upload
-        handleFileUpload={files => {
-          handleFileUpload(
-            "proofOfAge",
-            files.map(file => file.file)
-          );
-        }}
-        files={proofOfAgeOriginalValue}
-      />}
+        ) : (
+          <Upload
+            handleFileUpload={(files) => {
+              handleFileUpload(
+                "proofOfAge",
+                files.map((file) => file.file)
+              );
+            }}
+            files={proofOfAgeOriginalValue}
+          />
+        )}
       </FormControl>
 
       <FormControl className={classes.formControl}>
@@ -97,23 +101,35 @@ export default function AgeNode(props) {
           inputProps={{
             name: "proofOfAgeRandomValue",
             id: "validator-proof-of-age-random",
-            placeholder: "Please Input Random Value of Proof of Age"
+            placeholder: "Please Input Random Value of Proof of Age",
           }}
           disabled={canEdit}
         />
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="svc-user-age">
-          Client Address
-        </InputLabel>
+        <InputLabel htmlFor="svc-user-age">Validator Address</InputLabel>
+        <Input
+          value={validatorAddress}
+          onChange={handleChange}
+          inputProps={{
+            name: "validatorAddress",
+            id: "svc-user-validator-address",
+            placeholder: "Please Input Validator Address",
+          }}
+          disabled={canEdit}
+        />
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="svc-user-age">Client Address</InputLabel>
         <Input
           value={clientAddress}
           onChange={handleChange}
           inputProps={{
             name: "clientAddress",
             id: "svc-user-client-address",
-            placeholder: "Please Input Client Address"
+            placeholder: "Please Input Client Address",
           }}
           disabled={canEdit}
         />
@@ -129,7 +145,7 @@ export default function AgeNode(props) {
           inputProps={{
             name: "approval",
             id: "svc-user-validator-approval",
-            placeholder: "Please Input Validator's Signed Approval"
+            placeholder: "Please Input Validator's Signed Approval",
           }}
           disabled={canEdit}
         />
@@ -145,7 +161,7 @@ export default function AgeNode(props) {
           inputProps={{
             name: "signatureRandomValue",
             id: "svc-user-validator-random-value",
-            placeholder: "Please Input Validator's Signed Approval"
+            placeholder: "Please Input Validator's Signed Approval",
           }}
           disabled={canEdit}
         />

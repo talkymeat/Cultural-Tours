@@ -23,44 +23,54 @@ import * as Utilities from "../../utilities";
 import Zip from "jszip";
 import Notification from "../../components/Notification";
 import { SVC_USER_URL } from "../../config";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import {
   LooksOne,
   LooksTwo,
   Looks3,
   Looks4,
-  CloudDownloadOutlined
+  CloudDownloadOutlined,
 } from "@material-ui/icons";
 import FileSaver from "file-saver";
 
 import Forge from "node-forge";
 
 import Descriptionitem from "../../components/DescriptionItem";
-
-const useStyles = makeStyles(theme => ({
+function Alert(props) {
+  return (
+    <MuiAlert
+      elevation={0}
+      variant="outlined"
+      {...props}
+      style={{ width: "100%" }}
+    />
+  );
+}
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   instruction: {
     marginBottom: theme.spacing(3),
     textAlign: "left",
     width: "100%",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   backButton: {
-    marginRight: theme.spacing(4)
+    marginRight: theme.spacing(4),
   },
   stepButtons: {
     display: "flex",
     justifyContent: "center",
     marginTop: theme.spacing(4),
     "& a": {
-      textDecoration: "none"
-    }
+      textDecoration: "none",
+    },
   },
   divider: {
     width: "100%",
@@ -68,20 +78,21 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4),
     marginLeft: 0,
-    marginRight: 0
+    marginRight: 0,
   },
   row: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   actions: {
     width: "100%",
     display: "flex",
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const StepButton = styled(Button)(({ theme }) => ({
-  minWidth: "120px"
+  minWidth: "120px",
 }));
 
 function ResultPageWrapper(props) {
@@ -97,7 +108,7 @@ class ResultPage extends Component {
       open: false,
       isApproved: false,
       approvalIsChecked: false,
-      verificationMessage: "Please wait, checking validator's signature"
+      verificationMessage: "Please wait, checking validator's signature",
       //clientAddress: this.props.valueEntry.age.clientAddress,
       //approval: this.props.valueEntry.age.approval
     };
@@ -108,7 +119,7 @@ class ResultPage extends Component {
 
   handleClose = () => {
     this.setState({
-      open: false
+      open: false,
     });
   };
 
@@ -120,48 +131,48 @@ class ResultPage extends Component {
         const { age } = valueEntry;
         originalValueList.push({
           label: "Age",
-          value: age.age
+          value: age.age,
         });
         originalValueList.push({
           file: true,
           label: "Proof Of Age",
-          value: age.proofOfAgeOriginalValue
+          value: age.proofOfAgeOriginalValue,
         });
         break;
       case "degree":
         const { degree } = valueEntry;
         originalValueList.push({
           label: "DEGREE",
-          value: degree.degree
+          value: degree.degree,
         });
         originalValueList.push({
           label: "DEGREE DESCRIPTION",
-          value: degree.degreeDescription
+          value: degree.degreeDescription,
         });
         originalValueList.push({
           file: true,
           label: "Proof Of DEGREE",
-          value: degree.proofOfDegreeOriginalValue
+          value: degree.proofOfDegreeOriginalValue,
         });
         break;
       case "license":
         const { license } = valueEntry;
         originalValueList.push({
           label: "LICENSE",
-          value: license.license
+          value: license.license,
         });
         originalValueList.push({
           label: "LICENSE DESCRIPTION",
-          value: license.licenseDescription
+          value: license.licenseDescription,
         });
         originalValueList.push({
           label: "LICENSE EXPIREDATE",
-          value: license.licenseExpireDate
+          value: license.licenseExpireDate,
         });
         originalValueList.push({
           file: true,
           label: "Proof Of LICENSE",
-          value: license.proofOfLicenseOriginalValue
+          value: license.proofOfLicenseOriginalValue,
         });
         break;
 
@@ -178,27 +189,27 @@ class ResultPage extends Component {
     switch (valueEntry.key) {
       case "age":
         const {
-          age: { age, ageRandomValue, proofOfAgeRandomValue, proofOfAge }
+          age: { age, ageRandomValue, proofOfAgeRandomValue, proofOfAge },
         } = valueEntry;
         randomValueList.push({
           label: "Random Value Of Age",
-          value: ageRandomValue
+          value: ageRandomValue,
         });
         randomValueList.push({
           label: "Random Value Of Proof Of Age",
-          value: proofOfAgeRandomValue
+          value: proofOfAgeRandomValue,
         });
         hashValueList.push({
           label: "Hash Value Of Age",
           value: SHA3(age.concat(ageRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         hashValueList.push({
           label: "Hash Value Of Proof Of Age",
           value: SHA3(proofOfAge.concat(proofOfAgeRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         break;
       case "degree":
@@ -209,38 +220,38 @@ class ResultPage extends Component {
             degreeRandomValue,
             degreeDescription,
             degreeDescriptionRandomValue,
-            proofOfDegreeRandomValue
-          }
+            proofOfDegreeRandomValue,
+          },
         } = valueEntry;
         randomValueList.push({
           label: "Random Value Of DEGREE",
-          value: degreeRandomValue
+          value: degreeRandomValue,
         });
         randomValueList.push({
           label: "Random Value Of DEGREE DESCRIPTION",
-          value: degreeDescriptionRandomValue
+          value: degreeDescriptionRandomValue,
         });
         randomValueList.push({
           label: "Random Value Of PROOF OF DEGREE",
-          value: proofOfDegreeRandomValue
+          value: proofOfDegreeRandomValue,
         });
         hashValueList.push({
           label: "Hash Value Of DEGREE",
           value: SHA3(degree.concat(degreeRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         hashValueList.push({
           label: "Hash Value Of DEGREE DESCRIPTION",
           value: SHA3(degreeDescription.concat(degreeDescriptionRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         hashValueList.push({
           label: "Hash Value Of PROOF OF DEGREE",
           value: SHA3(proofOfDegree.concat(proofOfDegreeRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         break;
       case "license":
@@ -253,51 +264,51 @@ class ResultPage extends Component {
             licenseDescriptionRandomValue,
             licenseExpireDate,
             licenseExpireDateRandomValue,
-            proofOfLicenseRandomValue
-          }
+            proofOfLicenseRandomValue,
+          },
         } = valueEntry;
         randomValueList.push({
           label: "Random Value Of LICENSE",
-          value: licenseRandomValue
+          value: licenseRandomValue,
         });
         randomValueList.push({
           label: "Random Value Of LICENSE DESCRIPTION",
-          value: licenseDescriptionRandomValue
+          value: licenseDescriptionRandomValue,
         });
         randomValueList.push({
           label: "Random Value Of LICENSE EXPIREDATE",
-          value: licenseExpireDateRandomValue
+          value: licenseExpireDateRandomValue,
         });
         randomValueList.push({
           label: "Random Value Of PROOF OF LICENSE",
-          value: proofOfLicenseRandomValue
+          value: proofOfLicenseRandomValue,
         });
         hashValueList.push({
           label: "Hash Value Of LICENSE",
           value: SHA3(license.concat(licenseRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         hashValueList.push({
           label: "Hash Value Of LICENSE DESCRIPTION",
           value: SHA3(
             licenseDescription.concat(licenseDescriptionRandomValue),
             {
-              outputLength: 256
+              outputLength: 256,
             }
-          ).toString()
+          ).toString(),
         });
         hashValueList.push({
           label: "Hash Value Of LICENSE EXPIREDATE",
           value: SHA3(licenseExpireDate.concat(licenseExpireDateRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
         hashValueList.push({
           label: "Hash Value Of PROOF OF LICENSE",
           value: SHA3(proofOfLicense.concat(proofOfLicenseRandomValue), {
-            outputLength: 256
-          }).toString()
+            outputLength: 256,
+          }).toString(),
         });
 
         break;
@@ -307,39 +318,39 @@ class ResultPage extends Component {
     }
     return {
       randomValueList,
-      hashValueList
+      hashValueList,
     };
   };
 
   renderApprovalResultList = (live) => {
-    if(live){
+    if (live) {
       const { valueEntry } = this.props;
       const { isApproved, approvalIsChecked } = this.state;
       const { approval } = valueEntry[valueEntry.key];
-      const signatureRandomValue = valueEntry[valueEntry.key].signatureRandomValue;
+      const signatureRandomValue =
+        valueEntry[valueEntry.key].signatureRandomValue;
       let approvalList = [];
       approvalList.push({
         label: "Validator's Signed Approval",
-        value: Utilities.lineWrap(approval, 48)
+        value: Utilities.lineWrap(approval, 48),
       });
       approvalList.push({
         isConfirmation: true,
-        label: "Confirmation"
+        label: "Confirmation",
       });
       approvalList.push({
         label: "Hash of Approval",
-        value: SHA3(approval+signatureRandomValue, {
-          outputLength: 256
-        }).toString()
+        value: SHA3(approval + signatureRandomValue, {
+          outputLength: 256,
+        }).toString(),
       });
       return approvalList;
-    }
-    else{
+    } else {
       return [];
     }
-  }
+  };
 
-  handleFileDownload = file => {
+  handleFileDownload = (file) => {
     FileSaver.saveAs(file);
   };
 
@@ -430,17 +441,23 @@ class ResultPage extends Component {
     const live = true;
     if (live) {
       const { key } = this.props.valueEntry;
-      const { approval, clientAddress } = this.props.valueEntry.seedAndSign
+      const {
+        clientAddress,
+        approval,
+        validatorAddress,
+      } = this.props.valueEntry[key];
       console.log(key);
       console.log(this.props.valueEntry);
       console.log(this.props.valueEntry[key]);
       const { signatureRandomValue } = this.props.valueEntry[key];
 
       const search = this.computeHashValue();
-      search["approval"] = SHA3(approval+signatureRandomValue, {
-        outputLength: 256
-      }).toString()
+      search["approval"] = SHA3(approval + signatureRandomValue, {
+        outputLength: 256,
+      }).toString();
       search["client"] = clientAddress;
+      search["validator"] = validatorAddress;
+
       let url =
         SVC_USER_URL +
         "?" +
@@ -449,7 +466,7 @@ class ResultPage extends Component {
             return i.join("=");
           })
           .join("&");
-      window.open(url, "_blank")
+      window.open(url, "_blank");
     }
   };
 
@@ -548,22 +565,23 @@ class ResultPage extends Component {
     return searchParams;
   };
 
-  verifyApproval = callback => {
+  verifyApproval = (callback) => {
     const { valueEntry } = this.props;
     const { key } = valueEntry;
-    const { publicKey, clientAddress } = valueEntry.seedAndSign;
+    const { publicKey } = valueEntry;
+    const { clientAddress } = this.props.valueEntry[key];
     var S;
     const { signatureRandomValue, approval } = valueEntry[key];
-    switch (key){
+    switch (key) {
       case "age":
         S = valueEntry[key].age;
         break;
       case "degree":
-        S = valueEntry[key].degree +
-          valueEntry[key].degreeDescription;
+        S = valueEntry[key].degree + valueEntry[key].degreeDescription;
         break;
       case "license":
-        S = valueEntry[key].license +
+        S =
+          valueEntry[key].license +
           valueEntry[key].licenseDescription +
           valueEntry[key].licenseExpireDate;
         break;
@@ -575,54 +593,53 @@ class ResultPage extends Component {
     console.log(approval);
     var that = this;
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       console.log(publicKey);
       var publicKey_ = Forge.pki.publicKeyFromPem(e.target.result);
       //convert loaded signature to Forge's bytes
       var sig_bytes = Forge.util.hexToBytes(approval);
       //encode the message
       var md = Forge.md.sha256.create();
-      md.update(message, 'utf8');
+      md.update(message, "utf8");
       var pss = Forge.pss.create({
         md: Forge.md.sha1.create(),
         mgf: Forge.mgf.mgf1.create(Forge.md.sha1.create()),
-        saltLength: 20
+        saltLength: 20,
         // optionally pass 'prng' with a custom PRNG implementation
         // optionalls pass 'salt' with a Forge.util.ByteBuffer w/custom salt
       });
-      const verified = publicKey_.verify(md.digest().bytes(), sig_bytes,pss);
+      const verified = publicKey_.verify(md.digest().bytes(), sig_bytes, pss);
       that.setState({
         isApproved: verified,
         approvalIsChecked: true,
-        verificationMessage: (verified ?
-          "Validator's signature IS VERIFIED" :
-          "Validator's signature is NOT VERIFIED")
-      })
+        verificationMessage: verified
+          ? "Validator's signature IS VERIFIED"
+          : "Validator's signature is NOT VERIFIED",
+      });
       console.log(that.state.isApproved, that.state.approvalIsChecked);
-      callback(
-        that.state.isApproved,
-        that.state.approvalIsChecked
-      ); // <= is this callback actually needed?
-    }
+      callback(that.state.isApproved, that.state.approvalIsChecked); // <= is this callback actually needed?
+    };
     reader.readAsBinaryString(publicKey[0]);
     //return true;
-  }
+  };
 
   render() {
     const { classes, theme, valueEntry, live } = this.props;
     var { message, open } = this.state;
     var { log } = this.props;
     // DC@20-04-21: removed const seed = valueEntry && valueEntry.seedAndSign && valueEntry.seedAndSign.seed;
-    if (live && valueEntry.seedAndSign.publicKey && !this.state.approvalIsChecked) {
+    if (live && valueEntry.publicKey && !this.state.approvalIsChecked) {
       this.verifyApproval((isApproved, approvalIsChecked) => {
         this.state.isApproved = isApproved;
-        this.state.approvalIsChecked = approvalIsChecked
-      })
+        this.state.approvalIsChecked = approvalIsChecked;
+      });
     }
     const clientAddress =
+      valueEntry && valueEntry.key && valueEntry[valueEntry.key].clientAddress;
+    const validatorAddress =
       valueEntry &&
-      valueEntry.seedAndSign &&
-      valueEntry.seedAndSign.clientAddress;
+      valueEntry.key &&
+      valueEntry[valueEntry.key].validatorAddress;
     // DC@20-04-21: Edit: "VALUE OF ENCRYPTION KEY AND CLIENT ADDRESS." > "VALUE OF CLIENT ADDRESS."
     // DC@20-04-21: Below that, removed:
     //  <Grid container className={classes.row}>
@@ -631,8 +648,15 @@ class ResultPage extends Component {
     return (
       <React.Fragment>
         <CssBaseLine />
+
         <Container fixed className={classes.root}>
           <Box className={classes.container}>
+            <div className={classes.actions}>
+              <Alert severity="info">
+                NOTE: Click Register Button to verify information on blockchain.
+              </Alert>
+            </div>
+
             <ExpansionPanel elevation={0}>
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -642,196 +666,218 @@ class ResultPage extends Component {
                 <Typography variant="body2">VALIDATION DETAIL</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
+                <Typography variant="caption" className={classes.instruction}>
+                  <LooksOne color="primary" />
+                  <Typography variant="caption" style={{ marginLeft: "8px" }}>
+                    VALUE OF CLIENT ADDRESS.
+                  </Typography>
+                </Typography>
 
-            <Typography variant="caption" className={classes.instruction}>
-              <LooksOne color="primary" />
-              <Typography variant="caption" style={{ marginLeft: "8px" }}>
-                VALUE OF CLIENT ADDRESS.
-              </Typography>
-            </Typography>
-
-            <Container>
-
-              <Grid container className={classes.row}>
-                <Descriptionitem
-                  label="CLIENT ADDRESS"
-                  content={clientAddress}
-                />
-              </Grid>
-            </Container>
-
-            <Divider variant="middle" className={classes.divider} />
-
-            <Typography variant="caption" className={classes.instruction}>
-              <LooksTwo color="primary" />
-              <Typography variant="caption" style={{ marginLeft: "8px" }}>
-                ORIGINAL VALUE OF ENCRYPTED ATTRIBUTES.
-              </Typography>
-            </Typography>
-
-            <Container>
-              {this.renderOriginalDescriptionList().map(item => {
-                return item.file ? (
-                  <Grid container className={classes.row} key={item.value}>
+                <Container>
+                  <Grid container className={classes.row}>
                     <Descriptionitem
-                      label={item.label}
-                      content={
-                        <Chip
-                          icon={
-                            <CloudDownloadOutlined
-                              style={{ marginLeft: "12px", marginRight: "0px" }}
-                            />
-                          }
-                          label={item.value[0].name}
-                          className={classes.chip}
-                          variant="outlined"
-                          color="primary"
-                          clickable
-                          onClick={() => {
-                            this.handleFileDownload(item.value[0]);
-                          }}
-                        />
-                      }
+                      label="CLIENT ADDRESS"
+                      content={clientAddress}
                     />
                   </Grid>
-                ) : (
-                  <Grid container className={classes.row} key={item.value}>
-                    <Descriptionitem label={item.label} content={item.value} />
+                  <Grid container className={classes.row}>
+                    <Descriptionitem
+                      label="VALIDATOR ADDRESS"
+                      content={validatorAddress}
+                    />
                   </Grid>
-                );
-              })}
-            </Container>
+                </Container>
 
-            <Divider variant="middle" className={classes.divider} />
+                <Divider variant="middle" className={classes.divider} />
 
-            <Typography variant="caption" className={classes.instruction}>
-              <Looks3 color="primary" />
-              <Typography variant="caption" style={{ marginLeft: "8px" }}>
-                VALIDATION OF ENCRYPTION ATTRIBUTE.
-              </Typography>
-            </Typography>
+                <Typography variant="caption" className={classes.instruction}>
+                  <LooksTwo color="primary" />
+                  <Typography variant="caption" style={{ marginLeft: "8px" }}>
+                    ORIGINAL VALUE OF ENCRYPTED ATTRIBUTES.
+                  </Typography>
+                </Typography>
 
-            <ExpansionPanel
-              elevation={0}
-              style={{ marginBottom: theme.spacing(2) }}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="body2">Random Value List</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
                 <Container>
-                  {this.renderResultDescriptionList().randomValueList.map(
-                    item => {
-                      return (
-                        <Grid container className={classes.row}>
-                          <Descriptionitem
-                            key={item.value}
-                            label={item.label}
-                            content={item.value}
-                            full
-                          />
-                        </Grid>
-                      );
+                  {this.renderOriginalDescriptionList().map((item) => {
+                    return item.file ? (
+                      <Grid container className={classes.row} key={item.value}>
+                        <Descriptionitem
+                          label={item.label}
+                          content={
+                            <Chip
+                              icon={
+                                <CloudDownloadOutlined
+                                  style={{
+                                    marginLeft: "12px",
+                                    marginRight: "0px",
+                                  }}
+                                />
+                              }
+                              label={item.value[0].name}
+                              className={classes.chip}
+                              variant="outlined"
+                              color="primary"
+                              clickable
+                              onClick={() => {
+                                this.handleFileDownload(item.value[0]);
+                              }}
+                            />
+                          }
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid container className={classes.row} key={item.value}>
+                        <Descriptionitem
+                          label={item.label}
+                          content={item.value}
+                        />
+                      </Grid>
+                    );
+                  })}
+                </Container>
+
+                <Divider variant="middle" className={classes.divider} />
+
+                <Typography variant="caption" className={classes.instruction}>
+                  <Looks3 color="primary" />
+                  <Typography variant="caption" style={{ marginLeft: "8px" }}>
+                    VALIDATION OF ENCRYPTION ATTRIBUTE.
+                  </Typography>
+                </Typography>
+
+                <ExpansionPanel
+                  elevation={0}
+                  style={{ marginBottom: theme.spacing(2) }}
+                >
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography variant="body2">Random Value List</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Container>
+                      {this.renderResultDescriptionList().randomValueList.map(
+                        (item) => {
+                          return (
+                            <Grid container className={classes.row}>
+                              <Descriptionitem
+                                key={item.value}
+                                label={item.label}
+                                content={item.value}
+                                full
+                              />
+                            </Grid>
+                          );
+                        }
+                      )}
+                    </Container>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+
+                <ExpansionPanel elevation={0}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography variant="body2">
+                      Encrypted Value List
+                    </Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Container>
+                      {this.renderResultDescriptionList().hashValueList.map(
+                        (item) => {
+                          return (
+                            <Grid container className={classes.row}>
+                              <Descriptionitem
+                                key={item.value}
+                                label={item.label}
+                                content={item.value}
+                                className={classes.row}
+                                full
+                              />
+                            </Grid>
+                          );
+                        }
+                      )}
+                    </Container>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+
+                <Divider variant="middle" className={classes.divider} />
+
+                <Typography variant="caption" className={classes.instruction}>
+                  <Looks4 color="primary" />
+                  <Typography variant="caption" style={{ marginLeft: "8px" }}>
+                    CONFIRMATION OF VALIDATOR'S SIGNED APPROVAL.
+                  </Typography>
+                </Typography>
+
+                <Container>
+                  {this.renderApprovalResultList(live).map((item) => {
+                    var fileArr = [""];
+                    if ("value" in item) {
+                      if (typeof item.value === "object") {
+                        console.log(typeof item.value);
+                        console.log(item.value);
+                        fileArr = item.value;
+                      }
                     }
-                  )}
+                    return item.file ? (
+                      <Grid
+                        container
+                        className={classes.row}
+                        key={item.publicKey}
+                      >
+                        <Descriptionitem
+                          label={item.label}
+                          content={
+                            <Chip
+                              icon={
+                                <CloudDownloadOutlined
+                                  style={{
+                                    marginLeft: "12px",
+                                    marginRight: "0px",
+                                  }}
+                                />
+                              }
+                              label={fileArr[0].name}
+                              className={classes.chip}
+                              variant="outlined"
+                              color="primary"
+                              clickable
+                              onClick={() => {
+                                this.handleFileDownload(item.value[0]);
+                              }}
+                            />
+                          }
+                        />
+                      </Grid>
+                    ) : item.isConfirmation ? (
+                      <Grid container className={classes.row} key={item.value}>
+                        <Descriptionitem
+                          label={item.label}
+                          content={this.state.verificationMessage}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid container className={classes.row} key={item.value}>
+                        <Descriptionitem
+                          label={item.label}
+                          content={item.value}
+                        />
+                      </Grid>
+                    );
+                  })}
                 </Container>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-
-            <ExpansionPanel elevation={0}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="body2">Encrypted Value List</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Container>
-                  {this.renderResultDescriptionList().hashValueList.map(
-                    item => {
-                      return (
-                        <Grid container className={classes.row}>
-                          <Descriptionitem
-                            key={item.value}
-                            label={item.label}
-                            content={item.value}
-                            className={classes.row}
-                            full
-                          />
-                        </Grid>
-                      );
-                    }
-                  )}
-                </Container>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-
-            <Divider variant="middle" className={classes.divider} />
-
-            <Typography variant="caption" className={classes.instruction}>
-              <Looks4 color="primary" />
-              <Typography variant="caption" style={{ marginLeft: "8px" }}>
-                CONFIRMATION OF VALIDATOR'S SIGNED APPROVAL.
-              </Typography>
-            </Typography>
-
-            <Container>
-              {this.renderApprovalResultList(live).map(item => {
-                var fileArr = [""];
-                if ("value" in item){
-                  if(typeof item.value === 'object'){
-                    console.log(typeof item.value);
-                    console.log(item.value);
-                    fileArr = item.value;
-                  }
-                }
-                return item.file ? (
-                  <Grid container className={classes.row} key={item.publicKey}>
-                    <Descriptionitem
-                      label={item.label}
-                      content={
-                        <Chip
-                          icon={
-                            <CloudDownloadOutlined
-                              style={{ marginLeft: "12px", marginRight: "0px" }}
-                            />
-                          }
-                          label={fileArr[0].name}
-                          className={classes.chip}
-                          variant="outlined"
-                          color="primary"
-                          clickable
-                          onClick={() => {
-                            this.handleFileDownload(item.value[0]);
-                          }}
-                        />
-                      }
-                    />
-                  </Grid>
-                ) : ( item.isConfirmation ?
-                  ( <Grid container className={classes.row} key={item.value}>
-                      <Descriptionitem
-                        label={item.label}
-                        content={this.state.verificationMessage}
-                        />
-                    </Grid> ) :
-                  (<Grid container className={classes.row} key={item.value}>
-                    <Descriptionitem label={item.label} content={item.value} />
-                  </Grid>)
-                );
-              })}
-            </Container>
-            </ExpansionPanelDetails>
-            </ExpansionPanel>
-
 
             <div className={classes.stepButtons}>
-              <Link to={{pathname:"/", state:{log:log}}}>
+              <Link to={{ pathname: "/", state: { log: log } }}>
                 <StepButton className={classes.backButton} variant="outlined">
                   Back To Home
                 </StepButton>
@@ -857,6 +903,6 @@ class ResultPage extends Component {
     );
   }
 } // onClick={this.handleRegister(live)} < is there a better way of stopping
-  // this from triggering before the necessary variables are initialised?
+// this from triggering before the necessary variables are initialised?
 
 export default withTheme(ResultPageWrapper);

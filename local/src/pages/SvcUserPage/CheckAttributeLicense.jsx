@@ -13,10 +13,10 @@ import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Chip from "@material-ui/core/Chip";
-import Upload from '../../components/Upload';
+import Upload from "../../components/Upload";
 
 export default function LicenseNode(props) {
   const {
@@ -34,9 +34,10 @@ export default function LicenseNode(props) {
     licenseDescriptionRandomValue,
     licenseExpireDateRandomValue,
     proofOfLicenseRandomValue,
-    clientAddress,
+    validatorAddress,
     signatureRandomValue,
-    approval
+    approval,
+    clientAddress,
   } = props;
   // DC@20-04-23: Typo - "Pleace" >> "Please"
   return (
@@ -49,14 +50,16 @@ export default function LicenseNode(props) {
           inputProps={{
             name: "license",
             id: "validator-license",
-            placeholder: "Please Input License"
+            placeholder: "Please Input License",
           }}
           disabled={canEdit}
         />
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="validator-proof-of-license">Random Value of License</InputLabel>
+        <InputLabel htmlFor="validator-proof-of-license">
+          Random Value of License
+        </InputLabel>
         <Input
           value={licenseRandomValue}
           onChange={handleChange}
@@ -79,7 +82,7 @@ export default function LicenseNode(props) {
             value={licenseExpireDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{
-              "aria-label": "change date"
+              "aria-label": "change date",
             }}
             disabled={canEdit}
           />
@@ -87,7 +90,9 @@ export default function LicenseNode(props) {
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="validator-proof-of-license">Random Value of License Expire Date</InputLabel>
+        <InputLabel htmlFor="validator-proof-of-license">
+          Random Value of License Expire Date
+        </InputLabel>
         <Input
           value={licenseExpireDateRandomValue}
           onChange={handleChange}
@@ -116,7 +121,9 @@ export default function LicenseNode(props) {
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="validator-proof-of-license">Random Value of License Description</InputLabel>
+        <InputLabel htmlFor="validator-proof-of-license">
+          Random Value of License Description
+        </InputLabel>
         <Input
           value={licenseDescriptionRandomValue}
           onChange={handleChange}
@@ -133,7 +140,7 @@ export default function LicenseNode(props) {
         <Typography
           variant="caption"
           style={{
-            marginBottom: theme.spacing(1)
+            marginBottom: theme.spacing(1),
           }}
         >
           Upload Proof of License:
@@ -150,10 +157,10 @@ export default function LicenseNode(props) {
           />
         ) : (
           <Upload
-            handleFileUpload={files => {
+            handleFileUpload={(files) => {
               handleFileUpload(
                 "proofOfLicense",
-                files.map(file => file.file)
+                files.map((file) => file.file)
               );
             }}
             files={proofOfLicenseOriginalValue}
@@ -162,7 +169,9 @@ export default function LicenseNode(props) {
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="validator-proof-of-license">Proof of License's Random Value</InputLabel>
+        <InputLabel htmlFor="validator-proof-of-license">
+          Proof of License's Random Value
+        </InputLabel>
         <Input
           value={proofOfLicenseRandomValue}
           onChange={handleChange}
@@ -176,16 +185,28 @@ export default function LicenseNode(props) {
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="svc-user-age">
-          Client Address
-        </InputLabel>
+        <InputLabel htmlFor="svc-user-age">Validator Address</InputLabel>
+        <Input
+          value={validatorAddress}
+          onChange={handleChange}
+          inputProps={{
+            name: "validatorAddress",
+            id: "svc-user-validator-address",
+            placeholder: "Please Input Validator Address",
+          }}
+          disabled={canEdit}
+        />
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="svc-user-age">Client Address</InputLabel>
         <Input
           value={clientAddress}
           onChange={handleChange}
           inputProps={{
             name: "clientAddress",
             id: "svc-user-client-address",
-            placeholder: "Please Input Client Address"
+            placeholder: "Please Input Client Address",
           }}
           disabled={canEdit}
         />
@@ -201,7 +222,7 @@ export default function LicenseNode(props) {
           inputProps={{
             name: "approval",
             id: "svc-user-validator-approval",
-            placeholder: "Please Input Validator's Signed Approval"
+            placeholder: "Please Input Validator's Signed Approval",
           }}
           disabled={canEdit}
         />
@@ -217,7 +238,7 @@ export default function LicenseNode(props) {
           inputProps={{
             name: "signatureRandomValue",
             id: "svc-user-validator-random-value",
-            placeholder: "Please Input Validator's Signed Approval"
+            placeholder: "Please Input Validator's Signed Approval",
           }}
           disabled={canEdit}
         />

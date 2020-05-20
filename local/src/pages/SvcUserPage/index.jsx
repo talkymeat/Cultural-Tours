@@ -14,21 +14,21 @@ import InsertSeed from "./InsertSeed";
 import CheckAttribute from "./CheckAttribute";
 import ResultPage from "./ResultPage";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     background: "#fff",
-    marginTop: theme.spacing(8)
+    marginTop: theme.spacing(8),
   },
   container: {
-    padding: theme.spacing(8)
+    padding: theme.spacing(8),
   },
   stepper: {
-    paddingTop: theme.spacing(2)
+    paddingTop: theme.spacing(2),
   },
   stepContent: {
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4)
-  }
+    marginBottom: theme.spacing(4),
+  },
 }));
 
 function SvcUserPageWrapper(props) {
@@ -37,7 +37,8 @@ function SvcUserPageWrapper(props) {
 }
 
 function getSteps() {
-  return ["Insert Public Key & Sign", "Select Attribute", "Finish"];
+  // return ["Insert Public Key & Sign", "Select Attribute", "Finish"];
+  return ["Select Attribute", "Finish"];
 }
 
 class SvcUserPage extends Component {
@@ -45,12 +46,11 @@ class SvcUserPage extends Component {
     super(props);
     this.state = {
       activeStep: 0,
-      valueEntry: {}
+      valueEntry: {},
     };
     if (this.props.location.state) {
       this.state.log = this.props.location.state.log || [];
-    }
-    else {
+    } else {
       this.state.log = [];
     }
   }
@@ -60,13 +60,13 @@ class SvcUserPage extends Component {
 
   handleNext = () => {
     this.setState({
-      activeStep: this.state.activeStep + 1
+      activeStep: this.state.activeStep + 1,
     });
   };
 
   handleBack = () => {
     this.setState({
-      activeStep: this.state.activeStep - 1
+      activeStep: this.state.activeStep - 1,
     });
   };
 
@@ -74,14 +74,13 @@ class SvcUserPage extends Component {
     const { valueEntry } = this.state;
     this.setState(
       {
-        valueEntry: Object.assign(valueEntry, { [key]: value })
+        valueEntry: Object.assign(valueEntry, { [key]: value }),
       },
       () => {
         //console.log(this.state.valueEntry);
       }
     );
   };
-
 
   render() {
     const { classes } = this.props;
@@ -98,13 +97,13 @@ class SvcUserPage extends Component {
             </div>
 
             <div className={classes.stepContent}>
-              <div style={{ display: activeStep === 0 ? "block" : 'none' }}>
+              {/* <div style={{ display: activeStep === 0 ? "block" : 'none' }}>
                 <InsertSeed
                   handleNext={this.handleNext}
                   updateValueEntry={this.updateValueEntry}
                 />
-              </div>
-              <div style={{ display: activeStep === 1 ? "block" : 'none' }}>
+              </div> */}
+              <div style={{ display: activeStep === 0 ? "block" : "none" }}>
                 <CheckAttribute
                   handleNext={this.handleNext}
                   handleBack={this.handleBack}
@@ -113,12 +112,12 @@ class SvcUserPage extends Component {
                   log={log}
                 />
               </div>
-              <div style={{ display: activeStep === 2 ? "block" : 'none' }}>
+              <div style={{ display: activeStep === 1 ? "block" : "none" }}>
                 <ResultPage
                   handleBack={this.handleBack}
                   valueEntry={valueEntry}
                   log={log}
-                  live={activeStep === 2}
+                  live={activeStep === 1}
                 />
               </div>
             </div>

@@ -106,10 +106,12 @@ class InsertSeedPage extends Component {
       // DC@20-04-21: removed seed
       generateDialogStatus: false,
       isHaveKey: "1",
-      clientAddress: "",
-      privateKey: [],
+      validatorAddress: "",
+      keyPair: [],
       message: "Please fill all the information.",
       open: false,
+      privateKey: [],
+      publicKey: [],
     };
   }
   // componentDidMount() {
@@ -117,14 +119,9 @@ class InsertSeedPage extends Component {
   // }
 
   handleChange = (e) => {
-    this.setState(
-      {
-        [e.target.name]: e.target.value,
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   };
 
   handleGenerateSeed = () => {
@@ -144,10 +141,59 @@ class InsertSeedPage extends Component {
   // DC@20-04-21: Removed handleSeedGenerate
 
   handleFileUpload = (key, files) => {
-    console.log(files);
-    this.setState({
-      [key]: files,
-    });
+    if (!files[0]) {
+      this.setState({
+        [key]: files,
+      });
+      return;
+    }
+    const that = this;
+    if (files[0].type == "application/zip") {
+      let keys = new Zip();
+      keys.loadAsync(files[0]).then((zip) => {
+        if (zip.file("private_key.txt") && zip.file("public_key.txt")) {
+          this.setState({
+            [key]: files,
+          });
+          zip
+            .file("private_key.txt")
+            .async("string")
+            .then((string) => {
+              that.setState({
+                privateKey: [
+                  new File([string], "private_key.txt", {
+                    type: "text/plain;charset=utf-8",
+                  }),
+                ],
+              });
+            });
+          zip
+            .file("public_key.txt")
+            .async("string")
+            .then((string) => {
+              that.setState({
+                publicKey: [
+                  new File([string], "public_key.txt", {
+                    type: "text/plain;charset=utf-8",
+                  }),
+                ],
+              });
+            });
+        } else {
+          that.setState({
+            open: true,
+            message: "ERROR: Please upload your keypair as a zip file.",
+            [key]: [],
+          });
+        }
+      });
+    } else {
+      this.setState({
+        open: true,
+        message: "ERROR: Please upload your keypair as a zip file.",
+        [key]: [],
+      });
+    }
   };
 
   generateKeypair = () => {
@@ -190,7 +236,7 @@ class InsertSeedPage extends Component {
   };
 
   handleSubmit = () => {
-    const { privateKey, clientAddress } = this.state; // DC@20-04-21: removed seed
+    const { privateKey, publicKey, validatorAddress } = this.state; // DC@20-04-21: removed seed
     const { handleNext, updateValueEntry } = this.props;
     const check = this.validationCheck();
     if (!check.result) {
@@ -201,20 +247,24 @@ class InsertSeedPage extends Component {
       return;
     } else {
       handleNext();
-      updateValueEntry("seedAndSign", { privateKey, clientAddress }); // DC@20-04-21: removed seed
+      updateValueEntry("seedAndSign", {
+        publicKey,
+        privateKey,
+        validatorAddress,
+      }); // DC@20-04-21: removed seed
     }
   };
 
   validationCheck = () => {
-    const { privateKey, clientAddress } = this.state; // DC@20-04-21: removed seed
-    if (!privateKey || !clientAddress) {
+    const { keyPair, validatorAddress } = this.state; // DC@20-04-21: removed seed
+    if (!keyPair || !validatorAddress) {
       // DC@20-04-21: removed seed
       return {
         result: false,
         message: "Please fill all the fields before next step.",
       };
     }
-    if (!Utilities.isAddress(clientAddress)) {
+    if (!Utilities.isAddress(validatorAddress)) {
       return {
         result: false,
         message: "Please input the correct format of client address.",
@@ -234,10 +284,10 @@ class InsertSeedPage extends Component {
     const {
       generateDialogStatus,
       isHaveKey,
-      clientAddress,
+      validatorAddress,
       message,
       open,
-      privateKey,
+      keyPair,
     } = this.state; // DC@20-04-21: removed seed
     // DC@20-04-21: changed 'INSERT or GENERATE ENCRYPTION KEY FOR VALIDATION' to 'RSA KEY'
     // DC@20-04-21: Removed box for inserting/generating Encryption Key - I've pasted it in, commented out, at the bottom of the file
@@ -285,17 +335,17 @@ class InsertSeedPage extends Component {
                         marginBottom: theme.spacing(2),
                       }}
                     >
-                      Private Key
+                      Key Pair
                     </FormLabel>
 
                     <Upload
                       handleFileUpload={(files) => {
                         this.handleFileUpload(
-                          "privateKey",
+                          "keyPair",
                           files.map((file) => file.file)
                         );
                       }}
-                      files={privateKey}
+                      files={keyPair}
                     />
                   </React.Fragment>
                 ) : (
@@ -310,15 +360,17 @@ class InsertSeedPage extends Component {
               </FormControl>
 
               <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="client-address">Client Address</InputLabel>
+                <InputLabel htmlFor="client-address">
+                  Validator Address
+                </InputLabel>
                 <Input
                   size="42"
-                  value={clientAddress}
+                  value={validatorAddress}
                   onChange={this.handleChange}
                   inputProps={{
-                    name: "clientAddress",
-                    id: "client-address",
-                    placeholder: "Pleace Input Client Address",
+                    name: "validatorAddress",
+                    id: "validator-address",
+                    placeholder: "Pleace Input Your Address",
                   }}
                 />
               </FormControl>

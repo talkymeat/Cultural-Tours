@@ -10,7 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Chip from "@material-ui/core/Chip";
-import Upload from '../../components/Upload';
+import Upload from "../../components/Upload";
 
 export default function DegreeNode(props) {
   const {
@@ -25,9 +25,10 @@ export default function DegreeNode(props) {
     degreeDescriptionRandomValue,
     proofOfDegreeRandomValue,
     canEdit,
-    clientAddress,
+    validatorAddress,
     signatureRandomValue,
-    approval
+    approval,
+    clientAddress,
   } = props;
   // DC@20-04-23: Typo - "Pleace" >> "Please"
   return (
@@ -40,7 +41,7 @@ export default function DegreeNode(props) {
           inputProps={{
             name: "degree",
             id: "validator-degree",
-            placeholder: "Please Input Degree"
+            placeholder: "Please Input Degree",
           }}
           disabled={canEdit}
         />
@@ -56,10 +57,9 @@ export default function DegreeNode(props) {
           inputProps={{
             name: "degreeRandomValue",
             id: "validator-degree-random",
-            placeholder: "Please Input Random Value of Degree"
+            placeholder: "Please Input Random Value of Degree",
           }}
           disabled={canEdit}
-
         />
       </FormControl>
 
@@ -75,7 +75,6 @@ export default function DegreeNode(props) {
           rows="6"
           rowsMax="6"
           disabled={canEdit}
-
         />
       </FormControl>
 
@@ -89,10 +88,9 @@ export default function DegreeNode(props) {
           inputProps={{
             name: "degreeDescriptionRandomValue",
             id: "validator-degree-description-random",
-            placeholder: "Please Input Random Value of Degree Description"
+            placeholder: "Please Input Random Value of Degree Description",
           }}
           disabled={canEdit}
-
         />
       </FormControl>
 
@@ -100,7 +98,7 @@ export default function DegreeNode(props) {
         <Typography
           variant="caption"
           style={{
-            marginBottom: theme.spacing(1)
+            marginBottom: theme.spacing(1),
           }}
         >
           Upload Proof of Degree:
@@ -117,10 +115,10 @@ export default function DegreeNode(props) {
           />
         ) : (
           <Upload
-            handleFileUpload={files => {
+            handleFileUpload={(files) => {
               handleFileUpload(
                 "proofOfDegree",
-                files.map(file => file.file)
+                files.map((file) => file.file)
               );
             }}
             files={proofOfDegreeOriginalValue}
@@ -138,23 +136,35 @@ export default function DegreeNode(props) {
           inputProps={{
             name: "proofOfDegreeRandomValue",
             id: "validator-proof-of-degree-random",
-            placeholder: "Please Input Proof of Degree's Random Value"
+            placeholder: "Please Input Proof of Degree's Random Value",
           }}
           disabled={canEdit}
         />
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="svc-user-age">
-          Client Address
-        </InputLabel>
+        <InputLabel htmlFor="svc-user-age">Validator Address</InputLabel>
+        <Input
+          value={validatorAddress}
+          onChange={handleChange}
+          inputProps={{
+            name: "validatorAddress",
+            id: "svc-user-validator-address",
+            placeholder: "Please Input Validator Address",
+          }}
+          disabled={canEdit}
+        />
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="svc-user-age">Client Address</InputLabel>
         <Input
           value={clientAddress}
           onChange={handleChange}
           inputProps={{
             name: "clientAddress",
             id: "svc-user-client-address",
-            placeholder: "Please Input Client Address"
+            placeholder: "Please Input Client Address",
           }}
           disabled={canEdit}
         />
@@ -170,7 +180,7 @@ export default function DegreeNode(props) {
           inputProps={{
             name: "approval",
             id: "svc-user-validator-approval",
-            placeholder: "Please Input Validator's Signed Approval"
+            placeholder: "Please Input Validator's Signed Approval",
           }}
           disabled={canEdit}
         />
@@ -186,7 +196,7 @@ export default function DegreeNode(props) {
           inputProps={{
             name: "signatureRandomValue",
             id: "svc-user-validator-random-value",
-            placeholder: "Please Input Validator's Signed Approval"
+            placeholder: "Please Input Validator's Signed Approval",
           }}
           disabled={canEdit}
         />

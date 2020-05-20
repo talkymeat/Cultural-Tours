@@ -7,11 +7,13 @@ import React, { Component } from "react";
 import { styled, makeStyles, withTheme } from "@material-ui/core/styles";
 import CssBaseLine from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import { Link } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormLabel from "@material-ui/core/FormLabel";
 import Divider from "@material-ui/core/Divider";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -21,40 +23,41 @@ import Notification from "../../components/Notification";
 import moment from "moment";
 import Zip from "jszip";
 import Upload from "../../components/Upload";
+import Chip from "@material-ui/core/Chip";
 
 import AgeNode from "./CheckAttributeAge";
 import DegreeNode from "./CheckAttributeDegree";
 import LicenseNode from "./CheckAttributeLicense";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   instruction: {
     marginBottom: theme.spacing(3),
     textAlign: "left",
     width: "100%",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   backButton: {
-    marginRight: theme.spacing(4)
+    marginRight: theme.spacing(4),
   },
   stepButtons: {
     display: "flex",
     justifyContent: "center",
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   form: {
     width: "100%",
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   formControl: {
     width: "60%",
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   divider: {
     width: "100%",
@@ -62,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4),
     marginLeft: 0,
-    marginRight: 0
+    marginRight: 0,
   },
   dropzone: {
     border: "1px dashed #ddd",
@@ -73,26 +76,26 @@ const useStyles = makeStyles(theme => ({
     background: "#fefefe",
     "& p": {
       color: "#666",
-      fontSize: 16
+      fontSize: 16,
     },
     "& svg": {
-      color: theme.palette.primary.light
+      color: theme.palette.primary.light,
     },
     "& img": {
-      maxHeight: "100px"
+      maxHeight: "100px",
     },
     "& + .MuiGrid-container": {
       marginBottom: theme.spacing(1),
-      marginTop: theme.spacing(1)
-    }
+      marginTop: theme.spacing(1),
+    },
   },
   dropzoneError: {
-    border: `1px dashed ${theme.palette.warning.main}`
-  }
+    border: `1px dashed ${theme.palette.warning.main}`,
+  },
 }));
 
 const StepButton = styled(Button)(({ theme }) => ({
-  minWidth: "120px"
+  minWidth: "120px",
 }));
 
 function SelectTypePageWrapper(props) {
@@ -131,81 +134,81 @@ class SelectTypePage extends Component {
       configurated: false,
       clientFile: [],
       validatorFile: [],
+      validatorAddress: "",
       clientAddress: "",
       approval: "",
       signatureRandomValue: "",
-      mode: 0 // 0: configuration file, 1: input manually
+      publicKey: [],
+      mode: 0, // 0: configuration file, 1: input manually
     };
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
-      [`${e.target.name}Dirty`]: true
+      [`${e.target.name}Dirty`]: true,
     });
   };
 
   handleFocus = () => {
     this.setState({
-      seedDirty: true
+      seedDirty: true,
     });
   };
 
   handleGenerateDialogClose = () => {
     this.setState({
-      generateDialogStatus: false
+      generateDialogStatus: false,
     });
   };
 
-  handleFileUpload = (key, files, compare=false) => {
+  handleFileUpload = (key, files, compare = false) => {
     let value = "";
     if (files.length > 0) {
-      Utilities.hashFile(files[0], result => {
+      Utilities.hashFile(files[0], (result) => {
         value = result;
         var otherKey;
         if (compare) {
           if (key === "validatorFile") {
             otherKey = "clientFile";
-          }
-          else if (key === "clientFile") {
-            otherKey = "validatorFile"
-          }
-          else {
-            otherKey = key
+          } else if (key === "clientFile") {
+            otherKey = "validatorFile";
+          } else {
+            otherKey = key;
           }
         }
         if (compare && this.state[otherKey]) {
           if (this.state[otherKey] !== value) {
             this.setState({
               notificationOpen: true,
-              notificationMessage: 'This file contains values that disagree with previously uploaded values.'
+              notificationMessage:
+                "This file contains values that disagree with previously uploaded values.",
             });
           }
-        }
-        else {
+        } else {
           this.setState({
             [key]: value,
-            [key + "OriginalValue"]: files
+            [key + "OriginalValue"]: files,
           });
         }
       });
     } else {
       this.setState({
         [key]: "",
-        [key + "OriginalValue"]: []
+        [key + "OriginalValue"]: [],
       });
     }
   };
 
   handleClose = () => {
     this.setState({
-      notificationOpen: false
+      notificationOpen: false,
     });
   };
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     this.setState({
-      licenseExpireDate: moment(new Date(date).valueOf()).format("YYYY-MM-DD")
+      licenseExpireDate: moment(new Date(date).valueOf()).format("YYYY-MM-DD"),
     });
   };
 
@@ -232,10 +235,12 @@ class SelectTypePage extends Component {
       licenseExpireDateRandomValue,
       proofOfLicenseOriginalValue,
       proofOfLicenseRandomValue,
-      clientAddress,
+      validatorAddress,
       signatureRandomValue,
       approval,
-      type
+      type,
+      clientAddress,
+      publicKey,
     } = this.state;
     var { log } = this.props;
     const { handleNext, updateValueEntry } = this.props;
@@ -251,9 +256,10 @@ class SelectTypePage extends Component {
           proofOfAge,
           proofOfAgeOriginalValue,
           proofOfAgeRandomValue,
+          validatorAddress,
           clientAddress,
           signatureRandomValue,
-          approval
+          approval,
         };
         break;
       case 1:
@@ -266,9 +272,10 @@ class SelectTypePage extends Component {
           degreeDescriptionRandomValue,
           proofOfDegreeRandomValue,
           proofOfDegreeOriginalValue,
-          clientAddress,
+          validatorAddress,
           signatureRandomValue,
-          approval
+          clientAddress,
+          approval,
         };
         break;
       case 2:
@@ -283,16 +290,18 @@ class SelectTypePage extends Component {
           proofOfLicense,
           proofOfLicenseOriginalValue,
           proofOfLicenseRandomValue,
-          clientAddress,
+          validatorAddress,
           signatureRandomValue,
-          approval
+          approval,
+          clientAddress,
         };
         break;
 
       default:
         break;
     }
-    isPassvalidation = Object.keys(values).every(k => {
+    console.log("sesese", values);
+    isPassvalidation = Object.keys(values).every((k) => {
       if (!!values[k]) {
         return values[k].length > 0;
       } else {
@@ -302,19 +311,27 @@ class SelectTypePage extends Component {
 
     if (!isPassvalidation) {
       this.setState({
-        notificationOpen: true
+        notificationOpen: true,
       });
     } else {
       handleNext();
       updateValueEntry(valueKey, values);
       updateValueEntry("key", valueKey);
+      updateValueEntry("publicKey", publicKey);
       const date_time = Utilities.timeAndDate();
       updateValueEntry("currentDate", date_time[0]);
       updateValueEntry("currentTime", date_time[1]);
     }
   };
 
-  renderContent = type => {
+  handleKeyFileUpload = (key, files) => {
+    console.log(files);
+    this.setState({
+      [key]: files,
+    });
+  };
+
+  renderContent = (type) => {
     const { classes, theme } = this.props;
     const {
       age,
@@ -336,9 +353,10 @@ class SelectTypePage extends Component {
       proofOfLicenseOriginalValue,
       proofOfLicenseRandomValue,
       configurated,
-      clientAddress,
+      validatorAddress,
       signatureRandomValue,
-      approval
+      approval,
+      clientAddress,
     } = this.state;
     switch (type) {
       case 0:
@@ -350,12 +368,13 @@ class SelectTypePage extends Component {
             proofOfAgeOriginalValue={proofOfAgeOriginalValue}
             proofOfAgeRandomValue={proofOfAgeRandomValue}
             ageRandomValue={ageRandomValue}
-            clientAddress={clientAddress}
+            validatorAddress={validatorAddress}
             approval={approval}
             signatureRandomValue={signatureRandomValue}
             handleChange={this.handleChange}
             handleFileUpload={this.handleFileUpload}
             canEdit={configurated}
+            clientAddress={clientAddress}
           />
         );
 
@@ -368,7 +387,7 @@ class SelectTypePage extends Component {
             degreeDescriptionRandomValue={degreeDescriptionRandomValue}
             proofOfDegreeOriginalValue={proofOfDegreeOriginalValue}
             degreeDescription={degreeDescription}
-            clientAddress={clientAddress}
+            validatorAddress={validatorAddress}
             approval={approval}
             signatureRandomValue={signatureRandomValue}
             handleChange={this.handleChange}
@@ -376,6 +395,7 @@ class SelectTypePage extends Component {
             canEdit={configurated}
             degreeRandomValue={degreeRandomValue}
             proofOfDegreeRandomValue={proofOfDegreeRandomValue}
+            clientAddress={clientAddress}
           />
         );
 
@@ -389,7 +409,7 @@ class SelectTypePage extends Component {
             licenseDescription={licenseDescription}
             licenseExpireDate={licenseExpireDate}
             proofOfLicenseOriginalValue={proofOfLicenseOriginalValue}
-            clientAddress={clientAddress}
+            validatorAddress={validatorAddress}
             approval={approval}
             signatureRandomValue={signatureRandomValue}
             handleChange={this.handleChange}
@@ -399,6 +419,7 @@ class SelectTypePage extends Component {
             licenseDescriptionRandomValue={licenseDescriptionRandomValue}
             licenseExpireDateRandomValue={licenseExpireDateRandomValue}
             proofOfLicenseRandomValue={proofOfLicenseRandomValue}
+            clientAddress={clientAddress}
           />
         );
 
@@ -408,7 +429,7 @@ class SelectTypePage extends Component {
   };
 
   // TODO: re-merge this and handleValidatorFileUpload
-  handleClientFileUpload = file => {
+  handleClientFileUpload = (file) => {
     this.setState({
       clientFile: file,
     });
@@ -418,58 +439,59 @@ class SelectTypePage extends Component {
       let valueObj = {};
       zip
         .loadAsync(file[0])
-        .then(function(zipF) {
-          const files = Object.keys(zipF.files).map(item => item.toString());
+        .then(function (zipF) {
+          const files = Object.keys(zipF.files).map((item) => item.toString());
           if (!files.includes("encryption_result.txt")) {
-            throw Error
+            throw Error;
           }
           for (let index = 0; index < files.length; index++) {
             if (files[index] === "encryption_result.txt") {
               zipF
                 .file("encryption_result.txt")
                 .async("string")
-                .then(result => {
+                .then((result) => {
                   valueObj.valueString = result;
                   const state = that.formatValue(valueObj);
                   that.setState({
                     ...state,
                     configurated: true,
-                    mode: 1
+                    mode: 1,
                   });
                 });
-            } else {
+            }
+            if (files[index].includes("Original")) {
               zipF
                 .file(files[index])
                 .async("blob")
-                .then(result => {
+                .then((result) => {
                   result.lastModifiedDate = new Date();
                   valueObj.file = new File([result], files[index]);
                   that.formatValue(valueObj, true);
                   that.setState({
                     configurated: true,
-                    mode: 1
+                    mode: 1,
                   });
                 });
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           that.setState({
             clientFile: [],
             notificationOpen: true,
-            notificationMessage: 'Invalid Client File.'
+            notificationMessage: "Invalid Client File.",
           });
         });
     } else {
       this.setState({
-        configurated: false
+        configurated: false,
       });
     }
   };
 
-  handleValidatorFileUpload = file => {
+  handleValidatorFileUpload = (file) => {
     this.setState({
-      validatorFile: file
+      validatorFile: file,
     });
     if (file.length > 0) {
       const zip = new Zip();
@@ -477,72 +499,88 @@ class SelectTypePage extends Component {
       let valueObj = {};
       zip
         .loadAsync(file[0])
-        .then(function(zipF) {
-          const files = Object.keys(zipF.files).map(item => item.toString());
+        .then(function (zipF) {
+          const files = Object.keys(zipF.files).map((item) => item.toString());
           if (!files.includes("result.txt")) {
-            throw Error
+            throw Error;
           }
           for (let index = 0; index < files.length; index++) {
+            if (files[index] === "publicKey.txt") {
+              zipF
+                .file("publicKey.txt")
+                .async("string")
+                .then((string) => {
+                  that.setState({
+                    publicKey: [
+                      new File([string], "publicKey.txt", {
+                        type: "text/plain;charset=utf-8",
+                      }),
+                    ],
+                  });
+                });
+            }
             if (files[index] === "result.txt") {
               zipF
                 .file("result.txt")
                 .async("string")
-                .then(result => {
+                .then((result) => {
                   valueObj.valueString = result;
                   const state = that.formatValue(valueObj, false, true);
                   that.setState({
                     ...state,
                     configurated: true,
-                    mode: 1
+                    mode: 1,
                   });
                 });
-            } else {
+            }
+            if (files[index].includes("Original")) {
               zipF
                 .file(files[index])
                 .async("blob")
-                .then(result => {
+                .then((result) => {
                   result.lastModifiedDate = new Date();
                   valueObj.file = new File([result], files[index]);
                   that.formatValue(valueObj, true, true);
                   that.setState({
                     configurated: true,
-                    mode: 1
+                    mode: 1,
                   });
                 });
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           that.setState({
             validatorFile: [],
             notificationOpen: true,
-            notificationMessage: 'Invalid Validator File.'
+            notificationMessage: "Invalid Validator File.",
           });
         });
     } else {
       this.setState({
-        configurated: false
+        configurated: false,
       });
     }
   };
 
   handleChangeMode = () => {
     this.setState({
-      mode: 1
-    })
-  }
+      mode: 1,
+    });
+  };
 
   formatValue = (valueObj, file = false, validator = false) => {
     const value = JSON.parse(valueObj.valueString);
     let res = {};
-    let val = validator?"_val":"";
-    switch (value.key+val) {
+    let val = validator ? "_val" : "";
+    switch (value.key + val) {
       case "age":
         res = {
           type: 0,
           age: value.age.age,
+          clientAddress: value.age.clientAddress,
           ageRandomValue: value.age.ageResult.randomValue,
-          proofOfAgeRandomValue: value.age.proofOfAgeResult.randomValue
+          proofOfAgeRandomValue: value.age.proofOfAgeResult.randomValue,
         };
         res = this.compare_vals(res);
         if (file) {
@@ -550,16 +588,17 @@ class SelectTypePage extends Component {
         }
         break;
       case "age_val":
-        res={
+        res = {
           type: 0,
           age: value.age.age,
           ageRandomValue: value.age.ageRandomValue,
           proofOfAgeRandomValue: value.age.proofOfAgeRandomValue,
-          clientAddress: value.seedAndSign.clientAddress,
+          validatorAddress: value.seedAndSign.validatorAddress,
           signatureRandomValue: value.signatureRandomValue,
-          approval: value.approve
+          approval: value.approve,
         };
-        this.props.valueEntry.seedAndSign.approval=value.encryptedApproval.sig;
+        // this.props.valueEntry.seedAndSign.approval =
+        //   value.encryptedApproval.sig;
         res = this.compare_vals(res);
         if (file) {
           this.handleFileUpload("proofOfAge", [valueObj.file]);
@@ -569,11 +608,13 @@ class SelectTypePage extends Component {
         res = {
           type: 1,
           degree: value.degree.degree,
+          clientAddress: value.degree.clientAddress,
           degreeRandomValue: value.degree.degreeResult.randomValue,
           degreeDescription: value.degree.degreeDescription,
           degreeDescriptionRandomValue:
             value.degree.degreeDescriptionResult.randomValue,
-          proofOfDegreeRandomValue: value.degree.proofOfDegreeResult.randomValue
+          proofOfDegreeRandomValue:
+            value.degree.proofOfDegreeResult.randomValue,
         };
         res = this.compare_vals(res);
         if (file) {
@@ -581,7 +622,7 @@ class SelectTypePage extends Component {
         }
         break;
       case "degree_val":
-        res={
+        res = {
           type: 1,
           degree: value.degree.degree,
           degreeRandomValue: value.degree.degreeRandomValue,
@@ -589,11 +630,12 @@ class SelectTypePage extends Component {
           degreeDescriptionRandomValue:
             value.degree.degreeDescriptionRandomValue,
           proofOfDegreeRandomValue: value.degree.proofOfDegreeRandomValue,
-          clientAddress: value.seedAndSign.clientAddress,
+          validatorAddress: value.seedAndSign.validatorAddress,
           signatureRandomValue: value.signatureRandomValue,
-          approval: value.approve
+          approval: value.approve,
         };
-        this.props.valueEntry.seedAndSign.approval=value.encryptedApproval.sig;
+        // this.props.valueEntry.seedAndSign.approval =
+        //   value.encryptedApproval.sig;
         res = this.compare_vals(res);
         if (file) {
           this.handleFileUpload("proofOfDegree", [valueObj.file]);
@@ -603,6 +645,7 @@ class SelectTypePage extends Component {
         res = {
           type: 2,
           license: value.license.license,
+          clientAddress: value.license.clientAddress,
           licenseRandomValue: value.license.licenseResult.randomValue,
           licenseExpireDate: value.license.licenseExpireDate,
           licenseExpireDateRandomValue:
@@ -611,7 +654,7 @@ class SelectTypePage extends Component {
           licenseDescriptionRandomValue:
             value.license.licenseDescriptionResult.randomValue,
           proofOfLicenseRandomValue:
-            value.license.proofOfLicenseResult.randomValue
+            value.license.proofOfLicenseResult.randomValue,
         };
         res = this.compare_vals(res);
         if (file) {
@@ -619,7 +662,7 @@ class SelectTypePage extends Component {
         }
         break;
       case "license_val":
-        res={
+        res = {
           type: 2,
           license: value.license.license,
           licenseRandomValue: value.license.licenseRandomValue,
@@ -629,13 +672,13 @@ class SelectTypePage extends Component {
           licenseDescription: value.license.licenseDescription,
           licenseDescriptionRandomValue:
             value.license.licenseDescriptionRandomValue,
-          proofOfLicenseRandomValue:
-            value.license.proofOfLicenseRandomValue,
-          clientAddress: value.seedAndSign.clientAddress,
+          proofOfLicenseRandomValue: value.license.proofOfLicenseRandomValue,
+          validatorAddress: value.seedAndSign.validatorAddress,
           signatureRandomValue: value.signatureRandomValue,
-          approval: value.approve
+          approval: value.approve,
         };
-        this.props.valueEntry.seedAndSign.approval=value.encryptedApproval.sig;
+        // this.props.valueEntry.seedAndSign.approval =
+        //   value.encryptedApproval.sig;
         res = this.compare_vals(res);
         if (file) {
           this.handleFileUpload("proofOfLicense", [valueObj.file]);
@@ -650,17 +693,27 @@ class SelectTypePage extends Component {
 
   compare_vals = (val_set) => {
     for (var key in val_set) {
-      if (this.state.hasOwnProperty(key)){
-        if (this.state[key] !== '' && this.state[key] !== 0 && this.state[key] !== [] && this.state[key] !== null)
-        {
+      if (this.state.hasOwnProperty(key)) {
+        if (
+          this.state[key] !== "" &&
+          this.state[key] !== 0 &&
+          this.state[key] !== [] &&
+          this.state[key] !== null
+        ) {
           if (val_set[key] === this.state[key]) {
             delete val_set[key];
-          }
-          else{
+          } else {
             this.setState({
               notificationOpen: true,
-              notificationMessage: 'I already have a value of '+this.state[key]+' for '+key+', '+
-                "but the new file says it's " + val_set[key] + ". Something is wrong."
+              notificationMessage:
+                "I already have a value of " +
+                this.state[key] +
+                " for " +
+                key +
+                ", " +
+                "but the new file says it's " +
+                val_set[key] +
+                ". Something is wrong.",
             });
             return {};
           }
@@ -679,16 +732,16 @@ class SelectTypePage extends Component {
       configurated,
       clientFile,
       validatorFile,
-      mode
+      mode,
+      publicKey,
     } = this.state;
-    const Attribute = ['AGE', 'DEGREE', 'LICENSE'];
+    const Attribute = ["AGE", "DEGREE", "LICENSE"];
 
     return (
       <React.Fragment>
         <CssBaseLine />
         <Container fixed className={classes.root}>
           <Box className={classes.container}>
-
             <FormControl className={classes.formControl}>
               <Typography variant="caption" className={classes.instruction}>
                 <Attachment color="primary" />
@@ -697,8 +750,8 @@ class SelectTypePage extends Component {
                 </Typography>
               </Typography>
               <Upload
-                handleFileUpload={files => {
-                  this.handleClientFileUpload(files.map(file => file.file));
+                handleFileUpload={(files) => {
+                  this.handleClientFileUpload(files.map((file) => file.file));
                 }}
                 files={clientFile}
               />
@@ -709,8 +762,10 @@ class SelectTypePage extends Component {
                 </Typography>
               </Typography>
               <Upload
-                handleFileUpload={files => {
-                  this.handleValidatorFileUpload(files.map(file => file.file));
+                handleFileUpload={(files) => {
+                  this.handleValidatorFileUpload(
+                    files.map((file) => file.file)
+                  );
                 }}
                 files={validatorFile}
               />
@@ -736,7 +791,7 @@ class SelectTypePage extends Component {
                     onChange={this.handleChange}
                     inputProps={{
                       name: "type",
-                      id: "client-type"
+                      id: "client-type",
                     }}
                     defaultValue={0}
                     disabled={configurated}
@@ -752,27 +807,57 @@ class SelectTypePage extends Component {
                 <Typography variant="caption" className={classes.instruction}>
                   <LooksTwo color="primary" />
                   <Typography variant="caption" style={{ marginLeft: "8px" }}>
-                  INSERT {
-                    Attribute[type]
-                  } AND RANDOM VALUE.
+                    INSERT {Attribute[type]} AND RANDOM VALUE.
                   </Typography>
                 </Typography>
 
                 {this.renderContent(type)}
+                <FormControl className={classes.formControl}>
+                  <React.Fragment>
+                    <FormLabel
+                      component="legend"
+                      style={{
+                        marginBottom: theme.spacing(2),
+                      }}
+                    >
+                      Public Key
+                    </FormLabel>
+
+                    {configurated ? (
+                      <Chip
+                        label={publicKey.length && publicKey[0].name}
+                        className={classes.chip}
+                        variant="outlined"
+                        color="default"
+                      />
+                    ) : (
+                      <Upload
+                        handleFileUpload={(files) => {
+                          this.handleKeyFileUpload(
+                            "publicKey",
+                            files.map((file) => file.file)
+                          );
+                        }}
+                        files={publicKey}
+                      />
+                    )}
+                  </React.Fragment>
+                </FormControl>
               </form>
             ) : (
               <div
-              style={{
-                width: '100%',
-                marginBottom: theme.spacing(3)
-              }}>
-                <StepButton
-                variant="contained"
-                color="primary"
-                onClick={this.handleChangeMode}
+                style={{
+                  width: "100%",
+                  marginBottom: theme.spacing(3),
+                }}
               >
-                Or, Input Fields Manually
-              </StepButton>
+                <StepButton
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleChangeMode}
+                >
+                  Or, Input Fields Manually
+                </StepButton>
               </div>
             )}
 
@@ -785,9 +870,11 @@ class SelectTypePage extends Component {
             <Divider variant="middle" style={{ width: "100%" }} />
 
             <div className={classes.stepButtons}>
-              <StepButton onClick={handleBack} className={classes.backButton}>
-                Back
-              </StepButton>
+              <Link to="/">
+                <StepButton className={classes.backButton} variant="outlined">
+                  Back To Home
+                </StepButton>
+              </Link>
               <StepButton
                 variant="contained"
                 color="primary"
