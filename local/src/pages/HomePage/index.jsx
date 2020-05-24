@@ -15,9 +15,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import HttpsIcon from "@material-ui/icons/Https";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import Typist from "react-typist";
 
 import OrbBackground from "../../components/OrbBackground";
-import Logo from "../../assets/logo_placeholder.png";
+import Logo from "../../assets/logo.png";
 import theme from "../../theme";
 
 const styles = {
@@ -56,7 +57,7 @@ const styles = {
   buttonContainer: {
     width: "100%",
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "space-around",
     "& a": {
       textDecoration: "none",
     },
@@ -64,10 +65,13 @@ const styles = {
   logoContainer: {
     width: "100%",
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
   },
   logo: {
-    height: "150px",
+    height: "64px",
+    marginBottom: theme.spacing(1),
   },
   card: {
     backgroundColor: "#fff",
@@ -113,6 +117,16 @@ class HomePage extends Component {
           <Box className={classes.container}>
             <div className={classes.logoContainer}>
               <img className={classes.logo} src={Logo} alt="Logo" />
+              <h1 className={classes.title}>
+                <Typist
+                  cursor={{
+                    hideWhenDone: true,
+                    hideWhenDoneDelay: 0,
+                  }}
+                >
+                  PIMS Local Encryption Tool
+                </Typist>
+              </h1>
             </div>
             <div className={classes.buttonContainer}>
               <Card className={classes.card} variant="outlined">
@@ -142,7 +156,7 @@ class HomePage extends Component {
                   </Link>
                 </CardActions>
               </Card>
-              &nbsp;
+
               <Card className={classes.card} variant="outlined">
                 <CardContent>
                   <Typography className={classes.title} gutterBottom>
@@ -170,11 +184,10 @@ class HomePage extends Component {
                   </Link>
                 </CardActions>
               </Card>
-              &nbsp;
               <Card
                 className={classes.card}
                 variant="outlined"
-                style={{ marginLeft: theme.spacing(4) }}
+                // style={{ marginLeft: theme.spacing(6) }}
               >
                 <CardContent>
                   <Typography className={classes.title} gutterBottom>
