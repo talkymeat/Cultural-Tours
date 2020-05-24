@@ -42,14 +42,31 @@ function SectionPills(props) {
           <img src={LocalImg} alt="" className={classes.localImg} />
         </Item> */}
         <Item md="12" lg="6">
-        <a href={require("assets/encryption_tool.zip")} download>
-          <Button color="primary" className={classes.localButton} size="large" variant="outlined" >Get Local encryption tools for FREE</Button>
+          <a href={require("assets/encryption_tool.zip")} download>
+            <Button
+              color="primary"
+              className={classes.localButton}
+              size="large"
+              variant="outlined"
+            >
+              Get Local encryption tools for FREE
+            </Button>
           </a>
         </Item>
       </Container>
     );
   };
-  const dataForTable = [].concat(data["client"].map((item) => { return {address: item, type: 0}; })).concat(data["validator"].map((item) => { return {address: item, type: 1};}))
+  const dataForTable = []
+    .concat(
+      data["client"].map((item) => {
+        return { address: item, type: 0 };
+      })
+    )
+    .concat(
+      data["validator"].map((item) => {
+        return { address: item, type: 1 };
+      })
+    );
   return (
     <div className={classes.section}>
       <Download />
@@ -57,7 +74,7 @@ function SectionPills(props) {
         <div id="navigation-pills">
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={8}>
-              <h2 className={classes.title}>User List</h2>
+              {/* <h2 className={classes.title}>User List</h2> */}
               <h5 className={classes.description}>
                 This is the paragraph where you can write more details about
                 your product. Keep you user engaged by providing meaningful
@@ -71,7 +88,7 @@ function SectionPills(props) {
 
           <GridContainer>
             <GridItem xs={12} sm={12} md={12} lg={12}>
-            <Table data={dataForTable}/>
+              <Table data={dataForTable} />
               {/* <NavPills
                 color="rose"
                 horizontal={{
@@ -109,11 +126,8 @@ function SectionPills(props) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  userlist: state.userlist,
+});
 
-const mapStateToProps = state => (
-  {
-    userlist: state.userlist
-  }
-)
-
-export default connect(mapStateToProps)(SectionPills)
+export default connect(mapStateToProps)(SectionPills);

@@ -14,7 +14,9 @@ export function get_client_list(callback, myContract = window.myContract) {
   myContract.total_valid_clients.call(function(error, result) {
     if (error) {
       // alert("Error: Was not able to communicate with contract");
-      callback({message: "Error: Was not able to communicate with contract :("})
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
       console.log(error);
     } else {
       var number_of_clients = result;
@@ -48,7 +50,9 @@ export function get_validator_list(callback, myContract = window.myContract) {
     if (error) {
       // alert("Error: Was not able to communicate with contract");
       console.log(error);
-      callback({message: "Error: Was not able to communicate with contract :("})
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
     } else {
       var number_of_clients = result;
       if (number_of_clients == 0) callback(false, client_list);
@@ -80,7 +84,9 @@ export function get_admin_list(callback, myContract = window.myContract) {
     if (error) {
       // alert("Error: Was not able to communicate with contract");
       console.log(error);
-      callback({message: "Error: Was not able to communicate with contract :("})
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
     } else {
       var number_of_clients = result;
       if (number_of_clients == 0) callback(false, client_list);
@@ -123,7 +129,9 @@ export function register_client(
     if (error) {
       // alert("Error: Was not able to communicate with contract :(");
       console.log(error);
-      callback({ message: "Error: Was not able to communicate with contract :(" })
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
     } else {
       var number_of_clients = result;
 
@@ -139,7 +147,10 @@ export function register_client(
               client_addr.toString().toLowerCase() ==
               result.toString().toLowerCase()
             ) {
-              callback({ message: "The address has been registered! Please choose a new one!" })
+              callback({
+                message:
+                  "The address has been registered! Please choose a new one!",
+              });
             }
           }
         );
@@ -156,7 +167,7 @@ export function register_client(
     },
     function(error, result) {
       if (error) {
-        callback({ message: "Error: Transaction has not been sent" })
+        callback({ message: "Error: Transaction has not been sent" });
         console.log(error);
       } else {
         callback(false);
@@ -186,7 +197,9 @@ export function register_validator(
       console.log("validator result, ------", result, !result);
       if (error) {
         console.log(error);
-        callback({message: "Error: Was not able to retrieve details of your account"});
+        callback({
+          message: "Error: Was not able to retrieve details of your account",
+        });
       }
       if (!result) {
         myContract.register_validator(
@@ -197,7 +210,7 @@ export function register_validator(
           },
           function(error, result) {
             if (error) {
-              callback({message: "Error: Transaction has not been sent"});
+              callback({ message: "Error: Transaction has not been sent" });
               console.log(error);
             } else {
               console.log("Student address registered at " + result);
@@ -207,7 +220,9 @@ export function register_validator(
         );
       } else {
         callback(true);
-        callback({message: "Error: The Validator has already been registered!"});
+        callback({
+          message: "Error: The Validator has already been registered!",
+        });
       }
     }
   );
@@ -218,25 +233,27 @@ export function check_organization(
   myContract = window.myContract,
   account = window.account
 ) {
-  myContract.valid_organizations.call(
-    account || window.web3.eth.accounts[0],
-    {
-      from: account,
-      gas: 4200000,
-    },
-    function(error, result) {
-      // alert(user.account);
-      // 　alert(result[2]);
-      // alert(result);
-      if (result) {
-        console.log("right");
-        callback(false);
-      } else {
-        callback(true);
-        // alert("Only valid owner can login! Please register first!");
+  setTimeout(() => {
+    myContract.valid_organizations.call(
+      account || window.web3.eth.accounts[0],
+      {
+        from: account,
+        gas: 4200000,
+      },
+      function(error, result) {
+        // alert(user.account);
+        // 　alert(result[2]);
+        // alert(result);
+        if (result) {
+          console.log("right");
+          callback(false);
+        } else {
+          callback(true);
+          // alert("Only valid owner can login! Please register first!");
+        }
       }
-    }
-  );
+    );
+  }, 101);
 }
 
 export function check_client(
@@ -247,24 +264,31 @@ export function check_client(
   // alert(user.account);
   // var user = user.account;
   // var s = user.toString();
-  myContract.valid_clients.call(
-    account || window.web3.eth.accounts[0],
-    {
-      from: account,
-      gas: 4200000,
-    },
-    function(error, result) {
-      // alert(user.account);
-      // 　alert(result[2]);
-      if (result && result[2]) {
-        callback(false);
-      } else {
-        callback(true);
 
-        // alert("Only valid client can login! Please register first!");
-      }
-    }
-  );
+  try {
+    setTimeout(() => {
+      myContract.valid_clients.call(
+        account || window.web3.eth.accounts[0],
+        {
+          from: account,
+          gas: 4200000,
+        },
+        function(error, result) {
+          // alert(user.account);
+          // 　alert(result[2]);
+          if (result && result[2]) {
+            callback(false);
+          } else {
+            callback(true);
+
+            // alert("Only valid client can login! Please register first!");
+          }
+        }
+      );
+    }, 101);
+  } catch (error) {
+    console.log(error, "error");
+  }
 }
 
 export function check_validators(
@@ -274,22 +298,24 @@ export function check_validators(
 ) {
   console.log("check_validators", account);
   // if (account) {
-  myContract.valid_validators.call(
-    account || window.web3.eth.accounts[0],
-    {
-      from: account,
-      gas: 4200000,
-    },
-    function(error, result) {
-      // alert(result);
-      if (result) {
-        callback(false);
-      } else {
-        callback(true);
-        // alert("Only valid validators can login! Please register first!");
+  setTimeout(() => {
+    myContract.valid_validators.call(
+      account || window.web3.eth.accounts[0],
+      {
+        from: account,
+        gas: 4200000,
+      },
+      function(error, result) {
+        // alert(result);
+        if (result) {
+          callback(false);
+        } else {
+          callback(true);
+          // alert("Only valid validators can login! Please register first!");
+        }
       }
-    }
-  );
+    );
+  }, 101);
   // }
 }
 
@@ -421,12 +447,14 @@ export function approveAge(
   var client_address = client;
 
   var res = format_hashes(approval);
-  console.log(client_address, res);
+  console.log("approveAge", client_address, res);
   myContract.validate_age(client_address, res, function(error, result) {
     if (error) {
       // alert("Error: Was not able to communicate with contract :(");
-      callback({ message: "Error: Was not able to communicate with contract :(" })
-      console.log(error);
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
+      console.log("approveAge", error);
     } else {
       // document.getElementById("ageconf").innerHTML = "Valdiation registered on the contract";
       callback(false);
@@ -452,7 +480,9 @@ export function approveDegree(
     result
   ) {
     if (error) {
-      callback({ message: "Error: Was not able to communicate with contract :(" })
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
       console.log(error);
     } else {
       callback(false);
@@ -478,7 +508,9 @@ export function approveLicense(
   ) {
     if (error) {
       console.log(error);
-      callback({ message: "Error: Was not able to communicate with contract :(" })
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
     } else {
       callback(false);
     }
@@ -771,7 +803,9 @@ export function confirmAge(
     if (error) {
       // alert("Error: Was not able to communicate with contract :(");
       console.log(error);
-      callback({ message: "Error: Was not able to communicate with contract :(" });
+      callback({
+        message: "Error: Was not able to communicate with contract :(",
+      });
     } else {
       if (result) {
         myContract.determineAmount_toPay_to_ageValidator.call(addr, function(
@@ -779,7 +813,9 @@ export function confirmAge(
           result
         ) {
           if (error) {
-            callback({ message: "Error: Was not able to communicate with contract :(" });
+            callback({
+              message: "Error: Was not able to communicate with contract :(",
+            });
             console.log(error);
           } else {
             callback(false, { exist: true, price: result });
@@ -801,15 +837,9 @@ export function confirmDegree(
   myContract = window.myContract
 ) {
   var addr = client;
-  var cryptdeg = format_hashes(
-    encryptedDegree
-  );
-  var cryptdegdes = format_hashes(
-    encryptedDescription
-  );
-  var cryptfile = format_hashes(
-    encryptedProofOfDegree
-  );
+  var cryptdeg = format_hashes(encryptedDegree);
+  var cryptdegdes = format_hashes(encryptedDescription);
+  var cryptfile = format_hashes(encryptedProofOfDegree);
   console.log(addr + " " + cryptdeg + " " + cryptdegdes);
   myContract.find_degree_index.call(
     addr,
@@ -820,7 +850,9 @@ export function confirmDegree(
       if (error) {
         // alert("Error: Was not able to communicate with contract :(");
         console.log(error);
-        callback({ message: "Error: Was not able to communicate with contract :(" });
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
       } else {
         console.log(result);
         if (result[0]) {
@@ -831,18 +863,23 @@ export function confirmDegree(
             indx,
             function(error, result) {
               if (error) {
-                callback({ message: "Error: Was not able to communicate with contract :(" });
+                callback({
+                  message:
+                    "Error: Was not able to communicate with contract :(",
+                });
                 // alert("Error: Was not able to communicate with contract :(");
                 console.log(error);
               } else {
                 // document.getElementById("degpaymentamount").value = result;
-                console.log("At this point, this should have worked: " + result);
+                console.log(
+                  "At this point, this should have worked: " + result
+                );
                 callback(false, { exist: true, index: indx, price: result });
               }
             }
           );
         } else {
-          callback(false, { exist: false })
+          callback(false, { exist: false });
         }
       }
     }
@@ -859,18 +896,10 @@ export function confirmLicense(
   myContract = window.myContract
 ) {
   var addr = client;
-  var cryptlic = format_hashes(
-    encryptedLicense
-  );
-  var cryptlicdes = format_hashes(
-    encryptedDescription
-  );
-  var cryptlicexp = format_hashes(
-    encryptedDate
-  );
-  var cryptfile = format_hashes(
-    encryptedProofOfLicense
-  );
+  var cryptlic = format_hashes(encryptedLicense);
+  var cryptlicdes = format_hashes(encryptedDescription);
+  var cryptlicexp = format_hashes(encryptedDate);
+  var cryptfile = format_hashes(encryptedProofOfLicense);
   console.log(addr + " " + cryptlic + " " + cryptlicdes + " " + cryptlicexp);
   myContract.find_license_index.call(
     addr,
@@ -882,7 +911,7 @@ export function confirmLicense(
       if (error) {
         // alert("Error: Was not able to communicate with contract :(");
         console.log(error);
-        callback(true)
+        callback(true);
       } else {
         if (result[0]) {
           var indx = get(result[1]);
@@ -940,25 +969,29 @@ export function confirmAgeApproval(
       if (error) {
         // alert("Error: Was not able to communicate with contract :(");
         console.log(error);
-        alert(error)
-        callback({message: "Error: Was not able to communicate with contract :("})
+        alert(error);
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
       } else {
         if (result) {
-          callback(false, { confirmed: true })
+          callback(false, { confirmed: true });
         } else {
-          callback(false, { confirmed: false })
+          callback(false, { confirmed: false });
         }
       }
     }
   );
 }
 
-export function confirmDegreeApproval(clientAddress,
+export function confirmDegreeApproval(
+  clientAddress,
   validatorAddress,
   approvalString,
   index,
   callback,
-  myContract = window.myContract) {
+  myContract = window.myContract
+) {
   var client = format_hashes(clientAddress);
   // if (client === "Ox" || client === "0X") {
   //   document.getElementById("degreeapprovalconfirm").innerHTML =
@@ -971,9 +1004,7 @@ export function confirmDegreeApproval(clientAddress,
   //     "Please enter validator address";
   //   return;
   // }
-  var approval = format_hashes(
-    approvalString
-  );
+  var approval = format_hashes(approvalString);
   // if (approval === "Ox" || approval === "0X") {
   //   document.getElementById("degreeapprovalconfirm").innerHTML =
   //     "Please enter encrypted approval";
@@ -986,12 +1017,14 @@ export function confirmDegreeApproval(clientAddress,
     approval,
     function(error, result) {
       if (error) {
-        callback({message: "Error: Was not able to communicate with contract :("})
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
       } else {
         if (result) {
-          callback(false, { confirmed: true })
+          callback(false, { confirmed: true });
         } else {
-          callback(false, { confirmed: false })
+          callback(false, { confirmed: false });
         }
       }
     }
@@ -1018,9 +1051,7 @@ export function confirmLicenseApproval(
   //     "Please enter validator address";
   //   return;
   // }
-  var approval = format_hashes(
-    approvalString
-  );
+  var approval = format_hashes(approvalString);
   // if (approval === "Ox" || approval === "0X") {
   //   document.getElementById("licenseapprovalconfirm").innerHTML =
   //     "Please enter encrypted approval";
@@ -1040,12 +1071,14 @@ export function confirmLicenseApproval(
     approval,
     function(error, result) {
       if (error) {
-        callback({message: "Error: Was not able to communicate with contract :("})
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
       } else {
         if (result) {
-          callback(false, { confirmed: true })
+          callback(false, { confirmed: true });
         } else {
-          callback(false, { confirmed: false })
+          callback(false, { confirmed: false });
         }
       }
     }
@@ -1067,10 +1100,12 @@ export function payForAgeConfirmation(
     { from: account, gas: 3000000, value: amt },
     function(error, result) {
       if (error) {
-        callback({message: "Error: Was not able to communicate with contract :("})
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
         console.log(error);
       } else {
-        callback(false, { message: "Paid " + amt + " Wei" })
+        callback(false, { message: "Paid " + amt + " Wei" });
       }
     }
   );
@@ -1094,10 +1129,12 @@ export function payForDegreeConfirmation(
     { from: account, gas: 3000000, value: amt },
     function(error, result) {
       if (error) {
-        callback({message: "Error: Was not able to communicate with contract :("})
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
         console.log(error);
       } else {
-        callback(false, { message: "Paid " + amt + " Wei" })
+        callback(false, { message: "Paid " + amt + " Wei" });
       }
     }
   );
@@ -1121,10 +1158,12 @@ export function payForLicenseConfirmation(
     { from: account, gas: 3000000, value: amt },
     function(error, result) {
       if (error) {
-        callback({message: "Error: Was not able to communicate with contract :("})
+        callback({
+          message: "Error: Was not able to communicate with contract :(",
+        });
         console.log(error);
       } else {
-        callback(false, { message: "Paid " + amt + " Wei" })
+        callback(false, { message: "Paid " + amt + " Wei" });
       }
     }
   );

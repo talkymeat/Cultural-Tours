@@ -56,11 +56,13 @@ function Form(props) {
           case TYPE.AGE:
             approveAge(client, approval, (error) => {
               if (error) {
-                props.dispatch(globalAction.NOTIFICATION({
-                  notification: true,
-                  notificationText: error.message,
-                  notificationType: false,
-                }))
+                props.dispatch(
+                  globalAction.NOTIFICATION({
+                    notification: true,
+                    notificationText: error.message,
+                    notificationType: false,
+                  })
+                );
                 setStep(step);
               } else {
                 setStep(step + 2);
@@ -70,12 +72,14 @@ function Form(props) {
           case TYPE.DEGREE:
             approveDegree(client, approval, exist.index, (error) => {
               if (error) {
-                console.log(client, approval, exist.index);
-                props.dispatch(globalAction.NOTIFICATION({
-                  notification: true,
-                  notificationText: error.message,
-                  notificationType: false,
-                }))
+                console.log("approveDegree", client, approval, exist.index);
+                props.dispatch(
+                  globalAction.NOTIFICATION({
+                    notification: true,
+                    notificationText: error.message,
+                    notificationType: false,
+                  })
+                );
                 setStep(step);
               } else {
                 setStep(step + 2);
@@ -85,11 +89,13 @@ function Form(props) {
           case TYPE.LICENSE:
             approveLicense(client, approval, exist.index, (error) => {
               if (error) {
-                props.dispatch(globalAction.NOTIFICATION({
-                  notification: true,
-                  notificationText: error.message,
-                  notificationType: false,
-                }))
+                props.dispatch(
+                  globalAction.NOTIFICATION({
+                    notification: true,
+                    notificationText: error.message,
+                    notificationType: false,
+                  })
+                );
                 setStep(step);
               } else {
                 setStep(step + 2);
@@ -102,6 +108,7 @@ function Form(props) {
         }
       } catch (error) {
         setStep(step);
+        console.log("ApproveForm", error);
         props.dispatch(
           globalAction.NOTIFICATION({
             notification: true,
@@ -165,7 +172,9 @@ function Form(props) {
               icon={Warning}
             />
           </GridItem>
-          <h3 className={classes.title}>Ooops! Information Cann't be Proved.</h3>
+          <h3 className={classes.title}>
+            Ooops! Information Cann't be Proved.
+          </h3>
         </GridContainer>
       )}
 

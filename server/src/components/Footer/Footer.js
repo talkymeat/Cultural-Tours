@@ -20,11 +20,11 @@ export default function Footer(props) {
   const { whiteFont } = props;
   const footerClasses = classNames({
     [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.footerWhiteFont]: whiteFont,
   });
   const aClasses = classNames({
     [classes.a]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.footerWhiteFont]: whiteFont,
   });
   return (
     <footer className={footerClasses}>
@@ -37,7 +37,25 @@ export default function Footer(props) {
                 className={classes.block}
                 target="_blank"
               >
-                Blockchain Studio
+                Blockchain Lab
+              </a>
+            </ListItem>
+            <ListItem className={classes.inlineBlock}>
+              <a
+                href="https://www.creative-tim.com/license?ref=mkr-footer"
+                className={classes.block}
+                target="_blank"
+              >
+                White Paper
+              </a>
+            </ListItem>
+            <ListItem className={classes.inlineBlock}>
+              <a
+                href="https://github.com/AydinAbadi/Identity-Management-Project/commit/9a6a4ae4bb5b8b9f2aafdab7e747a0cf9da0d13a"
+                className={classes.block}
+                target="_blank"
+              >
+                Smart Contract
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
@@ -76,7 +94,7 @@ export default function Footer(props) {
             className={aClasses}
             target="_blank"
           >
-            Blockchain Studio
+            Blockchain Lab
           </a>{" "}
         </div>
       </div>
@@ -85,5 +103,5 @@ export default function Footer(props) {
 }
 
 Footer.propTypes = {
-  whiteFont: PropTypes.bool
+  whiteFont: PropTypes.bool,
 };

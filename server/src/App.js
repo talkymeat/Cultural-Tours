@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 // pages for this product
 import Components from "views/Components/Components.js";
@@ -19,91 +19,97 @@ import {
   get_admin_list,
 } from "utils/functions";
 import * as USERACTION from "redux/actions/user_list";
-import { DOMAIN, CONTRACT_ADDRESS } from 'config';
+import { DOMAIN, CONTRACT_ADDRESS } from "config";
 import UserPage from "views/Users";
 import Web3 from "web3";
 import { abi } from "utils/abi";
 import theme from "./theme";
+import ErrorPage from "components/Error";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 var hist = createBrowserHistory();
-
-var web3 = window.web3;
-if (typeof web3 !== "undefined") {
-  web3 = new Web3(web3.currentProvider);
-} else {
-  console.log(DOMAIN); // was http://localhost:8545
-  web3 = new Web3(new Web3.providers.HttpProvider(DOMAIN));
-}
-
-// Check if Metamask has been Enjected
-if (window.web3.currentProvider.isMetaMask) {
-  console.log("eth", window.web3.currentProvider.isMetaMask);
-  console.log("MetaMask has been injected", window.ethereum.enable());
-} else {
-  console.log("MetaMask has not been injected");
-}
-var ins = web3.eth.contract(abi);
-
-window.myContract = ins.at(CONTRACT_ADDRESS); // keyaddress
-console.log("object", web3.eth.accounts);
-window.account = web3.eth.accounts[0];
-console.log("object", web3.eth.accounts[0]);
-web3.eth.defaultAccount = web3.eth.accounts[0];
-setInterval(function() {
-  if (web3.eth.accounts[0]) {
-    if (web3.eth.accounts[0] !== window.account) {
-      window.account = web3.eth.accounts[0];
-    }
+let isMetamask = true;
+try {
+  var web3 = window.web3;
+  if (typeof web3 !== "undefined") {
+    web3 = new Web3(web3.currentProvider);
+  } else {
+    console.log(DOMAIN); // was http://localhost:8545
+    web3 = new Web3(new Web3.providers.HttpProvider(DOMAIN));
   }
-}, 100);
 
+  // Check if Metamask has been Enjected
+  if (window.web3.currentProvider.isMetaMask) {
+    console.log("eth", window.web3.currentProvider.isMetaMask);
+    console.log("MetaMask has been injected", window.ethereum.enable());
+  } else {
+    console.log("MetaMask has not been injected");
+  }
+  var ins = web3.eth.contract(abi);
+
+  window.myContract = ins.at(CONTRACT_ADDRESS); // keyaddress
+  console.log("CONTRACT_ADDRESS ->", CONTRACT_ADDRESS);
+
+  setInterval(function() {
+    if (web3.eth.accounts[0]) {
+      if (web3.eth.accounts[0] !== window.account) {
+        window.account = web3.eth.accounts[0];
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+      }
+    }
+  }, 100);
+} catch (error) {
+  isMetamask = false;
+  console.log("error", error);
+}
 function App(props) {
   const { dispatch } = props;
   useEffect(() => {
     console.log("now", +new Date());
-    get_client_list((error, res) => {
-      if (error) {
-        dispatch(
-          globalAction.NOTIFICATION({
-            notification: true,
-            notificationText: error.message,
-            notificationType: false,
-          })
-        );
-      } else {
-        dispatch(USERACTION.SET_CLIENT(res));
-      }
-    });
-    get_validator_list((error, res) => {
-      if (error) {
-        dispatch(
-          globalAction.NOTIFICATION({
-            notification: true,
-            notificationText: error.message,
-            notificationType: false,
-          })
-        );
-      } else {
-        dispatch(USERACTION.SET_VALIDATOR(res));
-      }
-    });
-    get_admin_list((error, res) => {
-      if (error) {
-        dispatch(
-          globalAction.NOTIFICATION({
-            notification: true,
-            notificationText: error.message,
-            notificationType: false,
-          })
-        );
-      } else {
-        dispatch(USERACTION.SET_ADMIN(res));
-      }
-    });
+    setTimeout(() => {
+      get_client_list((error, res) => {
+        if (error) {
+          dispatch(
+            globalAction.NOTIFICATION({
+              notification: true,
+              notificationText: error.message,
+              notificationType: false,
+            })
+          );
+        } else {
+          dispatch(USERACTION.SET_CLIENT(res));
+        }
+      });
+      get_validator_list((error, res) => {
+        if (error) {
+          dispatch(
+            globalAction.NOTIFICATION({
+              notification: true,
+              notificationText: error.message,
+              notificationType: false,
+            })
+          );
+        } else {
+          dispatch(USERACTION.SET_VALIDATOR(res));
+        }
+      });
+      get_admin_list((error, res) => {
+        if (error) {
+          dispatch(
+            globalAction.NOTIFICATION({
+              notification: true,
+              notificationText: error.message,
+              notificationType: false,
+            })
+          );
+        } else {
+          dispatch(USERACTION.SET_ADMIN(res));
+        }
+      });
+    }, 101);
   }, []);
   return (
     <ThemeProvider theme={theme}>
@@ -145,4 +151,6 @@ const mapStateToProps = (state) => ({
   notificationType: state.global.notificationType,
 });
 
-export default connect(mapStateToProps)(App);
+const Home = isMetamask ? connect(mapStateToProps)(App) : ErrorPage;
+
+export default Home;

@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import styles from "assets/jss/material-kit-react/components/headerStyle.js";
+import logoBlack from "assets/img/logo_black.png";
+import logo from "assets/img/logo.png";
 
 const useStyles = makeStyles(styles);
 
@@ -45,6 +47,7 @@ export default function Header(props) {
       document.body
         .getElementsByTagName("header")[0]
         .classList.add(classes[changeColorOnScroll.color]);
+      document.getElementById("logo").src = logoBlack;
     } else {
       document.body
         .getElementsByTagName("header")[0]
@@ -52,6 +55,7 @@ export default function Header(props) {
       document.body
         .getElementsByTagName("header")[0]
         .classList.remove(classes[changeColorOnScroll.color]);
+      document.getElementById("logo").src = logo;
     }
   };
   const { color, rightLinks, leftLinks, brand, fixed, absolute } = props;
@@ -65,10 +69,11 @@ export default function Header(props) {
     <Link to="/" style={{ color: "#fff" }}>
       <Button className={classes.title}>
         <img
-          src={require("assets/img/logo.png")}
-          style={{ height: "30px", marginRight: "10px" }}
+          src={logo}
+          style={{ height: "32px", marginRight: "10px" }}
+          id="logo"
         />
-        {brand}
+        <span className={appBarClasses.color}>{brand}</span>
       </Button>
     </Link>
   );

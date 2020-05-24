@@ -22,7 +22,6 @@ import ClientPortfolio from "./ClientUser";
 import ValidatorPortfolio from "./ValidatorUser";
 import ServicePortfolio from "./ServiceUser";
 
-
 import adminBg from "assets/img/admin.png";
 import clientBg from "assets/img/client.png";
 import validatorBg from "assets/img/validator.png";
@@ -59,8 +58,8 @@ function ProfilePage(props) {
       props.dispatch(globalAction.TOOGLE_BACKDROP);
     }, 2000);
     setTimeout(() => {
-      setAddress(window.web3.eth.accounts[0]);
-    }, 0);
+      setAddress(window.account);
+    }, 100);
   }, []);
 
   console.log(props.global);
@@ -75,9 +74,9 @@ function ProfilePage(props) {
     case USER_TYPE.CLIENT:
       RoleComponent = <ClientPortfolio {...props} />;
       break;
-      case USER_TYPE.SERVICE_USER:
-        RoleComponent = <ServicePortfolio {...props} />;
-        break;
+    case USER_TYPE.SERVICE_USER:
+      RoleComponent = <ServicePortfolio {...props} />;
+      break;
     default:
       break;
   }
@@ -86,7 +85,7 @@ function ProfilePage(props) {
     <div>
       <Header
         color="transparent"
-        brand="Blockchain Studio"
+        brand="Blockchain Lab"
         rightLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{

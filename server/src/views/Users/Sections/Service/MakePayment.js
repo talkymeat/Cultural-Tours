@@ -14,7 +14,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import { FormControl } from "@material-ui/core";
 
-import { payForAgeConfirmation, payForDegreeConfirmation, payForLicenseConfirmation } from "utils/functions";
+import {
+  payForAgeConfirmation,
+  payForDegreeConfirmation,
+  payForLicenseConfirmation,
+} from "utils/functions";
 import { globalAction } from "redux/actions/global_state";
 import { connect } from "react-redux";
 import { TYPE } from "utils/enum";
@@ -61,11 +65,13 @@ function Form(props) {
           case TYPE.AGE:
             payForAgeConfirmation(price, client, (error) => {
               if (error) {
-                props.dispatch(globalAction.NOTIFICATION({
-                  notification: true,
-                  notificationText: "Error",
-                  notificationType: false,
-                }))
+                props.dispatch(
+                  globalAction.NOTIFICATION({
+                    notification: true,
+                    notificationText: "Error",
+                    notificationType: false,
+                  })
+                );
                 setStep(step);
               } else {
                 setStep(step + 2);
@@ -73,13 +79,15 @@ function Form(props) {
             });
             break;
           case TYPE.DEGREE:
-            payForDegreeConfirmation(price, client,  result.index, (error) => {
+            payForDegreeConfirmation(price, client, result.index, (error) => {
               if (error) {
-                props.dispatch(globalAction.NOTIFICATION({
-                  notification: true,
-                  notificationText: "Error",
-                  notificationType: false,
-                }))
+                props.dispatch(
+                  globalAction.NOTIFICATION({
+                    notification: true,
+                    notificationText: "Error",
+                    notificationType: false,
+                  })
+                );
                 setStep(step);
               } else {
                 setStep(step + 2);
@@ -89,11 +97,13 @@ function Form(props) {
           case TYPE.LICENSE:
             payForLicenseConfirmation(price, client, result.index, (error) => {
               if (error) {
-                props.dispatch(globalAction.NOTIFICATION({
-                  notification: true,
-                  notificationText: "Error",
-                  notificationType: false,
-                }))
+                props.dispatch(
+                  globalAction.NOTIFICATION({
+                    notification: true,
+                    notificationText: "Error",
+                    notificationType: false,
+                  })
+                );
                 setStep(step);
               } else {
                 setStep(step + 2);
@@ -122,37 +132,44 @@ function Form(props) {
   }
   return (
     <div>
-        <GridContainer direction="column" alignItems="center">
+      <GridContainer direction="column" alignItems="center">
         <GridItem className={classes.notification}>
-            <SnackbarContent
-              message={
-                <span>
-                  <b>INFO:</b> {result.confirmed ? "Approval CONFIRMED" : "Approval NOT CONFIRMED"}
-                </span>
-              }
-              close
-              color="info"
-              icon={Check}
+          <SnackbarContent
+            message={
+              <span>
+                <b>INFO:</b>{" "}
+                {result.confirmed
+                  ? "Approval CONFIRMED"
+                  : "Approval NOT CONFIRMED"}
+              </span>
+            }
+            close
+            color="info"
+            icon={Check}
+          />
+        </GridItem>
+        <h3 className={classes.title}>Make Payment</h3>
+        <GridItem xs={12} sm={12} md={12} lg={6}>
+          <GridItem xs={12} sm={12} md={12} lg={12} className={classes.row}>
+            <CustomInput
+              labelText="Amount (Wei)"
+              id="float"
+              formControlProps={{
+                fullWidth: true,
+              }}
+              inputProps={{
+                name: "price",
+                value: price,
+                onChange: handleChange,
+                disabled: true,
+                style: {
+                  opacity: 0.5,
+                },
+              }}
             />
           </GridItem>
-          <h3 className={classes.title}>Make Payment</h3>
-          <GridItem xs={12} sm={12} md={12} lg={6}>
-            <GridItem xs={12} sm={12} md={12} lg={12} className={classes.row}>
-              <CustomInput
-                labelText="Amount (Wei)"
-                id="float"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-                inputProps={{
-                  name: "price",
-                  value: price,
-                  onChange: handleChange,
-                }}
-              />
-            </GridItem>
-          </GridItem>
-        </GridContainer>
+        </GridItem>
+      </GridContainer>
 
       <GridContainer justify="space-around">
         <GridItem xs={12} sm={12} md={2} lg={2}>
@@ -160,15 +177,15 @@ function Form(props) {
             Back
           </Button>
         </GridItem>
-          <GridItem xs={12} sm={12} md={2} lg={2}>
-            <Button
-              color="primary"
-              className={classes.submitButton}
-              onClick={handleSubmit}
-            >
-              Next
-            </Button>
-          </GridItem>
+        <GridItem xs={12} sm={12} md={2} lg={2}>
+          <Button
+            color="primary"
+            className={classes.submitButton}
+            onClick={handleSubmit}
+          >
+            Next
+          </Button>
+        </GridItem>
       </GridContainer>
     </div>
   );
