@@ -2,7 +2,7 @@ from csv import DictReader
 
 from django.core.management import BaseCommand
 
-from tours.models import Site, Waypoint, Route
+from tours.models import Site, Waypoint, Route, WaypointOnRoute
 
 
 
@@ -67,7 +67,7 @@ class Command(BaseCommand):
                 route.save()
                 filename = row['Filename']
                 first = True
-                for wpt_row in DictReader(open(f'./{filename}')):
+                for wpt_row in DictReader(open(f'./routes/{filename}')):
                     w_o_r = WaypointOnRoute()
                     way_pt = Waypoint.objects.get(id=wpt_row['Waypoint'])
                     w_o_r.route = route
@@ -75,10 +75,18 @@ class Command(BaseCommand):
                     if first:
                         w_o_r.is_beginning = True
                         first = False
+                        route.first_stop = w_o_r
                     else:
+                        w_o_r.save()
                         prev.next = w_o_r
+                        prev.save()
                     prev = w_o_r
-                w_o_r.is_end = True
+                    w_o_r.save()
+                if not first:
+                    w_o_r.is_end = True
+                    route.last_stop = w_o_r
+                    w_o_r.save()
+                route.save()
         else:
             # TODO: replace with code that checks for new entries and adds them (?? maybe?)
             print('Site data already loaded...exiting.')
