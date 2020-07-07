@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render # <- don't think I need this
+from django.http import HttpResponse
 
-# Create your views here.
+def tour(request, route, start, end, distance, filters):
+    return HttpResponse('asdfgh')

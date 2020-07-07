@@ -13,9 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+#from django.conf import settings
+#from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+#import tours.views
+import tours.api_views
+
 urlpatterns = [
+    path('api/v1/sites/', tours.api_views.SiteList.as_view()),
+    path('api/v1/routes/', tours.api_views.RouteList.as_view()),
+    #path('api/v1/tour/<int:route_id>/<str:first_wpt>/<str:last_wpt>/<float:dist>/<dict:filter>/'),
     path('admin/', admin.site.urls),
 ]
+#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # TODO: find out what this does

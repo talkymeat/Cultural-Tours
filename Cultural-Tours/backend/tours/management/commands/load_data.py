@@ -52,7 +52,6 @@ class Command(BaseCommand):
             for row in DictReader(open('./routes.csv')):
                 rownum += 1
                 route = Route()
-                route.name = f"{row['Operator']}, {row['Short name']}: {row['Direction']}"
                 route.operator = row['Operator']
                 route.short_name = row['Short name']
                 route.direction = row['Direction']
@@ -82,6 +81,8 @@ class Command(BaseCommand):
                         prev.save()
                     prev = w_o_r
                     w_o_r.save()
+                    route.waypoints.add(w_o_r)
+                    route.save()
                 if not first:
                     w_o_r.is_end = True
                     route.last_stop = w_o_r
