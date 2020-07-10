@@ -1,6 +1,11 @@
 from rest_framework import serializers
+from django.http import QueryDict
+from django.db.models import QuerySet, Q
+
+import re
 
 from .models import Site, Route, Waypoint, WaypointOnRoute
+from .utils import parse_search_string, get_distance
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -73,14 +78,20 @@ class RouteSerializer(serializers.ModelSerializer):
             return instance.type
 
     def get_first_stop(self, instance):
-        first = WaypointOnRoute.objects.get(pk=instance.first_stop.id)
+        first_id = self.context.get('first_stop') \
+            if self.context.get('first_stop', False) \
+            else instance.first_stop.id
+        first = WaypointOnRoute.objects.get(pk=first_id)
         return {
             'name': first.waypoint.name,
             'stop_id': first.waypoint.id
         }
 
     def get_last_stop(self, instance):
-        last = WaypointOnRoute.objects.get(pk=instance.last_stop.id)
+        last_id = self.context.get('last_stop') \
+            if self.context.get('last_stop', False) \
+            else instance.last_stop.id
+        last = WaypointOnRoute.objects.get(pk=last_id)
         return {
             'name': last.waypoint.name,
             'stop_id': last.waypoint.id
@@ -88,13 +99,35 @@ class RouteSerializer(serializers.ModelSerializer):
 
     def get_waypoints(self, instance):
         waypoints = WaypointOnRoute.objects.filter(route=instance)
-        return WaypointOnRouteSerializer(
-            waypoints, many=True,
-            fields=(
-                'name', 'stop_id', 'lat', 'lon', 'next', 'is_beginning',
-                'is_end'
-            )
-        ).data
+        first_id = int(self.context.get('first_stop')) \
+            if self.context.get('first_stop', False) \
+            else instance.first_stop.id
+        last_id = int(self.context.get('last_stop')) \
+            if self.context.get('last_stop', False) \
+            else instance.last_stop.id
+        waypoint_list = []
+        complete = False
+        w = waypoints.get(pk=first_id)
+        wpt_fields = (
+            'name', 'stop_id', 'lat', 'lon', 'next', 'is_beginning','is_end'
+        ) + (
+            ('sites',)
+            if re.match(r'[1-9][0-9]*', self.context.get('max_dist', ''))
+            else ()
+        )
+        while not complete:
+            if w.id == last_id:
+                complete = True
+            waypoint_list += [
+                WaypointOnRouteSerializer(
+                    w, context=self.context, fields=wpt_fields
+                ).data
+            ]
+            if w.next:
+                w = w.next
+            else:
+                complete = True
+        return waypoint_list
 
 
 class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
@@ -107,7 +140,6 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
     next = serializers.SerializerMethodField()
     route = serializers.SerializerMethodField()
     sites = serializers.SerializerMethodField()
-
 
     class Meta:
         model = WaypointOnRoute
@@ -139,7 +171,43 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
         return instance.route.name
 
     def get_sites(self, instance):
-        pass
-
-class TourSerialiser(RouteSerializer):
-    pass
+        if self.context.get('search', '') or self.context.get('category', ''):
+            sites_of_interest = Site.objects.none()
+            if self.context.get('category', False):
+                for cat in self.context.getlist('category'):
+                    sites_in_cat = Site.objects.filter(category__icontains=cat)
+                    for subcat in self.context.getlist('subcat ' + cat.lower(), []):
+                        sites_in_subcat = sites_in_cat.filter(subcategory__icontains=subcat)
+                        sites_of_interest = sites_of_interest | sites_in_subcat
+                        if subcat == self.context.getlist('subcat ' + cat.lower())[-1]:
+                            break
+                    else:
+                        sites_of_interest = sites_of_interest | sites_in_cat
+            if self.context.get('search', False):
+                # TODO: This could be greatly improved is the sqlite3 database
+                # were replaced with PostgreSQL - but that could be
+                # time-consuming and ... *EHN DO IT LATER*. Let's get a basic
+                # version working first.
+                for search in self.context.getlist('search'):
+                    hits = Site.objects.all()
+                    for term in parse_search_string(search):
+                        hits = hits.filter(
+                            Q(category__icontains=term)|
+                            Q(subcategory__icontains=term)|
+                            Q(interest__icontains=term)|
+                            Q(description__icontains=term)|
+                            Q(name__icontains=term)|
+                            Q(organisation__icontains=term)
+                        )
+                    sites_of_interest = sites_of_interest | hits
+        else:
+            sites_of_interest = Site.objects.all()
+        nearby_sites_of_interest = Site.objects.none()
+        for s_o_i in sites_of_interest:
+            if get_distance(
+                instance.waypoint.lat,
+                instance.waypoint.lon,
+                s_o_i.lat, s_o_i.lon)<=float(self.context.get("max_dist")):
+                    nearby_sites_of_interest = \
+                        nearby_sites_of_interest | sites_of_interest.filter(pk=s_o_i.pk)
+        return SiteSerializer(nearby_sites_of_interest, many=True).data

@@ -16,15 +16,21 @@ Including another URLconf
 #from django.conf import settings
 #from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, register_converter
 
 #import tours.views
 import tours.api_views
+from tours.converters import WaypointIDConverter
+
+register_converter(WaypointIDConverter, 'wpt')
 
 urlpatterns = [
     path('api/v1/sites/', tours.api_views.SiteList.as_view()),
     path('api/v1/routes/', tours.api_views.RouteList.as_view()),
-    #path('api/v1/tour/<int:route_id>/<str:first_wpt>/<str:last_wpt>/<float:dist>/<dict:filter>/'),
+    path(
+        'api/v1/tour/<int:id>/',
+        tours.api_views.RouteView.as_view()
+    ),
     path('admin/', admin.site.urls),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # TODO: find out what this does
