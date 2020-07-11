@@ -29,6 +29,14 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
 
 class SiteSerializer(serializers.ModelSerializer):
+    """
+    ModelSerializer for the Site model. Reads off all the fields in the
+    model, except id. The only field in the serializer that is an exception to
+    this is dist_to_stop, which is used when nearby sites are being added to the
+    `sites` field of WaypointOnRouteSerializer. The distance is calculated by
+    WaypointSerializer and is simply passed to SiteSerializer in its `context`
+    param.
+    """
     name = serializers.CharField(max_length=100, read_only=True)
     category = serializers.CharField(max_length=50, read_only=True)
     interest = serializers.CharField(max_length=50, read_only=True)
@@ -39,14 +47,30 @@ class SiteSerializer(serializers.ModelSerializer):
     lat = serializers.DecimalField(max_digits=9, decimal_places=6, read_only=True)
     lon = serializers.DecimalField(max_digits=9, decimal_places=6, read_only=True)
     description = serializers.CharField(read_only=True)
+    dist_to_stop = serializers.SerializerMethodField()
 
     class Meta:
         model = Site
-        fields = ['name', 'category', 'interest', 'subcategory',
+        fields = ['name', 'category', 'interest', 'subcategory', 'dist_to_stop',
             'organisation', 'address', 'website', 'lat', 'lon', 'description']
+
+    def get_dist_to_stop(self, instance):
+        """
+        When WaypointOnRouteSerializer finds Sites sufficiently close to the
+        Waypoint, it adds the pk (primary key) of the Site to a dict called
+        dist_dict as a key, mapping to a value that is the distance from
+        Waypoint to Site in metres. This dict is passed to SiteSerializer as the
+        `context` param, so that this method can look up instance.pk and return
+        the distance
+        """
+        return self.context.get(instance.pk, None)
 
 
 class WaypointSerializer(serializers.ModelSerializer):
+    """
+    ModelSerializer for the Waypoint model. Reads off all the fields in the
+    model, except id.
+    """
     name = serializers.CharField(max_length=100, read_only=True)
     lat = serializers.DecimalField(max_digits=9, decimal_places=6, read_only=True)
     lon = serializers.DecimalField(max_digits=9, decimal_places=6, read_only=True)
@@ -58,6 +82,11 @@ class WaypointSerializer(serializers.ModelSerializer):
 
 
 class RouteSerializer(serializers.ModelSerializer):
+    """
+    ModelSerializer for the Route model. Returns the list of waypoints
+    (actually serialized by WaypointOnRouteSerializer), plus the name, type
+    (Bus or Cycle), and the first and last stops of the route
+    """
     name = serializers.CharField(read_only=True)
     waypoints = serializers.SerializerMethodField()
     type = serializers.SerializerMethodField()
@@ -203,11 +232,16 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
         else:
             sites_of_interest = Site.objects.all()
         nearby_sites_of_interest = Site.objects.none()
+        dist_dict = {}
         for s_o_i in sites_of_interest:
-            if get_distance(
-                instance.waypoint.lat,
-                instance.waypoint.lon,
-                s_o_i.lat, s_o_i.lon)<=float(self.context.get("max_dist")):
-                    nearby_sites_of_interest = \
-                        nearby_sites_of_interest | sites_of_interest.filter(pk=s_o_i.pk)
-        return SiteSerializer(nearby_sites_of_interest, many=True).data
+            distance = get_distance(
+                instance.waypoint.lat, instance.waypoint.lon,
+                s_o_i.lat, s_o_i.lon
+            )
+            if distance <= float(self.context.get("max_dist")):
+                dist_dict[s_o_i.pk] = distance
+                nearby_sites_of_interest = \
+                    nearby_sites_of_interest | sites_of_interest.filter(pk=s_o_i.pk)
+        return SiteSerializer(
+            nearby_sites_of_interest, many=True, context=dist_dict
+        ).data
