@@ -13,7 +13,7 @@ def print_json(data, indent=2):
 
 def get_json(p=-1):
     if p == -1:
-        print('poo')
+        print('not a valid option')
     else:
         model, serializer = [
             (Route, RouteSerializer),

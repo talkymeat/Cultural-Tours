@@ -45,6 +45,24 @@ def parse_search_string(search):
     that character to the end of the *last* search term in the list. Once the
     end of the search string is reached, the list is filtered to remove any
     empty search terms, then returned
+
+    @param search_string: the search terms passed as a single string
+    @return: the list of terms
+
+    >>> parse_search_string('potato')
+    ['potato']
+    >>> parse_search_string('baked potato')
+    ['baked', 'potato']
+    >>> parse_search_string('"baked potato"')
+    ['baked potato']
+    >>> parse_search_string("'baked potato'")
+    ['baked potato']
+    >>> parse_search_string("I can't even")
+    ['I', 'can', 't even']
+    >>> parse_search_string('I "can\\\'t" even')
+    ['I', "can't", 'even']
+    >>> parse_search_string('"All right," said Ford. "How would you react if I said that I\\\'m not from Guildford after all, but from a small planet somewhere in the vicinity of Betelgeuse?"')
+    ['All right,', 'said', 'Ford.', "How would you react if I said that I'm not from Guildford after all, but from a small planet somewhere in the vicinity of Betelgeuse?"]
     """
     # Initialise the list of search terms, and initialise an empty string to be
     # the first search term
@@ -94,3 +112,7 @@ def parse_search_string(search):
             search_terms[-1] += char
     # Finally, the list is filtered to remove empty strings, and returned
     return [term for term in search_terms if term]
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
