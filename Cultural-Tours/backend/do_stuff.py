@@ -4,6 +4,8 @@ import json
 from tours.models import Route, Waypoint, WaypointOnRoute, Site
 from tours.serializers import RouteSerializer, WaypointSerializer, WaypointOnRouteSerializer, SiteSerializer
 
+# just a wee script to help me inspect what my serializers are doing 
+
 renderer = JSONRenderer()
 
 def print_json(data, indent=2):
