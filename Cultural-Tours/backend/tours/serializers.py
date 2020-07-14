@@ -210,7 +210,7 @@ class RouteSerializer(serializers.ModelSerializer):
         If multiple search-strings and filters are given, all the sites
         retrieved by any of them will be returned.
 
-        @return a dict with two values - the name and id of the Waypoint.
+        @return a list of data from waypoints, from WaypointOnRouteSerializer.
         """
         # Gathers all the waypoints on the Route
         waypoints = WaypointOnRoute.objects.filter(route=instance)
