@@ -1,2 +1,7 @@
 Operator,Short name,Direction,Type,Filename
 Dummy Lothian Buses,16,Torphin to Silverknowes,bus,dummy_lothian_bus_16_torphin_silverknowes.csv
+Lothian Buses,16,Torphin to Silverknowes,bus,lothian_bus_16_torphin_silverknowes.csv
+Bicycle,Quietest,Water of Leith Walkway to Commercial Quay,bike,balerno_leith_quietest_cyclestreets70687026-0.csv
+Bicycle,Quietest,Commercial Quay to Water of Leith Walkway,bike,balerno_leith_quietest_cyclestreets70687026-0-reversed.csv
+Bicycle,Quietest (edited),Quietest cycle journey from Water of Leith Walkway to Commercial Quay,bike,balerno_leith_quietest_cyclestreets70687026_edited-0.csv
+Bicycle,Quietest (edited),Commercial Quay to Quietest cycle journey from Water of Leith Walkway,bike,balerno_leith_quietest_cyclestreets70687026_edited-0-reversed.csv

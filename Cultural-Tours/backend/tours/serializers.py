@@ -103,7 +103,7 @@ class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         depth = 1
-        fields = ['name', 'type', 'first_stop', 'last_stop', 'waypoints']
+        fields = ['id', 'name', 'type', 'first_stop', 'last_stop', 'waypoints']
 
     def get_type(self, instance):
         """
@@ -241,7 +241,7 @@ class RouteSerializer(serializers.ModelSerializer):
         # DynamicFieldsModelSerializer, so the fields returned can be controlled
         # in this way.
         wpt_fields = (
-            'name', 'stop_id', 'lat', 'lon', 'next', 'is_beginning','is_end'
+            'name','stop_id','lat','lon','next','is_beginning','is_end','id',
         ) + (
             ('sites',)
             if re.match(r'[1-9][0-9]*', self.context.get('max_dist', ''))
@@ -287,6 +287,7 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
     # --- Fields taken directly from the WaypointOnRoute ---
     is_beginning = serializers.BooleanField(read_only=True)
     is_end = serializers.BooleanField(read_only=True)
+    id = serializers.IntegerField()
     # --- Fields returned by methods, taking data from the Waypoint ---
     name = serializers.SerializerMethodField()
     stop_id = serializers.SerializerMethodField()
@@ -306,8 +307,8 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = WaypointOnRoute
         fields = [
-            'name', 'stop_id', 'lat', 'lon', 'next', 'is_beginning', 'is_end',
-            'route', 'sites'
+            'name', 'stop_id', 'id', 'lat', 'lon', 'next', 'is_beginning',
+             'is_end', 'route', 'sites'
         ]
 
     def get_name(self, instance):
