@@ -1,0 +1,71 @@
+[
+  {
+    "new":0,
+    "source": "cyclestreets",
+    "params": {
+      "name": "Test Route",
+      "itinerary_points": [
+        {
+          "lat": "55.88747",
+          "lon": "-3.33912",
+          "name": "Water of Leith Walkway, NCN 75"
+        },
+        {
+          "lat": "55.97701",
+          "lon": "-3.17174",
+          "name": "Commercial Quay"
+        }
+      ]
+    }
+  },
+  {
+    "new":1,
+    "source": "cyclestreets",
+    "params": {
+      "name": "76",
+      "operator": "National Cycle Network",
+      "itinerary_points": [
+        {
+          "lat": "55.99058",
+          "lon": "-3.38423",
+          "name": "Newhalls Road, B924"
+        },
+        {
+          "lat": "55.95827",
+          "lon": "-3.24518",
+          "name": "Blackhall Path"
+        },
+        {
+          "lat": "55.94518",
+          "lon": "-3.22142",
+          "name": "Haymarket Yards"
+        },
+        {
+          "lat": "55.95351",
+          "lon": "-3.19765",
+          "name": "George Street"
+        },
+        {
+          "lat": "55.94141",
+          "lon": "-3.18454",
+          "name": "North Meadow Walk"
+        },
+        {
+          "lat": "55.94078",
+          "lon": "-3.10279",
+          "name": "Innocent Cycle Path"
+        },
+        {
+          "lat": "55.93282",
+          "lon": "-3.07206",
+          "name": "Mucklets Road"
+        },
+        {
+          "lat": "55.94542",
+          "lon": "-3.05084",
+          "name": "Electric Bridge continuation"
+        }
+      ]
+    }
+  }
+]

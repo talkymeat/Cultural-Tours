@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://www.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Water of Leith Walkway to Commercial Quay (edited)</name>
+    <desc>Cycle: Water of Leith Walkway to Commercial Quay</desc>
+    <link href="https://www.cyclestreets.net:443/journey/70687026/"/>
+  </metadata>
+  <rte>
+    <name>Quietest (edited)</name>
+    <desc>Quietest cycle journey from Water of Leith Walkway to Commercial Quay</desc>
+    <cmt>Bicycle,bike</cmt>
+    <rtept lon="-3.33912" lat="55.88747">
+      <name>Water of Leith Walkway, NCN 75</name>
+    </rtept>
+    <rtept lon="-3.32372" lat="55.89109">
+      <name>Water of Leith Walkway</name>
+    </rtept>
+    <rtept lon="-3.30208" lat="55.89683">
+      <name>Water of Leith Walkway, NCN 75</name>
+    </rtept>
+    <rtept lon="-3.28026" lat="55.90436">
+      <name>Water of Leith Walkway</name>
+    </rtept>
+    <rtept lon="-3.27589" lat="55.90558">
+      <name>Along the side of Water of Leith Walkway</name>
+    </rtept>
+    <rtept lon="-3.27554" lat="55.90592">
+      <name>Water of Leith Walkway</name>
+    </rtept>
+    <rtept lon="-3.26329" lat="55.90609">
+      <name>Water of Leith Walkway continuation</name>
+    </rtept>
+    <rtept lon="-3.2587" lat="55.90846">
+      <name>Easter Hailes Gate</name>
+    </rtept>
+    <rtept lon="-3.25805" lat="55.90974">
+      <name>Water of Leith Walkway</name>
+    </rtept>
+    <rtept lon="-3.25681" lat="55.92037">
+      <name>Capital Trail</name>
+    </rtept>
+    <rtept lon="-3.25643" lat="55.92043">
+      <name>Union Canal Towpath</name>
+    </rtept>
+    <rtept lon="-3.22942" lat="55.92879">
+      <name>Union Canal Towpath, NCN 754</name>
+    </rtept>
+    <rtept lon="-3.22278" lat="55.93636">
+      <name>Union Canal Towpath</name>
+    </rtept>
+    <rtept lon="-3.20843" lat="55.9424">
+      <name>Union Path, NCN 754</name>
+    </rtept>
+    <rtept lon="-3.20829" lat="55.94275">
+      <name>Fountainbridge Square, NCN 754</name>
+    </rtept>
+    <rtept lon="-3.2087" lat="55.94323">
+      <name>Link joining Fountainbridge Square, NCN 754, Car storage area, Crossing, Fountainbridge Square</name>
+    </rtept>
+    <rtept lon="-3.20858" lat="55.94326">
+      <name>Crossing</name>
+    </rtept>
+    <rtept lon="-3.20607" lat="55.94446">
+      <name>Crossing</name>
+    </rtept>
+    <rtept lon="-3.20536" lat="55.94482">
+      <name>Link with Crossing</name>
+    </rtept>
+    <rtept lon="-3.20566" lat="55.94572">
+      <name>Crossing</name>
+    </rtept>
+    <rtept lon="-3.2057" lat="55.94589">
+      <name>Link joining Crossing, Chuckie Pend, Steps, Steps continuation, Pedestrian Area</name>
+    </rtept>
+    <rtept lon="-3.20566" lat="55.94676">
+      <name>Link with Crossing</name>
+    </rtept>
+    <rtept lon="-3.20638" lat="55.9487">
+      <name>Link with Crossing</name>
+    </rtept>
+    <rtept lon="-3.20642" lat="55.949">
+      <name>Link between Crossing and Steps continuation</name>
+    </rtept>
+    <rtept lon="-3.20558" lat="55.95037">
+      <name>Crossing</name>
+    </rtept>
+    <rtept lon="-3.20568" lat="55.95055">
+      <name>Link joining Frederick Street, Hanover Street, South St David Street, Castle Street, Crossing, Along the side of Princes Street</name>
+    </rtept>
+    <rtept lon="-3.19656" lat="55.95214">
+      <name>Hanover Street</name>
+    </rtept>
+    <rtept lon="-3.1972" lat="55.95341">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.19731" lat="55.95362">
+      <name>Hanover Street</name>
+    </rtept>
+    <rtept lon="-3.19803" lat="55.95495">
+      <name>Queen Street Gardens East</name>
+    </rtept>
+    <rtept lon="-3.19856" lat="55.95594">
+      <name>Dundas Street</name>
+    </rtept>
+    <rtept lon="-3.20105" lat="55.96059">
+      <name>Brandon Street</name>
+    </rtept>
+    <rtept lon="-3.20117" lat="55.96187">
+      <name>Brandon Terrace</name>
+    </rtept>
+    <rtept lon="-3.19969" lat="55.96268">
+      <name>Canonmills Bridge, B901</name>
+    </rtept>
+    <rtept lon="-3.20011" lat="55.9629">
+      <name>Inverleith Row, B901</name>
+    </rtept>
+    <rtept lon="-3.20062" lat="55.9632">
+      <name>Warriston Crescent</name>
+    </rtept>
+    <rtept lon="-3.19962" lat="55.96535">
+      <name>Warriston Path</name>
+    </rtept>
+    <rtept lon="-3.19902" lat="55.96606">
+      <name>Goldenacre Path</name>
+    </rtept>
+    <rtept lon="-3.19899" lat="55.96603">
+      <name>Warriston Path</name>
+    </rtept>
+    <rtept lon="-3.19082" lat="55.97142">
+      <name>NCN National Route 75</name>
+    </rtept>
+    <rtept lon="-3.19023" lat="55.97165">
+      <name>Water of Leith Path</name>
+    </rtept>
+    <rtept lon="-3.17433" lat="55.97543">
+      <name>Water of Leith Path</name>
+    </rtept>
+    <rtept lon="-3.17232" lat="55.9755">
+      <name>Sandport Place</name>
+    </rtept>
+    <rtept lon="-3.17245" lat="55.97619">
+      <name>Sandport Street</name>
+    </rtept>
+    <rtept lon="-3.17237" lat="55.97635">
+      <name>NCN National Route 75</name>
+    </rtept>
+    <rtept lon="-3.17218" lat="55.97675">
+      <name>Commercial Street, A199</name>
+    </rtept>
+    <rtept lon="-3.1719" lat="55.9767">
+      <name>Dock Place</name>
+    </rtept>
+    <rtept lon="-3.17174" lat="55.97701">
+      <name>Commercial Quay</name>
+    </rtept>
+    <rtept lon="-3.17208" lat="55.97707">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

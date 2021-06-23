@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://edinburgh.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Alley from Haymarket Yards to George Street</name>
+    <desc>Cycle: Alley from Haymarket Yards to George Street</desc>
+    <link href="https://edinburgh.cyclestreets.net:443/journey/74816193/"/>
+  </metadata>
+  <rte>
+    <name>Quietest Alley from Haymarket Yards to George Street</name>
+    <desc>Quietest cycle journey from Alley from Haymarket Yards to George Street</desc>
+    <rtept lon="-3.22113" lat="55.94543">
+      <name>Haymarket Yards</name>
+    </rtept>
+    <rtept lon="-3.22055" lat="55.94572">
+      <name>Haymarket Yards</name>
+    </rtept>
+    <rtept lon="-3.22053" lat="55.94591">
+      <name>Haymarket Terrace, A8</name>
+    </rtept>
+    <rtept lon="-3.21915" lat="55.94589">
+      <name>Rosebery Crescent</name>
+    </rtept>
+    <rtept lon="-3.2197" lat="55.94694">
+      <name>Grosvenor Crescent</name>
+    </rtept>
+    <rtept lon="-3.21955" lat="55.94705">
+      <name>Grosvenor Crescent</name>
+    </rtept>
+    <rtept lon="-3.21948" lat="55.94707">
+      <name>Lansdowne Crescent</name>
+    </rtept>
+    <rtept lon="-3.21764" lat="55.94765">
+      <name>Lansdowne Crescent</name>
+    </rtept>
+    <rtept lon="-3.21691" lat="55.94826">
+      <name>Palmerston Place</name>
+    </rtept>
+    <rtept lon="-3.21714" lat="55.94842">
+      <name>Short dismounted link</name>
+    </rtept>
+    <rtept lon="-3.21609" lat="55.94904">
+      <name>Short dismounted link</name>
+    </rtept>
+    <rtept lon="-3.21579" lat="55.94883">
+      <name>Short dismounted link</name>
+    </rtept>
+    <rtept lon="-3.21565" lat="55.94891">
+      <name>Melville Street</name>
+    </rtept>
+    <rtept lon="-3.2106" lat="55.95122">
+      <name>Randolph Place</name>
+    </rtept>
+    <rtept lon="-3.20963" lat="55.95141">
+      <name>Randolph Lane</name>
+    </rtept>
+    <rtept lon="-3.20972" lat="55.95158">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 7</name>
+    </rtept>
+    <rtept lon="-3.20874" lat="55.95175">
+      <name>Charlotte Square</name>
+    </rtept>
+    <rtept lon="-3.20878" lat="55.9521">
+      <name>Charlotte Square</name>
+    </rtept>
+    <rtept lon="-3.20861" lat="55.95222">
+      <name>Charlotte Square</name>
+    </rtept>
+    <rtept lon="-3.20737" lat="55.95243">
+      <name>Charlotte Square</name>
+    </rtept>
+    <rtept lon="-3.20724" lat="55.95238">
+      <name>Charlotte Square continuation</name>
+    </rtept>
+    <rtept lon="-3.2068" lat="55.9522">
+      <name>Charlotte Square</name>
+    </rtept>
+    <rtept lon="-3.20669" lat="55.95199">
+      <name>George Street</name>
+    </rtept>
+    <rtept lon="-3.20364" lat="55.9525">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.20351" lat="55.95255">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.20345" lat="55.95253">
+      <name>George Street</name>
+    </rtept>
+    <rtept lon="-3.20055" lat="55.95303">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.20044" lat="55.95308">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.2003" lat="55.95306">
+      <name>George Street</name>
+    </rtept>
+    <rtept lon="-3.19758" lat="55.95352">
+      <name>Crossing</name>
+    </rtept>
+    <rtept lon="-3.19757" lat="55.9534">
+      <name>George Street</name>
+    </rtept>
+    <rtept lon="-3.19806" lat="55.95331">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

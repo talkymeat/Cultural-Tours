@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://edinburgh.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Queen Margaret University Drive to Electric Bridge continuation</name>
+    <desc>Cycle: Queen Margaret University Drive to Electric Bridge continuation</desc>
+    <link href="https://edinburgh.cyclestreets.net:443/journey/74817606/"/>
+  </metadata>
+  <rte>
+    <name>Quietest Queen Margaret University Drive to Electric Bridge continuation</name>
+    <desc>Quietest cycle journey from Queen Margaret University Drive to Electric Bridge continuation</desc>
+    <rtept lon="-3.0725" lat="55.93271">
+      <name>Queen Margaret University Drive</name>
+    </rtept>
+    <rtept lon="-3.07238" lat="55.93267">
+      <name>Mucklets Road</name>
+    </rtept>
+    <rtept lon="-3.07206" lat="55.93282">
+      <name>Whitehill Farm Road</name>
+    </rtept>
+    <rtept lon="-3.07201" lat="55.93282">
+      <name>Whitehill Farm Road</name>
+    </rtept>
+    <rtept lon="-3.07061" lat="55.93352">
+      <name>Whitehill Farm Road (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.07066" lat="55.9336">
+      <name>Whitehill Farm Road (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.07053" lat="55.93367">
+      <name>Whitehill Farm Road (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.07038" lat="55.93364">
+      <name>Whitehill Farm Road (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.07035" lat="55.93362">
+      <name>Whitehill Farm Road</name>
+    </rtept>
+    <rtept lon="-3.06453" lat="55.93578">
+      <name>Stoney Bank Terrace</name>
+    </rtept>
+    <rtept lon="-3.06287" lat="55.93656">
+      <name>Eskview Terrace, B6415</name>
+    </rtept>
+    <rtept lon="-3.06065" lat="55.93991">
+      <name>Olive Bank Road, A6095</name>
+    </rtept>
+    <rtept lon="-3.06073" lat="55.93992">
+      <name>Capital Trail</name>
+    </rtept>
+    <rtept lon="-3.06052" lat="55.94017">
+      <name>Eskside West</name>
+    </rtept>
+    <rtept lon="-3.05393" lat="55.94315">
+      <name>Eskside West</name>
+    </rtept>
+    <rtept lon="-3.05089" lat="55.94516">
+      <name>Eskside West</name>
+    </rtept>
+    <rtept lon="-3.05095" lat="55.94528">
+      <name>Eskside West</name>
+    </rtept>
+    <rtept lon="-3.05114" lat="55.94537">
+      <name>New Street</name>
+    </rtept>
+    <rtept lon="-3.05094" lat="55.94543">
+      <name>Electric Bridge continuation</name>
+    </rtept>
+    <rtept lon="-3.05084" lat="55.94542">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

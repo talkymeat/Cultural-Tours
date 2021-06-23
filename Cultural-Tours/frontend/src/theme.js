@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+// Defines the primary and secondary colours for the site's visual identity
 
 const theme = createMuiTheme({
   palette: {

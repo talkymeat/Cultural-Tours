@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://edinburgh.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>North Meadow Walk to Innocent Cycle Path</name>
+    <desc>Cycle: North Meadow Walk to Innocent Cycle Path</desc>
+    <link href="https://edinburgh.cyclestreets.net:443/journey/74817590/"/>
+  </metadata>
+  <rte>
+    <name>Quietest North Meadow Walk to Innocent Cycle Path</name>
+    <desc>Quietest cycle journey from North Meadow Walk to Innocent Cycle Path</desc>
+    <rtept lon="-3.18454" lat="55.94141">
+      <name>North Meadow Walk</name>
+    </rtept>
+    <rtept lon="-3.18336" lat="55.94108">
+      <name>North Meadow Walk</name>
+    </rtept>
+    <rtept lon="-3.18308" lat="55.94116">
+      <name>Along the side of Buccleuch Street</name>
+    </rtept>
+    <rtept lon="-3.18307" lat="55.94126">
+      <name>Along the side of Buccleuch Street</name>
+    </rtept>
+    <rtept lon="-3.18368" lat="55.94174">
+      <name>Gifford Park</name>
+    </rtept>
+    <rtept lon="-3.18277" lat="55.94204">
+      <name>Along the side of Gifford Park</name>
+    </rtept>
+    <rtept lon="-3.18235" lat="55.94216">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.18207" lat="55.94224">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.18206" lat="55.94228">
+      <name>Rankeillor Street</name>
+    </rtept>
+    <rtept lon="-3.17974" lat="55.94289">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17957" lat="55.94288">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17941" lat="55.94284">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17923" lat="55.94273">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17867" lat="55.94192">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17849" lat="55.9419">
+      <name>Hermits Croft</name>
+    </rtept>
+    <rtept lon="-3.1771" lat="55.9427">
+      <name>Hermits Croft</name>
+    </rtept>
+    <rtept lon="-3.17574" lat="55.94233">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17449" lat="55.94202">
+      <name>East Parkside</name>
+    </rtept>
+    <rtept lon="-3.17452" lat="55.94199">
+      <name>East Parkside</name>
+    </rtept>
+    <rtept lon="-3.17358" lat="55.94165">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17346" lat="55.94172">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.17222" lat="55.94144">
+      <name>The Innocent Railway</name>
+    </rtept>
+    <rtept lon="-3.15973" lat="55.93866">
+      <name>The Innocent Railway</name>
+    </rtept>
+    <rtept lon="-3.14354" lat="55.93638">
+      <name>The Innocent Railway</name>
+    </rtept>
+    <rtept lon="-3.14345" lat="55.9364">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.13978" lat="55.93659">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.13106" lat="55.93642">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.12319" lat="55.93721">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11928" lat="55.93774">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11891" lat="55.93819">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11904" lat="55.93827">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11748" lat="55.93949">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11512" lat="55.93983">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11498" lat="55.93989">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11478" lat="55.94007">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.11341" lat="55.94039">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.10348" lat="55.9407">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.10317" lat="55.94073">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

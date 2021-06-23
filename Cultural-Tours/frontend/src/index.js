@@ -1,3 +1,6 @@
+// This is file is the starting point from which the Edinburgh Flâneur page is
+// generated
+
 import React, { Component } from 'react';
 // nodejs library that concatenates classes
 import classNames from "classnames";
@@ -40,13 +43,15 @@ import Slider from '@material-ui/core/Slider';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-// material-ui components
-//import Button from "./components/CustomButtons/Button.js";
-
+// I am not certain this is actually used
 import "./culturalspacemainwebpage/culturalspacemainwebpage.css";
+
+// Defines the primary and secondary colours for the site's visual identity
 import theme from './theme';
 
-const apiDomain = 'http://127.0.0.1:8000/'
+const apiDomain = 'http://127.0.0.1:8000/' // <<- Change this when the page is live online
+
+// generates styles for page elements, using colours etc from theme
 const useStyles = makeStyles((style) => ({
   root: {
     flexGrow: 1,
@@ -107,6 +112,9 @@ const useStyles = makeStyles((style) => ({
   site: {
     backgroundColor: "#dddddd"
   },
+  searchbox: {
+    backgroundColor: "#dddddd"
+  },
 }));
 
 function FrontpageWrapper(props) {
@@ -114,8 +122,17 @@ function FrontpageWrapper(props) {
   return <Frontpage classes={classes} {...props} />;
 }
 
+// The main react component for the page
 class Frontpage extends Component {
-
+  // The user proceeds through multiple steps specifying the information they
+  // want for their tour.
+  // currentStep:       tracks which step the user is on, and
+  // handleNext:        makes the changes necessary at each transition from
+  //                    step to step
+  // type:              "B" for bus, "C" for cycle
+  // route:             Object describing the route returned by the backend API,
+  //                    including details of cultural sites selected
+  // routes:            Array of names of available routes
   constructor(props) {
       super(props);
       this.state = {
@@ -124,7 +141,7 @@ class Frontpage extends Component {
         type: "",
         route: {},
         routes: [],
-      }; // set currentStep to 0 for release version
+      };
   }
 
   handleNext = (step, newState) => {
@@ -132,9 +149,11 @@ class Frontpage extends Component {
     this.setState(newState);
   };
 
+  // Standard React function that runs once the component has loaded. Calls on
+  // the API to get the list of routes, then uses asynchronous JS to handle the
+  // response, parsing it as JSON and updating the value `routes` in state
   componentDidMount() {
     const routesURL = apiDomain + 'api/v1/routes/';
-
     fetch(routesURL)
       .then((response) => {
         return response.json();
@@ -146,7 +165,10 @@ class Frontpage extends Component {
       })
   }
 
+  // Main method of the component - this renders the actual page elements
   render() {
+    // De-structures elements from this.props and this.state, so they can be
+    // referred to in the base of the namespage inside the method
     const { classes } = this.props;
     const { currentStep, type, route, routes, start, end, distance } = this.state;
     return (
@@ -271,6 +293,19 @@ class Frontpage extends Component {
         </div>
         <div style={{ padding: 40 }}>
           { currentStep > 4
+            ? <FifthStep
+                classes={classes}
+                handleNext={this.handleNext}
+                route={route}
+                start={start}
+                end={end}
+                distance={distance}
+              />
+            : null
+          }
+        </div>
+        <div style={{ padding: 40 }}>
+          { currentStep > 5
             ? <LastStep
                 classes={classes}
                 handleNext={this.handleNext}
@@ -695,6 +730,102 @@ class FourthStep extends Component {
 
 }
 
+class FifthStep extends Component {
+  constructor(props) {
+      super(props);
+      this.step5Ref = React.createRef();
+      this.state = {
+        searchesOrFilters: [true, false]
+      };
+  }
+
+  async componentDidMount() {
+    window.scrollTo(0, this.step5Ref.current.offsetTop)
+  }
+
+  addSearchOrFilter(isSearch) {
+    this.setState({
+      searchesOrFilters: this.state.searchesOrFilters.concat(isSearch)
+    });
+  }
+
+  render() {
+    const { classes, handleNext, route, start, end, distance } = this.props;
+    var { searchesOrFilters } = this.state;
+
+    return (
+      <div ref={this.step5Ref} style={{ padding: 40 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={8}>
+            <Card className={classes.centred}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h3"
+                    className={classes.text + ' ' + classes.cardTitle}
+                  >
+                    Filter sites
+                  </Typography>
+                </Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10}>
+                  <Typography
+                    variant="h5"
+                    className={classes.text + ' ' + classes.cardTitle}
+                  >
+                    Add search terms and categories to limit the cultural sites displayed.
+                  </Typography>
+                </Grid>
+                <Grid item xs={1}></Grid>
+
+
+
+                <Grid item xs={2}></Grid>
+                <Grid item xs={3}>
+                  <Button
+                    variant="contained"
+                    className={classes.button + ' ' + classes.centred}
+                    onClick={() => {handleNext(2, {'type': 'Cycle'})}}
+                  >
+                    Add a category filter
+                  </Button>
+                </Grid>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={3}>
+                  <Button
+                    variant="contained"
+                    className={classes.button + ' ' + classes.centred}
+                    onClick={() => {handleNext(2, {'type': 'Bus'})}}
+                  >
+                    Add a search term
+                  </Button>
+                </Grid>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10}>
+                {searchesOrFilters.map((sOF) => (
+                  sOF
+                  ? <SearchBox classes={classes}></SearchBox>
+                  : <CategorySelector classes={classes}></CategorySelector>
+                ))}
+                </Grid>
+                <Grid item xs={1}></Grid>
+
+
+
+
+                <Grid item xs={12}></Grid>
+              </Grid>
+            </Card>
+          </Grid>
+          <Grid item xs={4}></Grid>
+        </Grid>
+      </div>
+    )
+  }
+
+}
+
 class LastStep extends Component {
   constructor(props) {
       super(props);
@@ -803,6 +934,52 @@ class LastStep extends Component {
   }
 
 }
+
+
+
+class SearchBox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  render() {
+    const { num, name, lat, lon, sites, classes } = this.props;
+    return (
+        <Card className={classes.searchbox}>
+          <Typography variant="h6" className={classes.text}>
+            Enter search
+          </Typography>
+        </Card>
+    )
+  }
+}
+
+
+
+class CategorySelector extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  render() {
+    const { num, name, lat, lon, sites, classes } = this.props;
+    return (
+        <Card className={classes.searchbox}>
+          <Typography variant="h6" className={classes.text}>
+            Select category
+          </Typography>
+        </Card>
+    )
+  }
+}
+
+
 
 class Waypoint extends Component {
   constructor(props) {

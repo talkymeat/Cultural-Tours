@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://edinburgh.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Newhalls Road, B924 to Blackhall Path</name>
+    <desc>Cycle: Newhalls Road, B924 to Blackhall Path</desc>
+    <link href="https://edinburgh.cyclestreets.net:443/journey/74816108/"/>
+  </metadata>
+  <rte>
+    <name>Quietest Newhalls Road, B924 to Blackhall Path</name>
+    <desc>Quietest cycle journey from Newhalls Road, B924 to Blackhall Path</desc>
+    <rtept lon="-3.38423" lat="55.99058">
+      <name>Newhalls Road, B924</name>
+    </rtept>
+    <rtept lon="-3.38417" lat="55.99057">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.38369" lat="55.99066">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.38158" lat="55.99062">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.38034" lat="55.99102">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.37954" lat="55.99104">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.37241" lat="55.99373">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.36857" lat="55.99469">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.36469" lat="55.99862">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.35584" lat="55.9996">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.35204" lat="56.00004">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.35144" lat="56.00063">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.35121" lat="56.00067">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.34982" lat="55.99965">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.34607" lat="55.99745">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.34031" lat="55.99441">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.33896" lat="55.99318">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.33354" lat="55.98962">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.33263" lat="55.98747">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.3332" lat="55.98706">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.33351" lat="55.98702">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.33363" lat="55.98683">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.32797" lat="55.98351">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.32538" lat="55.98344">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31746" lat="55.98183">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31611" lat="55.98183">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31577" lat="55.98148">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31597" lat="55.98066">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31197" lat="55.98063">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.3083" lat="55.97906">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31262" lat="55.97477">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31275" lat="55.97471">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31469" lat="55.97247">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31351" lat="55.97154">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31833" lat="55.96668">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31859" lat="55.96637">
+      <name>NCN National Route 76</name>
+    </rtept>
+    <rtept lon="-3.31851" lat="55.96613">
+      <name>Cramond Brig Toll</name>
+    </rtept>
+    <rtept lon="-3.31665" lat="55.96524">
+      <name>Cramond Brig</name>
+    </rtept>
+    <rtept lon="-3.31553" lat="55.9651">
+      <name>Brae Park Road</name>
+    </rtept>
+    <rtept lon="-3.31529" lat="55.96513">
+      <name>Brae Park Road</name>
+    </rtept>
+    <rtept lon="-3.31495" lat="55.96549">
+      <name>Brae Park Road</name>
+    </rtept>
+    <rtept lon="-3.30811" lat="55.96603">
+      <name>Brae Park Road</name>
+    </rtept>
+    <rtept lon="-3.30778" lat="55.96612">
+      <name>Barnton Avenue West</name>
+    </rtept>
+    <rtept lon="-3.30731" lat="55.96625">
+      <name>Barnton Avenue West</name>
+    </rtept>
+    <rtept lon="-3.30021" lat="55.96836">
+      <name>Barnton Avenue West</name>
+    </rtept>
+    <rtept lon="-3.29991" lat="55.96839">
+      <name>Barnton Avenue West</name>
+    </rtept>
+    <rtept lon="-3.29872" lat="55.96831">
+      <name>Golf Courses Path</name>
+    </rtept>
+    <rtept lon="-3.29415" lat="55.9669">
+      <name>Golf Courses Path</name>
+    </rtept>
+    <rtept lon="-3.29377" lat="55.96652">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.29296" lat="55.96592">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.28932" lat="55.96593">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.28341" lat="55.96722">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.27885" lat="55.96648">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.27866" lat="55.96649">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.27754" lat="55.96628">
+      <name>Barnton Avenue</name>
+    </rtept>
+    <rtept lon="-3.27646" lat="55.96649">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 7</name>
+    </rtept>
+    <rtept lon="-3.27612" lat="55.96653">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 7</name>
+    </rtept>
+    <rtept lon="-3.27501" lat="55.96705">
+      <name>Silverknowes Terrace</name>
+    </rtept>
+    <rtept lon="-3.2722" lat="55.96745">
+      <name>Silverknowes Terrace</name>
+    </rtept>
+    <rtept lon="-3.27214" lat="55.9675">
+      <name>Silverknowes Drive</name>
+    </rtept>
+    <rtept lon="-3.26897" lat="55.9675">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 7</name>
+    </rtept>
+    <rtept lon="-3.26822" lat="55.96694">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 7</name>
+    </rtept>
+    <rtept lon="-3.26786" lat="55.96661">
+      <name>Blackhall Path</name>
+    </rtept>
+    <rtept lon="-3.24759" lat="55.96025">
+      <name>Blackhall Path</name>
+    </rtept>
+    <rtept lon="-3.24529" lat="55.95852">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

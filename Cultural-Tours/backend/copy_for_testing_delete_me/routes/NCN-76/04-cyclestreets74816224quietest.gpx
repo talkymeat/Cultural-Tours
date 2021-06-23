@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://edinburgh.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>George Street to North Meadow Walk</name>
+    <desc>Cycle: George Street to North Meadow Walk</desc>
+    <link href="https://edinburgh.cyclestreets.net:443/journey/74816224/"/>
+  </metadata>
+  <rte>
+    <name>Quietest George Street to North Meadow Walk</name>
+    <desc>Quietest cycle journey from George Street to North Meadow Walk</desc>
+    <rtept lon="-3.19765" lat="55.95351">
+      <name>George Street</name>
+    </rtept>
+    <rtept lon="-3.19745" lat="55.95354">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.19728" lat="55.95363">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.19711" lat="55.95359">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.19707" lat="55.9535">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.19716" lat="55.95342">
+      <name>George Street (roundabout)</name>
+    </rtept>
+    <rtept lon="-3.1972" lat="55.95341">
+      <name>Hanover Street</name>
+    </rtept>
+    <rtept lon="-3.19657" lat="55.95212">
+      <name>Hanover Street</name>
+    </rtept>
+    <rtept lon="-3.19663" lat="55.95206">
+      <name>The Mound</name>
+    </rtept>
+    <rtept lon="-3.19682" lat="55.95192">
+      <name>The Mound</name>
+    </rtept>
+    <rtept lon="-3.19592" lat="55.95026">
+      <name>The Mound</name>
+    </rtept>
+    <rtept lon="-3.19569" lat="55.95019">
+      <name>The Mound</name>
+    </rtept>
+    <rtept lon="-3.19478" lat="55.95009">
+      <name>North Bank Street</name>
+    </rtept>
+    <rtept lon="-3.19293" lat="55.95">
+      <name>Bank Street</name>
+    </rtept>
+    <rtept lon="-3.19268" lat="55.94943">
+      <name>George IV Bridge</name>
+    </rtept>
+    <rtept lon="-3.19109" lat="55.94679">
+      <name>Lindsay Place</name>
+    </rtept>
+    <rtept lon="-3.19065" lat="55.94646">
+      <name>Bristo Place</name>
+    </rtept>
+    <rtept lon="-3.1895" lat="55.94589">
+      <name>Teviot Place</name>
+    </rtept>
+    <rtept lon="-3.18952" lat="55.94578">
+      <name>Teviot Place</name>
+    </rtept>
+    <rtept lon="-3.19091" lat="55.94535">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.19111" lat="55.94526">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.1912" lat="55.94525">
+      <name>Middle Meadow Walk</name>
+    </rtept>
+    <rtept lon="-3.19142" lat="55.9426">
+      <name>North Meadow Walk</name>
+    </rtept>
+    <rtept lon="-3.18463" lat="55.94144">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://edinburgh.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Innocent Cycle Path to Mucklets Road</name>
+    <desc>Cycle: Innocent Cycle Path to Mucklets Road</desc>
+    <link href="https://edinburgh.cyclestreets.net:443/journey/74817594/"/>
+  </metadata>
+  <rte>
+    <name>Quietest Innocent Cycle Path to Mucklets Road</name>
+    <desc>Quietest cycle journey from Innocent Cycle Path to Mucklets Road</desc>
+    <rtept lon="-3.10279" lat="55.94078">
+      <name>Innocent Cycle Path</name>
+    </rtept>
+    <rtept lon="-3.10254" lat="55.94093">
+      <name>Along the side of Milton Link, A1</name>
+    </rtept>
+    <rtept lon="-3.10209" lat="55.94115">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.10203" lat="55.94129">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.10096" lat="55.94142">
+      <name>Steps continuation</name>
+    </rtept>
+    <rtept lon="-3.10086" lat="55.94143">
+      <name>Steps</name>
+    </rtept>
+    <rtept lon="-3.1009" lat="55.94159">
+      <name>Steps</name>
+    </rtept>
+    <rtept lon="-3.10079" lat="55.94143">
+      <name>Steps link</name>
+    </rtept>
+    <rtept lon="-3.10052" lat="55.94146">
+      <name>Steps</name>
+    </rtept>
+    <rtept lon="-3.10049" lat="55.94136">
+      <name>Steps</name>
+    </rtept>
+    <rtept lon="-3.10056" lat="55.94169">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.1004" lat="55.9417">
+      <name>Gilberstoun</name>
+    </rtept>
+    <rtept lon="-3.10004" lat="55.94093">
+      <name>Gilberstoun</name>
+    </rtept>
+    <rtept lon="-3.09621" lat="55.93964">
+      <name>Gilberstoun</name>
+    </rtept>
+    <rtept lon="-3.09674" lat="55.93879">
+      <name>Gilberstoun Brig</name>
+    </rtept>
+    <rtept lon="-3.09695" lat="55.93848">
+      <name>Gilberstoun Loan</name>
+    </rtept>
+    <rtept lon="-3.09494" lat="55.93766">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09473" lat="55.93775">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09365" lat="55.93801">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09168" lat="55.93752">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09134" lat="55.93724">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09121" lat="55.93719">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09052" lat="55.93588">
+      <name>Benhar Road</name>
+    </rtept>
+    <rtept lon="-3.09061" lat="55.93586">
+      <name>Bauld Drive</name>
+    </rtept>
+    <rtept lon="-3.09023" lat="55.93512">
+      <name>Whitehill Street, A6095</name>
+    </rtept>
+    <rtept lon="-3.0903" lat="55.93511">
+      <name>Link with Whitehill Street, A6095</name>
+    </rtept>
+    <rtept lon="-3.09045" lat="55.93467">
+      <name>Link with Whitehill Street, A6095</name>
+    </rtept>
+    <rtept lon="-3.0906" lat="55.93455">
+      <name>Link between Whitehill Street, A6095 and Newcraighall Drive</name>
+    </rtept>
+    <rtept lon="-3.09047" lat="55.93433">
+      <name>Link between Whitehill Street, A6095 and Newcraighall Drive</name>
+    </rtept>
+    <rtept lon="-3.0907" lat="55.93414">
+      <name>Link between Whitehill Street, A6095 and Newcraighall Drive</name>
+    </rtept>
+    <rtept lon="-3.09065" lat="55.93397">
+      <name>Newcraighall Drive</name>
+    </rtept>
+    <rtept lon="-3.09094" lat="55.93391">
+      <name>Park View</name>
+    </rtept>
+    <rtept lon="-3.09065" lat="55.93358">
+      <name>Park View</name>
+    </rtept>
+    <rtept lon="-3.09053" lat="55.93356">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.09048" lat="55.93344">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.08866" lat="55.93193">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.08054" lat="55.93084">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.07772" lat="55.93124">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.07593" lat="55.93283">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.07355" lat="55.93302">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.07232" lat="55.93274">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.07218" lat="55.93281">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.07206" lat="55.93282">
+      <name>Mucklets Road</name>
+    </rtept>
+    <rtept lon="-3.07223" lat="55.93274">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>
