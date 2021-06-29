@@ -1,7 +1,7 @@
 from csv import DictReader, DictWriter
 import gpxpy, re
 import gpxpy.gpx
-import os
+import os, webbrowser
 import requests
 import json
 import math
@@ -221,6 +221,13 @@ class Route_Extractor():
                     return row['ID'] # return ID, if matched
         return '' # return empty string if no match found
 
+    def get_bike_wpt_from_id(self, id):
+        for row in self.bike_wpts:
+            if row['ID'] == id:
+                print(type(row))
+                return row
+        return {}
+
     def get_or_add_bike_wpt(self, name, lat, lon, nl_needed):
         with open('bike_waypoints.csv', 'a+') as wpts_file:
             # if waypoint exists in waypoints database, get
@@ -387,14 +394,13 @@ class Route_Extractor():
         # check that route contains the required keys, and that they map to
         # non-empty values.
         for key in ('wpts', 'operator', 'type', 'filename', 'name', 'description'):
-            assert key in route, f"The route object does not contain the key {key}."
-            assert route[key], f"The key {key} in route does not map to a value."
+            assert key in route, f"The route object does not contain the key '{key}'."
+            assert route[key], f"The key '{key}' in route does not map to a value."
         for i in range(len(route['wpts'])):
             if isinstance(route["wpts"][i], str):
                 route["wpts"][i] = {'id': route["wpts"][i], 'kpt': '1'}
             elif isinstance(route["wpts"][i], dict):
                 assert 'id' in route["wpts"][i] and 'kpt' in route["wpts"][i], f'Incomplete waypoint data at index {i}: {route["wpts"][i]}'
-                #print(type(route["wpts"][i]['kpt']))
                 assert int(route["wpts"][i]['kpt']) == 0 or int(route["wpts"][i]['kpt']) == 1, f'kpt value at index {i} is {route["wpts"][i]["kpt"]}, should be 0 or 1'
             else:
                 assert False, f'Janked waypoint data at index {i}: {wpts[i]}'
@@ -517,7 +523,141 @@ class Route_Extractor():
             for row in csv_dict:
                 self.add_gpx('./routes/' + row['Filename'])
 
-    def get_cyclestreets_route(self, itinerary_points, key=_CS_APIKEY, name="Quietest", filename="", operator="Bicycle", description = ""):
+    def get_plan(self, name):
+        """`plan` is a CycleStreets API parameter determining the type of route,
+        which can be one of the values: balanced, fastest, quietest. From
+        CycleStreets own documentation:
+          - balanced: We recommend this to be the default route type in your
+            interface - it aims to give practical routes that balance speed
+            and pleasantness, suitable for most riders.
+          - fastest: This route type will tend to favour busier roads that
+            suit more confident riders.
+          - quietest: The route type will produce more pleasant, but often
+            less direct, routes.
+        If `name` (the name of the route) matches one of these, it is returned
+        in the correct case (lowercase); otherwise the default, 'quietest', is
+        returned.
+        """
+        return name.lower() if name in ("Quietest", "Balanced", "Fastest") else "quietest"
+
+    def paired_descriptions(self, description="", start={}, end={}, reverse=True):
+        # The description is either given as a parameter, or if no description
+        # parameter is provided, derived from the names of the start and end
+        # points of the route ('{start} to {end}' and '{end} to {start}'). If a
+        # description is provided (for the forward route), the description for
+        # the reverse route is derived from it
+        rev_description = ""
+        if description:
+            # If the route is circular, a description should be provided,
+            # including the word 'Clockwise' or 'Anticlockwise': the description
+            # for the reverse route is derived by exchanging these.
+            if reverse:
+                if "Anticlockwise" in description:
+                    rev_description = description.replace(
+                        "Anticlockwise",
+                        "Clockwise"
+                    )
+                elif "Clockwise" in description:
+                    rev_description = description.replace(
+                        "Clockwise",
+                        "Anticlockwise"
+                    )
+                # For any other provided description, derive the reverse description
+                # simply by appending ", Reversed"
+                else:
+                    rev_description = description + ", Reversed"
+        elif start and end:
+            # The start and end points ar the same as the first and last
+            # itinerary points, which are to be sent to the CycleStreets API in
+            # the GET call.
+            start_end = []
+            for pt, se in ((start, "start"), (end, "end")):
+                if isinstance(pt, dict):
+                    if 'name' in pt:
+                        start_end += [pt['name']]
+                    else:
+                        raise ValueError(f"{se} lacks the key 'name'")
+                elif isinstance(pr, str):
+                    start_end += [pt]
+                else:
+                    raise ValueError(f"{se} type is {type(pt)}: only str and " +
+                        "dict are permitted")
+            # Format the forward and reverse route descriptions, as explained
+            # above
+            description = f"{start_end[0]} to {start_end[1]}"
+            if reverse:
+                rev_description = f"{start_end[1]} to {start_end[0]}"
+        else:
+            raise ValueError("paired_descriptions must be given non-empty args"
+                + " either for `description` or BOTH `start` and `end`")
+        if reverse:
+            return description, rev_description
+        else:
+            return description, ""
+
+    def waypoints_from_cyclestreets_json(self, route_json, reverse=True):
+        fwd_points = []
+        if reverse:
+            rev_points = []
+        for route_segment in route_json["marker"]:
+            if "points" in route_segment["@attributes"]:
+                points = route_segment["@attributes"]["points"].split(" ")
+                distances = route_segment["@attributes"]["distances"].split(",")
+                name = route_segment["@attributes"]["name"]
+                rev_dists = distances[1:] + ['0']
+                for point, dist in zip(points, distances):
+                    lon, lat = point.split(",")
+                    fwd_points += [{
+                        "name": name,
+                        "lat": float(lat),
+                        "lon": float(lon),
+                        "dist": int(dist)
+                    }]
+                if reverse:
+                    rev_dists = distances[1:] + ['0']
+                    for rev_point, rev_dist in zip(points, rev_dists):
+                        lon, lat = rev_point.split(",")
+                        rev_points = [{
+                            "name": name,
+                            "lat": float(lat),
+                            "lon": float(lon),
+                            "dist": int(rev_dist)
+                        }] + rev_points
+        if reverse:
+            return fwd_points, rev_points
+        else:
+            return fwd_points, {}
+
+    def get_cyclestreets_route(self, itinerary_points, key=_CS_APIKEY, name="Quietest"):
+        # `plan` is a CycleStreets API parameter determining the type of route,
+        # which can be one of the values: balanced, fastest, quietest. From
+        # CycleStreets own documentation:
+        #   - balanced: We recommend this to be the default route type in your
+        #     interface - it aims to give practical routes that balance speed
+        #     and pleasantness, suitable for most riders.
+        #   - fastest: This route type will tend to favour busier roads that
+        #     suit more confident riders.
+        #   - quietest: The route type will produce more pleasant, but often
+        #     less direct, routes.
+        plan = self.get_plan(name)
+        # Waypoints are retrieved from the CycleStreets REST API using GET: the
+        # `requests` package requires a url and params for a GET call.
+        _url = "https://www.cyclestreets.net/api/journey.json?"
+        _params = {
+            "key": key,
+            "reporterrors": 1,
+            "itinerarypoints": "|".join([f'{pt["lon"]},{pt["lat"]},{format_as_url_param(pt["name"])}' for pt in itinerary_points]),
+            "plan": plan
+        }
+        # GET the JSON for the route from CycleStreets
+        print("Fetching route from CycleStreets")
+        return requests.get(url=_url, params=_params).json()
+
+    def get_route_json_from_cyclestreets(self, itinerary_points, key=_CS_APIKEY, name="Quietest", filename="", rev_filename="", operator="Bicycle", description = "", reverse = True, ids = True):
+        cs_route = self.get_cyclestreets_route(itinerary_points, key=key, name=name)
+        return self.cyclestreets_to_route_json(cs_route, itinerary_points, name=name, filename=filename, rev_filename=rev_filename, operator=operator, description=description, reverse=reverse, ids=ids)
+
+    def cyclestreets_to_route_json(self, cs_route, itinerary_points=[], name="Quietest", filename="", rev_filename="", operator="Bicycle", description = "", reverse = True, ids = True):
         """
             Return:
                 routes_data (list): a list of JSON-like dicts containing the
@@ -536,17 +676,6 @@ class Route_Extractor():
                         'name': E.g., NCN 76
                         'description': Usually '{start} to {end}'
         """
-        # `plan` is a CycleStreets API parameter determining the type of route,
-        # which can be one of the values: balanced, fastest, quietest. From
-        # CycleStreets own documentation:
-        #   - balanced: We recommend this to be the default route type in your
-        #     interface - it aims to give practical routes that balance speed
-        #     and pleasantness, suitable for most riders.
-        #   - fastest: This route type will tend to favour busier roads that
-        #     suit more confident riders.
-        #   - quietest: The route type will produce more pleasant, but often
-        #     less direct, routes.
-        plan = name.lower() if name in ("Quietest", "Balanced", "Fastest") else "quietest"
         # `fwd_route` and `rev_route` are the dicts to be returned. The
         # following code blocks concern different elements of the dict.
         #################### 1: 'operator', 'type', 'name' ####################
@@ -556,128 +685,78 @@ class Route_Extractor():
             'operator': operator,
             'type': "bike",
             'name': name,
+            'itinerary': cs_route["marker"][0]["@attributes"]["itinerary"]
         }
-        rev_route = {
-            'operator': operator,
-            'type': "bike",
-            'name': name
-        }
+        if reverse:
+            rev_route = {
+                'operator': operator,
+                'type': "bike",
+                'name': name
+            }
+        else:
+            rev_route = {}
         #################### 2: 'description' ------------ ####################
         # The description is either given as a parameter, or if no description
         # parameter is provided, derived from the names of the start and end
         # points of the route ('{start} to {end}' and '{end} to {start}'). If a
         # description is provided (for the forward route), the description for
-        # the reverse route is derived from it
-        if not description:
-            # The start and end points ar the same as the first and last
-            # itinirary points, which are to be sent to the CycleStreets API in
-            # the GET call.
-            start = itinerary_points[0]["name"]
-            end = itinerary_points[-1]["name"]
-            # Format the forward and reverse route descriptions, as explained
-            # above
-            fwd_route['description'] = f"{start} to {end}"
-            rev_route['description'] = f"{end} to {start}"
+        # the reverse route is derived from it.
+        # if `reverse` is false, rv_desc will be the empty string.
+        if itinerary_points:
+            start = itinerary_points[0]
+            end = itinerary_points[-1]
         else:
-            fwd_route['description'] = description
-            # If the route is circular, a description should be provided,
-            # including the word 'Clockwise' or 'Anticlockwise': the description
-            # for the reverse route is derived by exchanging these.
-            if "Anticlockwise" in description:
-                rev_route['description'] = description.replace(
-                    "Anticlockwise",
-                    "Clockwise"
-                )
-            elif "Clockwise" in description:
-                rev_route['description'] = description.replace(
-                    "Clockwise",
-                    "Anticlockwise"
-                )
-            # For any other provided description, derive the reverse description
-            # simply by appending ", Reversed"
-            else:
-                rev_route['description'] = description + ", Reversed"
+            start = {}
+            end = {}
+        fw_desc, rv_desc = self.paired_descriptions(description, start, end, reverse=reverse)
+        fwd_route['description'] = fw_desc
+        if reverse:
+            rev_route['description'] = rv_desc
         #################### 3: 'filename' --------------- ####################
-        # Filenames must be unique, but can be long. They are based on the
-        # `plan` and the list of itinerary points. The format is:
-        # '{plan}_{itin_pt[0].lat}_{itin_pt[0].lon}_to_ ...
+        # Filenames must be unique, but can be long. Unless otherwise specified,
+        # they are based on the `plan` and the list of itinerary points. The
+        # format is: '{plan}_{itin_pt[0].lat}_{itin_pt[0].lon}_to_ ...
         # ... _to_{itin_pt[-1].lat}_{itin_pt[-1].lon}.csv'
-        fwd_route['filename'] = make_route_filename(plan, itinerary_points)
-        # Make the reverse filename using `plan` and itinerary_points in reverse
-        # order
-        rev_route['filename'] = make_route_filename(
-            plan, itinerary_points[-1::-1]
+        plan = cs_route['marker'][0]['@attributes']['plan']
+        fwd_route['filename'] = filename if filename else make_route_filename(
+            plan, itinerary_points
         )
+        # If applicable, make the reverse filename using `plan` and
+        # itinerary_points in reverse order
+        if reverse:
+            rev_route['filename'] = rev_filename if rev_filename else make_route_filename(
+                plan, itinerary_points[-1::-1]
+            )
         #################### 4: 'wpts' ------------------- ####################
-        # Waypoints are retrieved from the CycleStreets REST API using GET: the
-        # `requests` package requires a url and params for a GET call.
-        _url = "https://www.cyclestreets.net/api/journey.json?"
-        _params = {
-            "key": key,
-            "reporterrors": 1,
-            "itinerarypoints": "|".join([f'{pt["lon"]},{pt["lat"]},{format_as_url_param(pt["name"])}' for pt in itinerary_points]),
-            "plan": plan
-        }
-        # While testing, load the JSON for the route data from a file, saved
-        # from a previous call on the CycleStreets REST API, so this should be
-        # set to 'if 0:'. Set to 'if 1:' for deployment
-        if 1:
-            # GET the JSON for the route from CycleStreets
-            print("Fetching route from CycleStreets")
-            route_json = requests.get(url=_url, params=_params).json()
-        else:
-            # Load the JSON for the route from file
-            with open("route.json") as file:
-                route_json = json.loads(file.read())
-        # Temporary lists are created for the forward and reverse waypoints,
-        # as these go through some post-processing before being added to the
-        # lists in the route dicts. Generating the lists of waypoints happens in
-        # three stages:
+        # Generating the list(s) of waypoints happens in three stages:
+        #################### 4: 'wpts' 4.1 Extract data from JSON #############
         # 4.1: extract relevant information from the CycleStreets JSON. Note
         # that while CycleStreets divides the route up into segments consisting
         # of several points, we need the route as a list of points.
+        # If `reverse` is false, rev_points will be the empty dict
+        fwd_points, rev_points = self.waypoints_from_cyclestreets_json(cs_route, reverse=reverse)
+        #################### 4: 'wpts' 4.2 Postprocessing  ####################
         # 4.2: postprocessing: remove redundant points from list (the points at
         # the end of a CycleStreets segment and the beginning of the next have
         # the same lat/lon but different names: use the name for the new
         # segment) and identify keypoints
+        #################### 4: 'wpts' 4.3 Convert to IDs (opt) ###############
         # 4.3 convert to IDs: The name and lat/lon values should be mapped to
         # waypoint IDs - either by finding an existing ID in the bike_waypoints
         # dataset, or by adding the waypoint to the dataset, with a new ID. The
         # 'wpts' list in the route dict consists only of the IDs paired with
         # flags indicating which are keypoints
-        fwd_points = []
-        rev_points = []
-        #################### 4: 'wpts' 4.1 Extract data from JSON #############
-        #print(route_json)
-        for route_segment in route_json["marker"]:
-            if "points" in route_segment["@attributes"]:
-                points = route_segment["@attributes"]["points"].split(" ")
-                distances = route_segment["@attributes"]["distances"].split(",")
-                rev_dists = distances[1:] + ['0']
-                name = route_segment["@attributes"]["name"]
-                for point, dist, rev_dist in zip(points, distances, rev_dists):
-                    lon, lat = point.split(",")
-                    fwd_points = fwd_points + [{
-                        "name": name,
-                        "lat": float(lat),
-                        "lon": float(lon),
-                        "dist": int(dist)
-                    }]
-                    rev_points = [{
-                        "name": name,
-                        "lat": float(lat),
-                        "lon": float(lon),
-                        "dist": int(rev_dist)
-                    }] + rev_points
-
-        #################### 4: 'wpts' 4.2 Postprocessing  ####################
-        nl_needed = file_needs_newline('bike_waypoints.csv')
-        for wpts, route in ((fwd_points, fwd_route), (rev_points, rev_route)):
-            route['wpts'] = self.validate_points(wpts)
-            ################ 4: 'wpts' 4.3 Convert to IDs  ####################
-            for wpt in route['wpts']:
-                ID, nl_needed = self.get_or_add_bike_wpt(wpt['name'], wpt['lat'], wpt['lon'], nl_needed)
-                wpt['id'] = ID
+        # Use lambdas to compose functions for postprocessing - either
+        # validation + conversion to waypoint IDs (if ids is true), or else just
+        # validation
+        if ids:
+            finalise_points = lambda pts: self.wpts_to_IDs(self.validate_points(pts))
+        else:
+            finalise_points = lambda pts: self.validate_points(pts)
+        fwd_route['wpts'] = finalise_points(fwd_points)
+        if reverse:
+            rev_route['wpts'] = finalise_points(rev_points)
+        # If `reverse` is false, `rev_route` will be the empty dict
         return [fwd_route, rev_route]
 
     def validate_points(self, wpts):
@@ -708,13 +787,17 @@ class Route_Extractor():
                 if is_keypoint:
                     totally_valid[-1]["sd"] = sum_dists
                     sum_dists = 0
-                    #print(f"{wpts[i]['sd']}\t{wpts[i]['name']}")
-                    #if wpts[i]['sd'] >= 200:
-                        #print(wpts[i])
-        #print(json.dumps(totally_valid, indent=2))
         return totally_valid
 
-    def add_cyclestreets(self, itinerary_points, key=_CS_APIKEY, name="Quietest", filename="", operator="Bicycle", description = ""):
+    def wpts_to_IDs(self, wpts):
+        nl_needed = file_needs_newline('bike_waypoints.csv')
+        new_wpts = []
+        for wpt in wpts:
+            ID, nl_needed = self.get_or_add_bike_wpt(wpt['name'], wpt['lat'], wpt['lon'], nl_needed)
+            new_wpts += [{'id': ID, 'kpt': wpt['kpt']}]
+        return new_wpts
+
+    def add_cyclestreets(self, itinerary_points, key=_CS_APIKEY, name="Quietest", filename="", rev_filename="", operator="Bicycle", description = ""):
         """Read all the routes in a GPX file and add their data to the CSV files
         that define the Edinburgh Flaneur bike route dataset. Recording a route
         involves four CSV files:
@@ -754,7 +837,8 @@ class Route_Extractor():
             Parameters:
                 filename (str): filename of the GPX.
         """
-        routes = self.get_cyclestreets_route(itinerary_points, key, name, filename, operator, description)
+        # itinerary_points, key=_CS_APIKEY, name="Quietest", filename="", rev_filename="", operator="Bicycle", description = ""
+        routes = self.get_route_json_from_cyclestreets(itinerary_points, key=key, name=name, filename=filename, rev_filename=rev_filename, operator=operator, description=description)
         for route in routes:
             self.write_csvs(route)
 
@@ -768,13 +852,490 @@ class Route_Extractor():
         for route in new_routes:
             if route["new"]:
                 route["new"] = 0
-                #print(route)
                 if route["source"] in funcs:
                     funcs[route["source"]](**route["params"])
                 else:
                     print(f'Source "{route["source"]}" not recognised')
 
+    def route_json_to_geojson_linestring(self, route_json):
+        coordinates = []
+        for wpt in route_json["wpts"]:
+            if "lat" in wpt and "lon" in wpt:
+                lat, lon = float(wpt['lat']), float(wpt['lon'])
+            elif "id" in wpt:
+                waypt = self.get_bike_wpt_from_id(wpt['id'])
+                lat, lon = float(waypt['Latitude']), float(waypt['Longitude'])
+            else:
+                raise ValueError("Malformed waypoint: waypoint must have a" +
+                    " valid ID or a latitude and longitude")
+            coordinates += [[lon, lat]]
+        geojson = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": coordinates
+                    }
+                }
+            ]
+        }
+        return geojson
+
+    def send_geojson_to_cyclestreets(self, geojson):
+        _url = "https://api.cyclestreets.net/v2/gpstracks.add?"
+        _data = {
+            "key": _CS_APIKEY,
+            "coords": geojson,
+            "format": "geojson",
+            "notes": "",
+            "purpose": "",
+            "start": 1616652397,
+            "device": "Etch-a-Sketch",
+            "username": "talkymeat",
+            "password": "p4w7IgnVR^Un!ah^g$O7a^5w1KSddy%463hKfqGGk5DsP"
+        }
+        reply = requests.post(url = _url, data = _data)
+        return reply.json()
+
+    def cyclestreets_geocoder_search(self, query, limit=100, bbox="-3.4,55.85,-2.8,56.01", bounded=True, geometries=True):
+        _url = "https://api.cyclestreets.net/v2/geocoder?"
+        _params = {
+            "key": _CS_APIKEY,
+            "q": format_as_url_param(query),
+            "limit": limit,
+            "bbox": bbox,
+            "bounded": int(bounded),
+            "geometries": int(geometries)
+        }
+        result = requests.get(url=_url, params=_params).json()
+        if "error" in result:
+            return result
+        places = {}
+        for feature in result["features"]:
+            if feature["geometry"]["type"] != "Point":
+                print(f"CycleStreets returned a {feature['geometry']['type']} feature")
+            if not (feature["properties"]["name"], feature["properties"]["near"]) in places:
+                places[(
+                    feature["properties"]["name"],
+                    feature["properties"]["near"]
+                )] = []
+            places[(
+                feature["properties"]["name"],
+                feature["properties"]["near"]
+                )] += [feature["geometry"]["coordinates"],]
+        return places
+
+    def export_route_json(self, rt, fn):
+        rt["name"] = rt["name"] if rt["name"] else "Quietest"
+        rt["operator"] = rt["operator"] if rt["operator"] else "Bicycle"
+        rt['description'] = self.paired_descriptions(
+            description=rt['description'],
+            start=rt['itinerary_points'][0],
+            end=rt['itinerary_points'][-1],
+            reverse=False
+        )[0]
+        if fn:
+            if not fn.lower().endswith('.json'):
+                fn += '.json'
+        else:
+            fn = 'route.json'
+        with open(fn, 'w') as rt_json:
+            rt_json.write(json.dumps(rt, indent=2))
+            return fn
+
+    def refine_route(self):
+        dashed_line = '---------------------------------------------------'
+        nyoo = 0
+        def validate_point(point_str, prompt):
+            lat_correct, lon_correct = False, False
+            point = {}
+            while not (lat_correct and lon_correct):
+                if point_str.startswith('?'):
+                    return choose_point(point_str[1:].strip())
+                point_strings = point_str.strip().split(" ")
+                if len(point_strings) == 2:
+                    for i in [0, 1]:
+                        while not [lat_correct, lon_correct][i]:
+                            coord_str = point_strings[i].strip()
+                            if re.fullmatch("-?[0-9][0-9]?[0-9]?\.[0-9]+", coord_str):
+                                point[['lat', 'lon'][i]] = float(coord_str)
+                                if i:
+                                    if point['lon'] < -3.4 or point['lon'] > -2.8:
+                                        print(f"Your {prompt.lower()} longitude {point['lon']}" +
+                                            " is out of range: it should be between " +
+                                            "-3.4 and -2.8. Please try again," +
+                                            " or use '?' to search by place " +
+                                            "name or postcode."
+                                        )
+                                        point_strings[i] = input("Longitude: ")
+                                        if point_strings[i].startswith('?'):
+                                            return choose_point(point_str[1:].strip())
+                                        lon_correct = False
+                                    else:
+                                        lon_correct = True
+                                else:
+                                    if point['lat'] < 55.8 or point['lat'] > 56.01:
+                                        print(f"Your {prompt.lower()} latitude {point['lat']}" +
+                                            " is out of range: it should be between " +
+                                            "55.85 and 56.01. Please try again," +
+                                            " or use '?' to search by place " +
+                                            "name or postcode."
+                                        )
+                                        point_strings[i] = input("Latitude: ")
+                                        if point_strings[i].startswith('?'):
+                                            return choose_point(point_str[1:].strip())
+                                        lat_correct = False
+                                    else:
+                                        lat_correct = True
+                            else:
+                                print(f"Your {prompt.lower()} {['lat', 'long'][i]}itude " +
+                                    "is not correctly formatted as a decimal " +
+                                    f"number: '{coord_str}'. Please try again," +
+                                    " or use '?' to search by place " +
+                                    "name or postcode."
+                                )
+                                point_strings[i] = input(f"{['Lat', 'Long'][i]}itude: ")
+                                if point_strings[i].startswith('?'):
+                                    return choose_point(point_strings[i][1:].strip())
+                                if i:
+                                    lon_correct = False
+                                else:
+                                    lat_correct = False
+                else:
+                    print(f"Your {prompt.lower()} should consist only of two " +
+                        "decimal numbers separated by a space."
+                    )
+                    point_str = input("Please try again, or use '?' to search" +
+                        " by place name or postcode: ")
+                    [lat_correct, lon_correct] = False, False
+                    if point_str.startswith('?'):
+                        return choose_point(point_str[1:].strip())
+                if lat_correct and lon_correct:
+                    closest_point = requests.get(
+                        url = "https://api.cyclestreets.net/v2/nearestpoint?",
+                        params = {
+                            "lonlat": f"{point['lon']},{point['lat']}",
+                            "key": _CS_APIKEY
+                        }
+                    ).json()
+                    if "error" in closest_point:
+                        print(
+                            "The CycleStreets API returned the following error: ",
+                            closest_point['error']
+                        )
+                        point_str = input("Please try again: ")
+                        [lat_correct, lon_correct] = False, False
+                    else:
+                        new_point = {
+                            "lat": closest_point["features"][0]["geometry"]["coordinates"][1],
+                            "lon": closest_point["features"][0]["geometry"]["coordinates"][0],
+                            "name": closest_point["features"][0]["properties"]["name"]
+                        }
+                        print(
+                            "The closest point on the CycleStreets network to " +
+                            f"({point['lat']:5f}, {point['lon']:.5f}) is " +
+                            f"{new_point['name']} at ({new_point['lat']:5f}, " +
+                            f"{new_point['lon']:.5f})."
+                        )
+                        point_str = input(
+                            "Press Enter to accept this, or enter a new lat-lon pair" +
+                            " to try again."
+                            )
+                        if point_str:
+                            [lat_correct, lon_correct] = False, False
+            return new_point
+
+        def choose_point(q):
+            width = os.get_terminal_size()[0]
+            selection_of_points = self.cyclestreets_geocoder_search(q)
+            chosen_point = {}
+            while not chosen_point:
+                if "error" in selection_of_points:
+                    print(
+                        "CycleStreets returned the following error: ",
+                        selection_of_points["error"]
+                    )
+                    selection_of_points = self.cyclestreets_geocoder_search(
+                        input("Please try again: ? ")
+                    )
+                elif selection_of_points:
+                    point_i_list = []
+                    print(f"CycleStreets found {len(selection_of_points)} " +
+                        "locations matching your search. Please select:"
+                    )
+                    print(dashed_line)
+                    for k, v in selection_of_points.items():
+                        print(f"{k[0]}, {k[1]}:")
+                        print_str = ""
+                        for point in v:
+                            pt_str = f"#{len(point_i_list)}: {point[1]:.5f}, {point[0]:.5f}"
+                            point_i_list += [{
+                                "name": k[0],
+                                "lat": point[1],
+                                "lon": point[0]
+                            }]
+                            if len(print_str) + len(pt_str) + 1 > width:
+                                print(print_str)
+                                print_str = ""
+                            print_str += " " + pt_str
+                        if print_str:
+                            print(print_str)
+                    str_i = input("Select a point using its ID number: #")
+                    chosen_point = point_i_list[
+                        select_index(str_i, len(point_i_list)-1, "point")
+                    ]
+                    while not chosen_point:
+                        if re.fullmatch("[0-9]+", str_i):
+                            i = int(str_i)
+                            if i >= len(point_i_list):
+                                print(f"No point {i} exists")
+                                str_i = input("Please try again: #")
+                            else:
+                                chosen_point = point_i_list[i]
+                        else:
+                            print(
+                                f"{str_i} is not a valid input. Please enter " +
+                                "only digits."
+                            )
+                            str_i = input("Select a point using its ID number: #")
+                else:
+                    print("CycleStreets found no results for your search.")
+                    selection_of_points = self.cyclestreets_geocoder_search(
+                        input("Please try again: ? ")
+                    )
+            return chosen_point
+
+        def select_index(str_i, max, pos):
+            while True:
+                if re.fullmatch("[0-9]+", str_i):
+                    i = int(str_i)
+                    if i > max:
+                        print(f"No {pos} {i} exists")
+                        str_i = input("Please try again: #")
+                    else:
+                        return i #chosen_point = point_i_list[i]
+                else:
+                    print(
+                        f"{str_i} is not a valid input. Please enter " +
+                        "only digits."
+                    )
+                    str_i = input(f"Select a {pos} using its ID number: #")
+
+        def whats_the_point(prompt, del_avail=False, nope_avail=False):
+            sq = "'"
+            print(f"Please enter the latitude and longitude of your {prompt.lower()}, " +
+                "separated only by a space, e.g.: '55.99058 -3.38423', OR, if you" +
+                " wish to search for a street, landmark, or postcode, enter '?' " +
+                " followed by your search string, e.g.: '? Princes Street'" +
+                f"{', OR enter '+sq+'-'+sq+' to delete the chosen point' if del_avail else ''}" +
+                f"{', OR just press Enter to go back a step.' if nope_avail else '.'}"
+            )
+            in_str = input(f"{prompt}: ")
+            if in_str.startswith('?'):
+                return choose_point(in_str)
+            elif del_avail and in_str == '-':
+                return {}
+            elif nope_avail and not in_str:
+                return {"nope": "nope"}
+            else:
+                return validate_point(in_str, prompt)
+
+        def display_name(rt):
+            op = rt['operator'] if rt['operator'] else 'Bicycle'
+            name = rt['name'] if rt['name'] else 'Quietest'
+            desc = self.paired_descriptions(
+                description=rt['description'],
+                start=rt['itinerary_points'][0],
+                end=rt['itinerary_points'][-1],
+                reverse=False
+            )[0]
+            return f"{op} {name}, {desc}"
+
+        def display_point(point):
+            return f"{point['name']}, ({point['lat']}, {point['lon']})"
+
+        def get_route_url(rewt):
+            if "error" in rewt:
+                return ""
+            id = rewt["marker"][0]["@attributes"]["itinerary"]
+            return f"https://edinburgh.cyclestreets.net/journey/{id}/"
+
+        def get_part_route_url(it_pts, *args):
+            cs_part_url = get_route_url(
+                self.get_cyclestreets_route(
+                    itinerary_points = [it_pts[i] for i in args],
+                    key=_CS_APIKEY
+                )
+            )
+            return cs_part_url
+
+        rt = {}
+        print("Welcome to the Edinburgh Flaneur Route Refiner. Please enter " +
+            "the name of the route operator (e.g. National Cycle Network), or" +
+            " just hit enter to use the default value, 'Bicycle'."
+        )
+        rt["operator"] = input("Operator: ")
+        print("Please enter the name of the route: e.g. for an NCN route, use" +
+            " the route number. The default is 'Quietest'."
+        )
+        rt["name"] = input("Name: ")
+        print("By default, the Route Refiner generates a description based on" +
+            " the start and end points of the route. If you wish to use a " +
+            "different description, please enter it here."
+        )
+        rt["description"] = input("Description: ")
+        rt["itinerary_points"] = [whats_the_point('Start point')]
+        rt["itinerary_points"] += [whats_the_point("End point")]
+        satisfied = False
+        while not satisfied:
+            padded_points = [{}]*(len(rt['itinerary_points'])*2+1)
+            for j, pnt in enumerate(padded_points):
+                if j%2:
+                    padded_points[j] = rt['itinerary_points'][(j-1)//2]
+            print(dashed_line)
+            print(f"{display_name(rt)}:")
+            for i, point in enumerate(padded_points):
+                if point:
+                    print(f"#{i}: {display_point(point)}")
+                else:
+                    print(f"#{i}: ----------------------------")
+            shared = ("one of the position IDs above. Even-numbered IDs " +
+                "insert a new point, while odd-numbered IDs insert replace or" +
+                " delete an existing point.")
+            cs_rt = self.get_cyclestreets_route(
+                itinerary_points = rt['itinerary_points'],
+                key=_CS_APIKEY
+            )
+            cs_url = get_route_url(cs_rt)
+            if cs_url:
+                print(
+                    "If you are satisfied with this route, press Enter. If you " +
+                    "would like to change it, enter " + shared
+                )
+                webbrowser.open(cs_url, nyoo, False) # urlesque
+            else:
+                print(
+                    "CycleStreets was unable to find a route for these " +
+                    "itinerary points, and returned the following error:"
+                )
+                print(cs_rt['error'])
+                print(
+                    "To try again, alter the itinerary points. Enter " + shared +
+                    "Alternatively, to quit press Enter"
+                )
+            id_str = input("# ")
+            if id_str:
+                waiting_for_id = True
+                id_no = select_index(
+                    id_str,
+                    len(rt['itinerary_points'])*2,
+                    'position'
+                )
+                prompt = ""
+                if not id_no:
+                    print(
+                        "You are inserting a new start point before " +
+                        f"{display_point(padded_points[1])}."
+                    )
+                    prompt = "New start"
+                    if len(padded_points) > 5:
+                        cs_part_url = get_part_route_url(padded_points, 1, 3)
+                        if cs_part_url:
+                            webbrowser.open(cs_part_url, nyoo, False) # urlesque
+                elif id_no == len(padded_points)-1:
+                    print(
+                        "You are inserting a new end point after " +
+                        f"{display_point(padded_points[-2])}."
+                    )
+                    prompt = "New end"
+                    if len(padded_points) > 5:
+                        cs_part_url = get_part_route_url(padded_points, -4, -2)
+                        if cs_part_url:
+                            webbrowser.open(cs_part_url, nyoo, False) # urlesque
+                elif padded_points[id_no]:
+                    print(f"You are replacing {display_point(padded_points[id_no])}.")
+                    prompt = "Replacement"
+                    if len(padded_points) > 7 or (len(padded_points) == 7 and id_no != 3):
+                        args = [id_no-2] if id_no > 1 else []
+                        args += [id_no]
+                        args += [id_no+2] if id_no < len(padded_points) -1 else []
+                        cs_part_url = get_part_route_url(padded_points, *args)
+                        if cs_part_url:
+                            webbrowser.open(cs_part_url, nyoo, False) # urlesque
+                else:
+                    print(
+                        "You are inserting a new point between " +
+                        f"{display_point(padded_points[id_no-1])} and " +
+                        f"{display_point(padded_points[id_no+1])}"
+                    )
+                    prompt = "New point"
+                    if len(padded_points) > 5:
+                        cs_part_url = get_part_route_url(padded_points, id_no-1, id_no+1)
+                        if cs_part_url:
+                            webbrowser.open(cs_part_url, nyoo, False) # urlesque
+                bonus_point = whats_the_point(prompt, True, True)
+                if "nope" in bonus_point:
+                    print("OK, try again.")
+                else:
+                    padded_points[id_no] = bonus_point
+                rt["itinerary_points"] = []
+                for it_pt in padded_points:
+                    if it_pt:
+                        rt["itinerary_points"] += [it_pt]
+            else:
+                satisfied = True
+        print(f"Your route, '{display_name(rt)}', is complete. Enter:")
+        print("1 to add your route to the Edinburgh Flaneur routes database.")
+        print("2 to export your route metadata as a JSON file.")
+        print("3 to do both.")
+        print("Or anything else to exit.")
+        opt = input("Your choice: ")
+        if opt in ("1", "2", "3"):
+            if opt in ("2", "3"):
+                print("Enter a filename for your JSON, or press enter to use " +
+                    "the default, 'route.json':"
+                )
+                fn = input("Filename: ")
+                fn = self.export_route_json(rt, fn)
+                print(f"JSON exported as '{fn}'")
+            if opt in ("1", "3"):
+                self.add_cyclestreets(**rt)
+                print(
+                    f"'{display_name(rt)}' has been added to your local copy " +
+                    "of the Edinburgh Flaneur route database. Remember to " +
+                    "push to GitHub if you want to add it to the live database."
+                )
+        print(
+            "Do you wish to add another route? If yes, enter 'y', if no, " +
+            "enter anything else."
+        )
+        y_n = input("Again? ")
+        if y_n.lower().startswith('y'):
+            self.refine_route()
+        else:
+            print("Thank you and goodbye!")
+
 if __name__ == '__main__':
     # create GPX extractor and extract all GPXes listed in gpxes.csv
     routex = Route_Extractor()
-    routex.add_new_routes()
+    # While testing, load the JSON for the route data from a file, saved
+    # from a previous call on the CycleStreets REST API, so this should be
+    # set to 'if 0:'. Set to 'if 1:' for deployment
+    # if 1:
+    #
+    # else:
+    #     # Load the JSON for the route from file
+    #     with open("route.json") as file:
+    #         cs_json = json.loads(file.read())
+    #routex.add_new_routes()
+    # with open("route.json") as file:
+    #     cs_json = json.loads(file.read())
+    # #cs_route, itinerary_points, name="Quietest", filename="", rev_filename="", operator="Bicycle", description = "", reverse = True, ids = True
+    # route_json, nothing = routex.cyclestreets_to_route_json(cs_json, filename = "fake.csv", description="Testing a Thing", reverse = False, ids = False)
+    # geojson = routex.route_json_to_geojson_linestring(route_json)
+    # print(routex.send_geojson_to_cyclestreets(geojson))
+    routex.refine_route()
+    # print(routex.cyclestreets_geocoder_search("princes Street"))

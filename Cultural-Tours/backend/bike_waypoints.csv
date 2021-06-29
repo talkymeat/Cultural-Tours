@@ -1441,3 +1441,837 @@ ID,Name,Latitude,Longitude
 00001439,NCN National Route 76,55.96613,-3.31851
 00001440,"Newhalls Road, B924",55.99057,-3.38417
 00001441,"Newhalls Road, B924",55.99058,-3.38423
+00001442,Balcarres Street,55.92472,-3.21773
+00001443,Balcarres Street,55.92475,-3.21697
+00001444,Balcarres Street,55.92476,-3.21692
+00001445,Balcarres Street,55.92477,-3.21686
+00001446,Balcarres Street,55.92479,-3.21674
+00001447,Balcarres Street,55.92484,-3.21648
+00001448,Balcarres Street,55.92484,-3.21647
+00001449,Balcarres Street,55.9249,-3.21621
+00001450,Balcarres Street,55.92522,-3.21474
+00001451,Balcarres Street,55.92536,-3.21408
+00001452,Balcarres Street,55.9257,-3.21257
+00001453,Balcarres Street,55.92571,-3.21249
+00001454,Balcarres Street,55.92572,-3.21243
+00001455,Balcarres Street,55.92572,-3.21238
+00001456,Balcarres Street,55.92572,-3.21232
+00001457,Balcarres Street,55.92571,-3.21225
+00001458,Balcarres Street,55.92569,-3.21216
+00001459,Balcarres Street,55.92562,-3.21189
+00001460,Balcarres Street,55.92554,-3.21161
+00001461,Steps continuation,55.9254,-3.21114
+00001462,Steps,55.9255,-3.21107
+00001463,Steps link,55.92552,-3.21106
+00001464,Steps,55.92568,-3.21094
+00001465,Steps continuation,55.92574,-3.2109
+00001466,Short un-named link,55.92578,-3.21087
+00001467,Short un-named link,55.92579,-3.21088
+00001468,Short un-named link,55.92581,-3.21089
+00001469,Short un-named link,55.92617,-3.21103
+00001470,Maxwell Street,55.92619,-3.21104
+00001471,Short un-named link,55.9262,-3.21113
+00001472,Short un-named link,55.92624,-3.21114
+00001473,Short un-named link,55.92663,-3.21124
+00001474,Short un-named link,55.92665,-3.21104
+00001475,Millar Place,55.92668,-3.21099
+00001476,Millar Place,55.92715,-3.21107
+00001477,Millar Crescent,55.92719,-3.21108
+00001478,Millar Crescent,55.92719,-3.21075
+00001479,Millar Crescent,55.92719,-3.21049
+00001480,Millar Crescent,55.92719,-3.21045
+00001481,Millar Crescent,55.92719,-3.21041
+00001482,Millar Crescent,55.92718,-3.21037
+00001483,Millar Crescent,55.92718,-3.21033
+00001484,Millar Crescent,55.92714,-3.21008
+00001485,Millar Crescent,55.92712,-3.20996
+00001486,Millar Crescent,55.92712,-3.20992
+00001487,Millar Crescent,55.92712,-3.20988
+00001488,Millar Crescent,55.92712,-3.20984
+00001489,Millar Crescent,55.92715,-3.20935
+00001490,"Morningside Road, A702",55.92715,-3.20927
+00001491,"Morningside Road, A702",55.92716,-3.20927
+00001492,"Morningside Road, A702",55.92727,-3.20929
+00001493,Canaan Lane,55.92764,-3.20934
+00001494,Canaan Lane,55.92765,-3.20926
+00001495,Canaan Lane,55.92766,-3.20916
+00001496,"Morningside Road, A702",55.92764,-3.20934
+00001497,"Morningside Road, A702",55.9279,-3.20938
+00001498,"Morningside Road, A702",55.92825,-3.20943
+00001499,"Morningside Road, A702",55.92827,-3.20943
+00001500,"Morningside Road, A702",55.9284,-3.20945
+00001501,"Morningside Road, A702",55.92859,-3.20948
+00001502,"Morningside Road, A702",55.92894,-3.20952
+00001503,"Morningside Road, A702",55.92917,-3.20956
+00001504,"Morningside Road, A702",55.92937,-3.20959
+00001505,"Morningside Road, A702",55.92978,-3.20966
+00001506,"Morningside Road, A702",55.92993,-3.20969
+00001507,"Morningside Road, A702",55.93002,-3.20971
+00001508,"Morningside Road, A702",55.93047,-3.2098
+00001509,"Morningside Road, A702",55.93087,-3.20988
+00001510,"Morningside Road, A702",55.93107,-3.20992
+00001511,"Morningside Road, A702",55.93129,-3.20995
+00001512,"Morningside Road, A702",55.93147,-3.20996
+00001513,"Morningside Road, A702",55.93169,-3.20998
+00001514,"Morningside Road, A702",55.93195,-3.21
+00001515,"Morningside Road, A702",55.9321,-3.21002
+00001516,"Morningside Road, A702",55.93228,-3.21003
+00001517,"Morningside Road, A702",55.93248,-3.21005
+00001518,"Morningside Road, A702",55.93276,-3.21008
+00001519,"Morningside Road, A702",55.93321,-3.2101
+00001520,Greenhill Park,55.93335,-3.21012
+00001521,Greenhill Park,55.93335,-3.21002
+00001522,Greenhill Park,55.93336,-3.20956
+00001523,Greenhill Park,55.93342,-3.20794
+00001524,Greenhill Park,55.93342,-3.20789
+00001525,Greenhill Park,55.93343,-3.20784
+00001526,Greenhill Park,55.93343,-3.20779
+00001527,Greenhill Park,55.93344,-3.20775
+00001528,Greenhill Park,55.93345,-3.2077
+00001529,Greenhill Park,55.93346,-3.20767
+00001530,Greenhill Park,55.93348,-3.20764
+00001531,Greenhill Park,55.93349,-3.20761
+00001532,Greenhill Park,55.93351,-3.20758
+00001533,Greenhill Park,55.93352,-3.20756
+00001534,Greenhill Park,55.93354,-3.20753
+00001535,Greenhill Park,55.93356,-3.20752
+00001536,Greenhill Park,55.93359,-3.2075
+00001537,Greenhill Park,55.93361,-3.20749
+00001538,Greenhill Park,55.93364,-3.20748
+00001539,Greenhill Park,55.93366,-3.20748
+00001540,Greenhill Park,55.93383,-3.20748
+00001541,Greenhill Park,55.93398,-3.20749
+00001542,Greenhill Park,55.93427,-3.20749
+00001543,Chamberlain Road,55.9343,-3.20749
+00001544,Chamberlain Road,55.93429,-3.20639
+00001545,Chamberlain Road,55.93428,-3.20603
+00001546,Greenhill Gardens,55.93428,-3.20552
+00001547,Greenhill Gardens,55.93431,-3.20553
+00001548,Greenhill Gardens,55.93463,-3.20559
+00001549,Greenhill Gardens,55.93594,-3.20584
+00001550,Greenhill Gardens,55.93597,-3.20585
+00001551,Greenhill Gardens,55.93599,-3.20585
+00001552,Greenhill Gardens,55.936,-3.20585
+00001553,Greenhill Gardens,55.93602,-3.20584
+00001554,Greenhill Gardens,55.93603,-3.20584
+00001555,Greenhill Gardens,55.93606,-3.20582
+00001556,Greenhill Gardens,55.93608,-3.2058
+00001557,Greenhill Gardens,55.93643,-3.2055
+00001558,Greenhill Gardens,55.93645,-3.20549
+00001559,Greenhill Gardens,55.93648,-3.20548
+00001560,Greenhill Gardens,55.93649,-3.20549
+00001561,Greenhill Gardens,55.93651,-3.20551
+00001562,Bruntsfield Links,55.93652,-3.20554
+00001563,Bruntsfield Links,55.93655,-3.2054
+00001564,Bruntsfield Links,55.93655,-3.20535
+00001565,Muriel Spark Walk,55.93659,-3.2053
+00001566,Muriel Spark Walk,55.93663,-3.20525
+00001567,Muriel Spark Walk,55.93668,-3.20517
+00001568,Muriel Spark Walk,55.93739,-3.20425
+00001569,Muriel Spark Walk,55.93776,-3.2038
+00001570,Muriel Spark Walk,55.9379,-3.20365
+00001571,Bruntsfield Links,55.93804,-3.20351
+00001572,Bruntsfield Links,55.93809,-3.20347
+00001573,Bruntsfield Links,55.93813,-3.20345
+00001574,Bruntsfield Links,55.93816,-3.20343
+00001575,Bruntsfield Links,55.9382,-3.20343
+00001576,Leamington Walk,55.93857,-3.20338
+00001577,Leamington Walk,55.93868,-3.20292
+00001578,Leamington Walk,55.93904,-3.20106
+00001579,Leamington Walk,55.93911,-3.20067
+00001580,Leamington Walk,55.93945,-3.19881
+00001581,Leamington Walk,55.93956,-3.19819
+00001582,Leamington Walk,55.93974,-3.19725
+00001583,Leamington Walk,55.93981,-3.19689
+00001584,Leamington Walk,55.93982,-3.1968
+00001585,Leamington Walk,55.9401,-3.19538
+00001586,Leamington Walk,55.9401,-3.19535
+00001587,Leamington Walk,55.94012,-3.19527
+00001588,John Muir Way,55.94014,-3.19518
+00001589,John Muir Way,55.94017,-3.19498
+00001590,John Muir Way,55.94018,-3.19492
+00001591,John Muir Way,55.94019,-3.19485
+00001592,John Muir Way,55.94018,-3.19478
+00001593,South Meadow Walk,55.94016,-3.19462
+00001594,South Meadow Walk,55.94015,-3.19454
+00001595,South Meadow Walk,55.94013,-3.19448
+00001596,South Meadow Walk,55.9401,-3.19439
+00001597,South Meadow Walk,55.93997,-3.19356
+00001598,South Meadow Walk,55.93986,-3.19283
+00001599,South Meadow Walk,55.93984,-3.19264
+00001600,South Meadow Walk,55.93982,-3.19251
+00001601,South Meadow Walk,55.93974,-3.19179
+00001602,South Meadow Walk,55.93976,-3.19168
+00001603,South Meadow Walk,55.93979,-3.19159
+00001604,South Meadow Walk,55.93974,-3.19158
+00001605,South Meadow Walk,55.93971,-3.19155
+00001606,South Meadow Walk,55.9397,-3.19148
+00001607,South Meadow Walk,55.93967,-3.19128
+00001608,South Meadow Walk,55.93963,-3.19102
+00001609,South Meadow Walk,55.93953,-3.19019
+00001610,South Meadow Walk,55.9395,-3.18968
+00001611,South Meadow Walk,55.9395,-3.1894
+00001612,South Meadow Walk,55.9395,-3.18916
+00001613,South Meadow Walk,55.93955,-3.18811
+00001614,South Meadow Walk,55.93959,-3.1871
+00001615,South Meadow Walk,55.93962,-3.18646
+00001616,South Meadow Walk,55.93966,-3.18591
+00001617,South Meadow Walk,55.93969,-3.1856
+00001618,South Meadow Walk,55.93984,-3.18413
+00001619,South Meadow Walk,55.93997,-3.18293
+00001620,Crossing,55.93997,-3.18287
+00001621,Crossing,55.93999,-3.18269
+00001622,Link with Crossing,55.94,-3.18255
+00001623,Link with Crossing,55.94007,-3.18257
+00001624,Link with Crossing,55.94011,-3.18258
+00001625,Link with Crossing,55.94024,-3.18258
+00001626,Link with Crossing,55.94036,-3.18259
+00001627,Link with Crossing,55.94041,-3.18257
+00001628,Crossing,55.94045,-3.18252
+00001629,Hope Park Terrace,55.94052,-3.1825
+00001630,Hope Park Terrace,55.94057,-3.18225
+00001631,Hope Park Terrace,55.9406,-3.18208
+00001632,Hope Park Terrace,55.94065,-3.18186
+00001633,Hope Park Terrace,55.94077,-3.18137
+00001634,Bernard Terrace,55.94087,-3.18095
+00001635,Bernard Terrace,55.94108,-3.18008
+00001636,Spittalfield Crescent,55.94144,-3.17862
+00001637,Spittalfield Crescent,55.94159,-3.1787
+00001638,Spittalfield Crescent,55.94161,-3.17871
+00001639,Spittalfield Crescent,55.94162,-3.17871
+00001640,Spittalfield Crescent,55.94164,-3.17871
+00001641,Spittalfield Crescent,55.94165,-3.17871
+00001642,Spittalfield Crescent,55.94166,-3.1787
+00001643,Spittalfield Crescent,55.94167,-3.1787
+00001644,St Leonard's Street,55.94177,-3.17857
+00001645,Hermits Croft,55.94185,-3.17869
+00001646,Hermits Croft,55.94188,-3.17859
+00001647,Hermits Croft,55.9419,-3.17852
+00001648,East Parkside,55.9416,-3.17338
+00001649,East Parkside,55.94154,-3.17317
+00001650,East Parkside,55.94149,-3.17292
+00001651,East Parkside,55.94138,-3.17245
+00001652,Holyrood Park,55.94132,-3.17219
+00001653,Holyrood Park,55.94139,-3.17211
+00001654,Holyrood Park,55.94165,-3.1718
+00001655,Holyrood Park,55.94177,-3.17166
+00001656,Holyrood Park,55.94181,-3.17154
+00001657,Holyrood Park,55.94186,-3.17131
+00001658,Holyrood Park,55.94195,-3.171
+00001659,Holyrood Park,55.94204,-3.17072
+00001660,Holyrood Park,55.94213,-3.17055
+00001661,Holyrood Park,55.94217,-3.17044
+00001662,Holyrood Park,55.94218,-3.17037
+00001663,Holyrood Park,55.94218,-3.1703
+00001664,Holyrood Park,55.94233,-3.17024
+00001665,Holyrood Park,55.94247,-3.1702
+00001666,Holyrood Park,55.9425,-3.17018
+00001667,Holyrood Park,55.94252,-3.17016
+00001668,Holyrood Park,55.94254,-3.17013
+00001669,Holyrood Park,55.94255,-3.17009
+00001670,Holyrood Park,55.94256,-3.17005
+00001671,Holyrood Park,55.94257,-3.17
+00001672,Holyrood Park,55.94258,-3.16996
+00001673,Holyrood Park,55.94258,-3.16991
+00001674,Holyrood Park,55.94258,-3.16984
+00001675,Queen's Drive,55.9426,-3.16983
+00001676,Queen's Drive,55.9426,-3.16977
+00001677,Queen's Drive,55.94245,-3.16893
+00001678,Queen's Drive,55.9424,-3.16857
+00001679,Queen's Drive,55.94238,-3.16842
+00001680,Queen's Drive,55.94236,-3.16823
+00001681,Queen's Drive,55.94235,-3.16797
+00001682,Queen's Drive,55.94234,-3.16768
+00001683,Queen's Drive,55.94234,-3.16735
+00001684,Queen's Drive,55.94236,-3.1671
+00001685,Queen's Drive,55.94237,-3.16679
+00001686,Queen's Drive,55.94236,-3.16653
+00001687,Queen's Drive,55.94234,-3.16632
+00001688,Queen's Drive,55.94231,-3.16614
+00001689,Queen's Drive,55.94226,-3.16597
+00001690,Queen's Drive,55.9422,-3.16582
+00001691,Queen's Drive,55.94213,-3.16569
+00001692,Queen's Drive,55.94205,-3.16559
+00001693,Queen's Drive,55.94197,-3.16553
+00001694,Queen's Drive,55.94188,-3.16548
+00001695,Queen's Drive,55.94177,-3.16545
+00001696,Queen's Drive,55.94168,-3.16542
+00001697,Queen's Drive,55.94158,-3.16538
+00001698,Queen's Drive,55.94148,-3.16534
+00001699,Queen's Drive,55.9414,-3.16527
+00001700,Queen's Drive,55.94132,-3.1652
+00001701,Queen's Drive,55.94125,-3.16512
+00001702,Queen's Drive,55.94116,-3.16501
+00001703,Queen's Drive,55.94106,-3.16489
+00001704,Queen's Drive,55.94101,-3.16479
+00001705,Queen's Drive,55.94094,-3.16466
+00001706,Queen's Drive,55.94088,-3.16451
+00001707,Queen's Drive,55.94082,-3.16437
+00001708,Queen's Drive,55.94075,-3.16416
+00001709,Queen's Drive,55.94069,-3.16395
+00001710,Queen's Drive,55.94062,-3.16371
+00001711,Queen's Drive,55.94055,-3.16343
+00001712,Queen's Drive,55.94049,-3.16313
+00001713,Queen's Drive,55.94044,-3.16284
+00001714,Queen's Drive,55.9404,-3.16256
+00001715,Queen's Drive,55.94037,-3.16234
+00001716,Queen's Drive,55.94036,-3.16213
+00001717,Queen's Drive,55.94035,-3.16191
+00001718,Queen's Drive,55.94037,-3.16126
+00001719,Queen's Drive,55.94039,-3.1608
+00001720,Queen's Drive,55.94041,-3.16041
+00001721,Queen's Drive,55.94044,-3.16001
+00001722,Queen's Drive,55.94047,-3.15976
+00001723,Queen's Drive,55.9405,-3.15952
+00001724,Queen's Drive,55.94054,-3.15929
+00001725,Queen's Drive,55.94059,-3.15908
+00001726,Queen's Drive,55.94063,-3.15888
+00001727,Queen's Drive,55.94068,-3.15874
+00001728,Queen's Drive,55.94074,-3.15861
+00001729,Queen's Drive,55.94081,-3.1585
+00001730,Queen's Drive,55.9409,-3.15838
+00001731,Queen's Drive,55.94094,-3.1583
+00001732,Queen's Drive,55.94099,-3.15821
+00001733,Queen's Drive,55.94104,-3.15808
+00001734,Queen's Drive,55.94109,-3.15787
+00001735,Queen's Drive,55.94115,-3.1576
+00001736,Queen's Drive,55.94122,-3.15727
+00001737,Queen's Drive,55.9413,-3.15699
+00001738,Queen's Drive,55.94139,-3.15672
+00001739,Queen's Drive,55.9415,-3.15644
+00001740,Queen's Drive,55.94156,-3.15629
+00001741,Queen's Drive,55.94161,-3.15612
+00001742,Queen's Drive,55.94166,-3.1559
+00001743,Queen's Drive,55.94171,-3.15566
+00001744,Queen's Drive,55.94176,-3.1555
+00001745,Queen's Drive,55.94181,-3.15536
+00001746,Queen's Drive,55.94204,-3.15492
+00001747,Queen's Drive,55.94246,-3.15402
+00001748,Queen's Drive,55.94248,-3.15397
+00001749,Queen's Drive,55.94274,-3.15346
+00001750,Queen's Drive,55.94281,-3.15332
+00001751,Queen's Drive,55.94285,-3.15318
+00001752,Queen's Drive,55.94292,-3.15295
+00001753,Queen's Drive,55.94299,-3.15273
+00001754,Queen's Drive,55.94304,-3.15258
+00001755,Queen's Drive,55.94309,-3.15248
+00001756,Queen's Drive,55.94316,-3.15239
+00001757,Holyrood Park,55.94323,-3.15233
+00001758,Holyrood Park,55.94324,-3.1524
+00001759,Holyrood Park,55.94324,-3.15243
+00001760,Holyrood Park,55.94323,-3.15246
+00001761,Holyrood Park,55.94322,-3.15249
+00001762,Holyrood Park,55.9432,-3.15251
+00001763,Holyrood Park,55.94319,-3.15254
+00001764,Holyrood Park,55.94317,-3.15258
+00001765,Holyrood Park,55.94316,-3.15264
+00001766,Holyrood Park,55.94315,-3.15272
+00001767,Holyrood Park,55.94314,-3.15281
+00001768,Holyrood Park,55.94313,-3.15291
+00001769,Holyrood Park,55.94309,-3.15301
+00001770,Holyrood Park,55.94309,-3.15307
+00001771,Holyrood Park,55.94306,-3.15327
+00001772,Holyrood Park,55.94305,-3.15331
+00001773,Holyrood Park,55.94305,-3.15335
+00001774,Holyrood Park,55.94305,-3.15344
+00001775,Holyrood Park,55.94305,-3.1535
+00001776,Holyrood Park,55.94305,-3.15355
+00001777,Holyrood Park,55.94304,-3.1536
+00001778,Holyrood Park,55.94301,-3.15376
+00001779,Holyrood Park,55.943,-3.15379
+00001780,Holyrood Park,55.943,-3.15382
+00001781,Holyrood Park,55.943,-3.15388
+00001782,Holyrood Park,55.94301,-3.15394
+00001783,Holyrood Park,55.94302,-3.15403
+00001784,Holyrood Park,55.94302,-3.15411
+00001785,Holyrood Park,55.94302,-3.15416
+00001786,Holyrood Park,55.94301,-3.15421
+00001787,Holyrood Park,55.943,-3.15426
+00001788,Holyrood Park,55.94299,-3.1543
+00001789,Holyrood Park,55.94275,-3.1551
+00001790,Holyrood Park,55.94244,-3.15618
+00001791,Holyrood Park,55.94234,-3.15643
+00001792,Holyrood Park,55.94222,-3.15665
+00001793,Holyrood Park,55.94217,-3.15684
+00001794,Holyrood Park,55.94195,-3.15738
+00001795,Holyrood Park,55.94187,-3.15786
+00001796,Holyrood Park,55.94183,-3.15805
+00001797,Holyrood Park,55.94184,-3.15817
+00001798,Holyrood Park,55.94181,-3.15836
+00001799,Holyrood Park,55.94181,-3.15856
+00001800,Holyrood Park,55.94183,-3.15881
+00001801,Holyrood Park,55.94193,-3.15905
+00001802,Holyrood Park,55.94206,-3.1593
+00001803,Holyrood Park,55.94213,-3.15945
+00001804,Holyrood Park,55.94228,-3.15971
+00001805,Holyrood Park,55.94247,-3.16012
+00001806,Holyrood Park,55.94261,-3.1602
+00001807,Holyrood Park,55.94279,-3.16033
+00001808,Holyrood Park,55.94269,-3.16061
+00001809,Holyrood Park,55.94264,-3.16114
+00001810,Holyrood Park,55.94258,-3.16166
+00001811,Holyrood Park,55.94253,-3.16192
+00001812,Holyrood Park,55.94253,-3.16213
+00001813,Holyrood Park,55.94257,-3.1621
+00001814,Holyrood Park,55.94268,-3.16198
+00001815,Holyrood Park,55.94277,-3.16194
+00001816,Holyrood Park,55.94284,-3.16183
+00001817,Holyrood Park,55.94293,-3.16175
+00001818,Holyrood Park,55.94355,-3.16186
+00001819,Holyrood Park,55.94358,-3.16151
+00001820,Holyrood Park,55.94364,-3.16135
+00001821,Holyrood Park,55.94369,-3.16124
+00001822,Holyrood Park,55.94381,-3.161
+00001823,Holyrood Park,55.94391,-3.16067
+00001824,Holyrood Park,55.94401,-3.16031
+00001825,Holyrood Park,55.94403,-3.16014
+00001826,Holyrood Park,55.94408,-3.15983
+00001827,Holyrood Park,55.94414,-3.15967
+00001828,Holyrood Park,55.9442,-3.15954
+00001829,Holyrood Park,55.94426,-3.15942
+00001830,Piper's Walk,55.94435,-3.15926
+00001831,Piper's Walk,55.94443,-3.15916
+00001832,Piper's Walk,55.94448,-3.15912
+00001833,Holyrood Park,55.94452,-3.15909
+00001834,Holyrood Park,55.94458,-3.15899
+00001835,Holyrood Park,55.94458,-3.15857
+00001836,Holyrood Park,55.9447,-3.15833
+00001837,Holyrood Park,55.94476,-3.15814
+00001838,Holyrood Park,55.94479,-3.15799
+00001839,Holyrood Park,55.94482,-3.15794
+00001840,Holyrood Park,55.9449,-3.15775
+00001841,Holyrood Park,55.94492,-3.15766
+00001842,Holyrood Park,55.94493,-3.15756
+00001843,Holyrood Park,55.94498,-3.15716
+00001844,Holyrood Park,55.94507,-3.15677
+00001845,Holyrood Park,55.94519,-3.15654
+00001846,Holyrood Park,55.94531,-3.15601
+00001847,Holyrood Park,55.94538,-3.15587
+00001848,Holyrood Park,55.94551,-3.15581
+00001849,Holyrood Park,55.94587,-3.15526
+00001850,Holyrood Park,55.94593,-3.15483
+00001851,Holyrood Park,55.94599,-3.15468
+00001852,Queen's Drive,55.94601,-3.15445
+00001853,Queen's Drive,55.94589,-3.15438
+00001854,Queen's Drive,55.94578,-3.15429
+00001855,Queen's Drive,55.94564,-3.15416
+00001856,Queen's Drive,55.94551,-3.15404
+00001857,Queen's Drive,55.94541,-3.15393
+00001858,Queen's Drive,55.94527,-3.15378
+00001859,Queen's Drive,55.94512,-3.15359
+00001860,Queen's Drive,55.9451,-3.15356
+00001861,Queen's Drive,55.94499,-3.15342
+00001862,Car storage area,55.94491,-3.15332
+00001863,Car storage area,55.94488,-3.15321
+00001864,Car storage area,55.94487,-3.15316
+00001865,Car storage area,55.94487,-3.15312
+00001866,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94493,-3.15294
+00001867,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94513,-3.15268
+00001868,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94528,-3.15254
+00001869,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94538,-3.1523
+00001870,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94542,-3.15219
+00001871,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94545,-3.15214
+00001872,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94548,-3.15209
+00001873,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94551,-3.15202
+00001874,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94555,-3.15194
+00001875,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94557,-3.15186
+00001876,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94559,-3.15171
+00001877,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94559,-3.15162
+00001878,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94559,-3.15147
+00001879,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.9456,-3.15135
+00001880,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94564,-3.15115
+00001881,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94562,-3.15097
+00001882,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94567,-3.15062
+00001883,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94568,-3.15051
+00001884,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.9457,-3.15042
+00001885,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94573,-3.15035
+00001886,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94575,-3.15026
+00001887,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94575,-3.15022
+00001888,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94574,-3.15017
+00001889,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94572,-3.15013
+00001890,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94577,-3.1499
+00001891,Holyrood Park,55.94578,-3.14981
+00001892,Holyrood Park,55.94594,-3.15015
+00001893,Holyrood Park,55.94607,-3.15034
+00001894,Holyrood Park,55.94623,-3.15038
+00001895,Holyrood Park,55.94659,-3.15033
+00001896,Holyrood Park,55.94669,-3.15051
+00001897,Holyrood Park,55.94673,-3.15054
+00001898,Holyrood Park,55.94678,-3.15056
+00001899,Holyrood Park,55.9468,-3.15061
+00001900,Holyrood Park,55.94684,-3.15066
+00001901,Holyrood Park,55.94689,-3.15071
+00001902,Holyrood Park,55.94693,-3.15078
+00001903,Holyrood Park,55.94697,-3.15082
+00001904,Holyrood Park,55.947,-3.15086
+00001905,Holyrood Park,55.94701,-3.1509
+00001906,Holyrood Park,55.94704,-3.15096
+00001907,Holyrood Park,55.94716,-3.151
+00001908,Holyrood Park,55.94734,-3.15114
+00001909,Holyrood Park,55.94738,-3.15116
+00001910,Queen's Drive,55.94741,-3.15118
+00001911,Queen's Drive,55.94749,-3.15096
+00001912,Queen's Drive,55.94753,-3.15087
+00001913,Queen's Drive,55.94757,-3.15079
+00001914,Queen's Drive,55.94762,-3.15069
+00001915,Queen's Drive,55.94768,-3.1506
+00001916,Queen's Drive,55.94774,-3.15054
+00001917,Queen's Drive,55.9478,-3.15049
+00001918,Queen's Drive,55.94784,-3.15045
+00001919,Queen's Drive,55.94788,-3.15043
+00001920,Queen's Drive,55.94796,-3.15039
+00001921,Queen's Drive,55.94804,-3.15037
+00001922,Queen's Drive,55.94817,-3.15034
+00001923,Queen's Drive,55.94825,-3.15032
+00001924,Queen's Drive,55.94833,-3.15031
+00001925,Queen's Drive,55.94858,-3.15032
+00001926,Holyrood Park,55.94896,-3.15033
+00001927,Holyrood Park,55.94896,-3.15023
+00001928,Holyrood Park,55.94897,-3.15013
+00001929,Meadowfield Park,55.94897,-3.1498
+00001930,Meadowfield Park,55.94897,-3.14975
+00001931,Meadowfield Park,55.94897,-3.14974
+00001932,Meadowfield Park,55.94896,-3.14959
+00001933,Meadowfield Park,55.94891,-3.14931
+00001934,Meadowfield Park,55.94888,-3.14912
+00001935,Meadowfield Park,55.94884,-3.14893
+00001936,Meadowfield Park,55.94886,-3.14887
+00001937,Meadowfield Park,55.94887,-3.14884
+00001938,Ulster Crescent,55.94886,-3.1488
+00001939,Ulster Crescent,55.94893,-3.14872
+00001940,Ulster Crescent,55.94909,-3.14848
+00001941,Ulster Crescent,55.94912,-3.14843
+00001942,Ulster Crescent,55.94914,-3.14839
+00001943,Ulster Crescent,55.94917,-3.14833
+00001944,Ulster Crescent,55.94919,-3.14828
+00001945,Ulster Crescent,55.94921,-3.14822
+00001946,Ulster Crescent,55.94923,-3.14815
+00001947,Ulster Crescent,55.94925,-3.14806
+00001948,Ulster Crescent,55.94926,-3.14801
+00001949,Ulster Crescent,55.94927,-3.14793
+00001950,Ulster Crescent,55.94929,-3.14784
+00001951,Ulster Crescent,55.94929,-3.14776
+00001952,Ulster Crescent,55.9493,-3.1477
+00001953,Paisley Gardens,55.94936,-3.14686
+00001954,Paisley Gardens,55.94944,-3.1469
+00001955,Paisley Gardens,55.94951,-3.14694
+00001956,Paisley Gardens,55.94951,-3.14695
+00001957,Paisley Gardens,55.94952,-3.14696
+00001958,Paisley Gardens,55.94954,-3.14697
+00001959,Paisley Gardens,55.94955,-3.14699
+00001960,Paisley Gardens,55.94957,-3.147
+00001961,Paisley Gardens,55.94959,-3.14703
+00001962,Paisley Gardens,55.9496,-3.14705
+00001963,Paisley Gardens,55.94966,-3.14715
+00001964,Paisley Gardens,55.94972,-3.14726
+00001965,Paisley Gardens,55.94983,-3.14747
+00001966,Paisley Gardens,55.95031,-3.14837
+00001967,Paisley Gardens,55.95038,-3.14851
+00001968,Paisley Gardens,55.95043,-3.14865
+00001969,Paisley Gardens,55.95045,-3.14872
+00001970,Short dismounted link,55.95047,-3.14879
+00001971,Short dismounted link,55.95063,-3.14891
+00001972,Paisley Crescent,55.9509,-3.14838
+00001973,Paisley Crescent,55.95095,-3.14846
+00001974,Paisley Crescent,55.95099,-3.14853
+00001975,Paisley Crescent,55.95107,-3.14863
+00001976,Paisley Crescent,55.95122,-3.14879
+00001977,Paisley Crescent,55.95132,-3.14887
+00001978,Paisley Crescent,55.95143,-3.14894
+00001979,Paisley Crescent,55.95146,-3.14898
+00001980,Paisley Crescent,55.95147,-3.14898
+00001981,Paisley Crescent,55.95148,-3.14898
+00001982,Paisley Crescent,55.9515,-3.14898
+00001983,Paisley Crescent,55.95151,-3.14897
+00001984,Paisley Crescent,55.95152,-3.14896
+00001985,Paisley Crescent,55.95153,-3.14895
+00001986,Paisley Crescent,55.95155,-3.14895
+00001987,Paisley Crescent,55.95156,-3.14895
+00001988,Paisley Crescent,55.95157,-3.14895
+00001989,Paisley Crescent,55.9516,-3.14899
+00001990,Paisley Crescent,55.95185,-3.14912
+00001991,Paisley Crescent,55.95197,-3.14921
+00001992,Paisley Crescent,55.9522,-3.14943
+00001993,Willowbrae Avenue,55.95224,-3.14947
+00001994,Willowbrae Avenue,55.95214,-3.1498
+00001995,Willowbrae Avenue,55.95216,-3.14988
+00001996,Willowbrae Avenue,55.95218,-3.14998
+00001997,Willowbrae Avenue,55.95221,-3.15009
+00001998,Willowbrae Avenue,55.95224,-3.1502
+00001999,Willowbrae Avenue,55.95228,-3.1503
+00002000,Willowbrae Avenue,55.95231,-3.15038
+00002001,Willowbrae Avenue,55.95234,-3.15047
+00002002,Willowbrae Avenue,55.95238,-3.15055
+00002003,Willowbrae Avenue,55.95241,-3.15061
+00002004,Willowbrae Avenue,55.95244,-3.15068
+00002005,Willowbrae Avenue,55.95249,-3.15077
+00002006,Willowbrae Avenue,55.95254,-3.15084
+00002007,Willowbrae Avenue,55.95259,-3.15093
+00002008,Willowbrae Avenue,55.95264,-3.151
+00002009,Willowbrae Avenue,55.95271,-3.15108
+00002010,Abercorn Road,55.9528,-3.15117
+00002011,Lilyhill Terrace,55.95262,-3.1515
+00002012,Lilyhill Terrace,55.95286,-3.15187
+00002013,Lilyhill Terrace,55.95287,-3.15192
+00002014,Lilyhill Terrace,55.95289,-3.15195
+00002015,Lilyhill Terrace,55.95293,-3.15199
+00002016,Lilyhill Terrace,55.95305,-3.15205
+00002017,Queen's Park Court,55.95372,-3.15241
+00002018,Queen's Park Court,55.9537,-3.15248
+00002019,Queen's Park Court,55.95367,-3.15259
+00002020,Queen's Park Court,55.95356,-3.15296
+00002021,Permeability link,55.95341,-3.15348
+00002022,Queen's Park Avenue,55.95338,-3.15359
+00002023,Queen's Park Avenue,55.95375,-3.15421
+00002024,Queen's Park Avenue,55.95402,-3.155
+00002025,Queen's Park Avenue,55.95411,-3.15527
+00002026,Queen's Park Avenue,55.95419,-3.15548
+00002027,Queen's Park Avenue,55.95427,-3.15572
+00002028,Queen's Park Avenue,55.95428,-3.15579
+00002029,Queen's Park Avenue,55.95429,-3.15587
+00002030,Queen's Park Avenue,55.9543,-3.15601
+00002031,Queen's Park Avenue,55.9543,-3.15622
+00002032,Queen's Park Avenue,55.95433,-3.15647
+00002033,Queen's Park Avenue,55.95439,-3.15709
+00002034,Queen's Park Avenue,55.9544,-3.15715
+00002035,Queen's Park Avenue,55.95441,-3.15724
+00002036,Queen's Park Avenue,55.95444,-3.15734
+00002037,Queen's Park Avenue,55.95449,-3.15743
+00002038,Queen's Park Avenue,55.95454,-3.15752
+00002039,Queen's Park Avenue,55.95458,-3.15759
+00002040,Royal Park Terrace,55.95463,-3.15775
+00002041,Royal Park Terrace,55.95466,-3.15795
+00002042,Royal Park Terrace,55.95467,-3.15956
+00002043,Royal Park Terrace,55.95469,-3.16127
+00002044,Royal Park Terrace,55.95479,-3.16183
+00002045,Royal Park Terrace,55.95481,-3.16221
+00002046,Spring Gardens,55.95483,-3.16262
+00002047,Spring Gardens,55.95484,-3.16274
+00002048,Spring Gardens,55.95485,-3.1628
+00002049,Spring Gardens,55.95491,-3.1631
+00002050,Spring Gardens,55.95496,-3.16334
+00002051,Spring Gardens,55.95497,-3.1634
+00002052,Spring Gardens,55.95498,-3.16347
+00002053,Spring Gardens,55.95499,-3.16349
+00002054,Spring Gardens,55.95499,-3.16355
+00002055,Spring Gardens,55.955,-3.1636
+00002056,Spring Gardens,55.955,-3.16366
+00002057,Spring Gardens,55.955,-3.16376
+00002058,Spring Gardens,55.955,-3.16389
+00002059,Spring Gardens,55.95501,-3.16433
+00002060,Spring Gardens,55.95507,-3.16498
+00002061,Spring Gardens,55.95508,-3.16513
+00002062,Spring Gardens,55.95509,-3.16524
+00002063,Spring Gardens,55.9551,-3.16531
+00002064,Spring Gardens,55.95511,-3.16537
+00002065,Spring Gardens,55.95511,-3.16542
+00002066,Spring Gardens,55.95512,-3.16549
+00002067,Spring Gardens,55.95513,-3.16556
+00002068,Spring Gardens,55.95515,-3.16565
+00002069,Spring Gardens,55.95516,-3.1657
+00002070,Spring Gardens,55.95516,-3.16573
+00002071,Spring Gardens,55.95517,-3.16577
+00002072,Spring Gardens,55.95518,-3.16581
+00002073,Spring Gardens,55.95519,-3.16585
+00002074,Spring Gardens,55.9552,-3.16589
+00002075,Spring Gardens,55.95521,-3.16593
+00002076,Spring Gardens,55.95522,-3.16597
+00002077,Spring Gardens,55.95523,-3.16602
+00002078,Spring Gardens,55.95524,-3.16605
+00002079,Spring Gardens,55.95534,-3.16648
+00002080,Spring Gardens,55.95544,-3.16684
+00002081,Spring Gardens,55.95546,-3.16693
+00002082,Spring Gardens,55.95549,-3.16704
+00002083,Spring Gardens,55.95551,-3.16711
+00002084,Spring Gardens,55.95552,-3.16719
+00002085,Spring Gardens,55.95554,-3.16729
+00002086,Spring Gardens,55.9556,-3.16758
+00002087,Spring Gardens,55.95564,-3.1677
+00002088,Spring Gardens,55.95573,-3.16793
+00002089,Spring Gardens,55.95577,-3.16806
+00002090,Abbey Lane,55.95587,-3.16852
+00002091,Abbey Lane,55.95604,-3.16836
+00002092,Abbey Lane,55.95622,-3.16816
+00002093,Abbey Lane,55.95646,-3.16783
+00002094,Abbey Lane,55.95649,-3.16776
+00002095,Abbey Lane,55.95655,-3.16762
+00002096,Abbey Lane,55.95664,-3.16745
+00002097,Abbey Lane,55.95668,-3.16735
+00002098,Abbey Lane,55.95675,-3.16725
+00002099,Abbey Lane,55.95679,-3.16721
+00002100,Abbey Lane,55.95682,-3.16719
+00002101,Abbey Lane,55.95685,-3.16718
+00002102,Abbey Lane,55.9569,-3.16717
+00002103,Abbey Lane,55.95695,-3.16717
+00002104,Abbey Lane,55.95699,-3.16716
+00002105,Abbey Lane,55.95703,-3.16716
+00002106,"London Road, A1",55.95722,-3.16714
+00002107,"London Road, A1",55.95723,-3.16727
+00002108,"London Road, A1",55.95726,-3.1675
+00002109,"London Road, A1",55.95731,-3.16813
+00002110,"London Road, A1",55.95731,-3.16817
+00002111,"London Road, A1",55.95732,-3.16848
+00002112,"London Road, A1",55.95733,-3.16872
+00002113,"London Road, A1",55.95734,-3.1692
+00002114,"London Road, B1350",55.95734,-3.16923
+00002115,"London Road, B1350",55.95738,-3.16961
+00002116,"London Road, B1350",55.95739,-3.16972
+00002117,"London Road, B1350",55.9574,-3.16987
+00002118,"London Road, B1350",55.95742,-3.17003
+00002119,"London Road, B1350",55.95745,-3.1702
+00002120,"Link between Rossie Place and London Road, B1350",55.9575,-3.17071
+00002121,"Link between Rossie Place and London Road, B1350",55.95757,-3.17067
+00002122,Rossie Place,55.95879,-3.16984
+00002123,Rossie Place,55.95885,-3.17044
+00002124,Easter Road,55.95895,-3.17174
+00002125,Easter Road,55.95921,-3.17168
+00002126,Easter Road,55.95946,-3.17162
+00002127,Easter Road,55.95966,-3.17158
+00002128,Easter Road,55.96025,-3.17145
+00002129,Easter Road,55.96072,-3.17133
+00002130,Easter Road,55.96106,-3.17126
+00002131,Easter Road,55.96132,-3.1712
+00002132,Easter Road,55.96146,-3.17117
+00002133,Easter Road,55.96152,-3.17116
+00002134,Easter Road,55.9616,-3.17113
+00002135,Easter Road,55.96216,-3.17101
+00002136,Easter Road,55.96227,-3.17099
+00002137,Easter Road,55.9624,-3.17097
+00002138,Easter Road,55.96273,-3.1709
+00002139,Easter Road,55.96289,-3.17086
+00002140,Easter Road,55.96303,-3.17084
+00002141,Iona Street,55.96335,-3.17076
+00002142,Iona Street,55.96345,-3.17225
+00002143,Iona Street,55.96355,-3.17344
+00002144,Iona Street,55.96356,-3.17355
+00002145,Iona Street,55.96356,-3.17365
+00002146,Sloan Street,55.96356,-3.17376
+00002147,Sloan Street,55.96361,-3.17376
+00002148,Sloan Street,55.96364,-3.17375
+00002149,Sloan Street,55.96366,-3.17375
+00002150,Sloan Street,55.96373,-3.17372
+00002151,Sloan Street,55.96468,-3.17332
+00002152,Sloan Street,55.96473,-3.1733
+00002153,Iona Street,55.96356,-3.17376
+00002154,Easter Road,55.96335,-3.17076
+00002155,Rossie Place,55.95895,-3.17174
+00002156,"Link between Rossie Place and London Road, B1350",55.95879,-3.16984
+00002157,"Link between Rossie Place and London Road, B1350",55.95757,-3.17067
+00002158,"London Road, B1350",55.9575,-3.17071
+00002159,"London Road, B1350",55.95745,-3.1702
+00002160,"London Road, B1350",55.95742,-3.17003
+00002161,"London Road, B1350",55.9574,-3.16987
+00002162,"London Road, B1350",55.95739,-3.16972
+00002163,"London Road, B1350",55.95738,-3.16961
+00002164,"London Road, A1",55.95734,-3.16923
+00002165,"London Road, A1",55.95734,-3.1692
+00002166,"London Road, A1",55.95733,-3.16872
+00002167,"London Road, A1",55.95732,-3.16848
+00002168,"London Road, A1",55.95731,-3.16817
+00002169,"London Road, A1",55.95731,-3.16813
+00002170,"London Road, A1",55.95726,-3.1675
+00002171,"London Road, A1",55.95723,-3.16727
+00002172,Abbey Lane,55.95722,-3.16714
+00002173,Spring Gardens,55.95587,-3.16852
+00002174,Royal Park Terrace,55.95483,-3.16262
+00002175,Queen's Park Avenue,55.95463,-3.15775
+00002176,Permeability link,55.95338,-3.15359
+00002177,Queen's Park Court,55.95341,-3.15348
+00002178,Lilyhill Terrace,55.95372,-3.15241
+00002179,Abercorn Road,55.95262,-3.1515
+00002180,Willowbrae Avenue,55.9528,-3.15117
+00002181,Paisley Crescent,55.95224,-3.14947
+00002182,Short dismounted link,55.9509,-3.14838
+00002183,Paisley Gardens,55.95047,-3.14879
+00002184,Ulster Crescent,55.94936,-3.14686
+00002185,Meadowfield Park,55.94886,-3.1488
+00002186,Holyrood Park,55.94897,-3.1498
+00002187,Queen's Drive,55.94896,-3.15033
+00002188,Holyrood Park,55.94741,-3.15118
+00002189,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94578,-3.14981
+00002190,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94577,-3.1499
+00002191,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94572,-3.15013
+00002192,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94574,-3.15017
+00002193,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94575,-3.15022
+00002194,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94575,-3.15026
+00002195,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94573,-3.15035
+00002196,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.9457,-3.15042
+00002197,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94568,-3.15051
+00002198,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94567,-3.15062
+00002199,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94562,-3.15097
+00002200,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94564,-3.15115
+00002201,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.9456,-3.15135
+00002202,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94559,-3.15147
+00002203,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94559,-3.15162
+00002204,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94559,-3.15171
+00002205,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94557,-3.15186
+00002206,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94555,-3.15194
+00002207,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94551,-3.15202
+00002208,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94548,-3.15209
+00002209,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94545,-3.15214
+00002210,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94542,-3.15219
+00002211,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94538,-3.1523
+00002212,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94528,-3.15254
+00002213,"Link joining Holyrood Park, Meadowfield Park, Car storage area",55.94513,-3.15268
+00002214,Car storage area,55.94493,-3.15294
+00002215,Queen's Drive,55.94491,-3.15332
+00002216,Holyrood Park,55.94601,-3.15445
+00002217,Piper's Walk,55.94452,-3.15909
+00002218,Holyrood Park,55.94435,-3.15926
+00002219,Queen's Drive,55.94323,-3.15233
+00002220,Holyrood Park,55.9426,-3.16983
+00002221,East Parkside,55.94132,-3.17219
+00002222,St Leonard's Street,55.94185,-3.17869
+00002223,Spittalfield Crescent,55.94177,-3.17857
+00002224,Bernard Terrace,55.94144,-3.17862
+00002225,Hope Park Terrace,55.94087,-3.18095
+00002226,Crossing,55.94052,-3.1825
+00002227,Link with Crossing,55.94045,-3.18252
+00002228,Crossing,55.94,-3.18255
+00002229,South Meadow Walk,55.93997,-3.18287
+00002230,John Muir Way,55.94016,-3.19462
+00002231,Leamington Walk,55.94014,-3.19518
+00002232,Bruntsfield Links,55.93857,-3.20338
+00002233,Muriel Spark Walk,55.93804,-3.20351
+00002234,Bruntsfield Links,55.93659,-3.2053
+00002235,Greenhill Gardens,55.93652,-3.20554
+00002236,Chamberlain Road,55.93428,-3.20552
+00002237,Greenhill Park,55.9343,-3.20749
+00002238,"Morningside Road, A702",55.93335,-3.21012
+00002239,"Morningside Road, A702",55.93321,-3.2101
+00002240,"Morningside Road, A702",55.93276,-3.21008
+00002241,"Morningside Road, A702",55.93248,-3.21005
+00002242,"Morningside Road, A702",55.93228,-3.21003
+00002243,"Morningside Road, A702",55.9321,-3.21002
+00002244,"Morningside Road, A702",55.93195,-3.21
+00002245,"Morningside Road, A702",55.93169,-3.20998
+00002246,"Morningside Road, A702",55.93147,-3.20996
+00002247,"Morningside Road, A702",55.93129,-3.20995
+00002248,"Morningside Road, A702",55.93107,-3.20992
+00002249,"Morningside Road, A702",55.93087,-3.20988
+00002250,"Morningside Road, A702",55.93047,-3.2098
+00002251,"Morningside Road, A702",55.93002,-3.20971
+00002252,"Morningside Road, A702",55.92993,-3.20969
+00002253,"Morningside Road, A702",55.92978,-3.20966
+00002254,"Morningside Road, A702",55.92937,-3.20959
+00002255,"Morningside Road, A702",55.92917,-3.20956
+00002256,"Morningside Road, A702",55.92894,-3.20952
+00002257,"Morningside Road, A702",55.92859,-3.20948
+00002258,"Morningside Road, A702",55.9284,-3.20945
+00002259,"Morningside Road, A702",55.92827,-3.20943
+00002260,"Morningside Road, A702",55.92825,-3.20943
+00002261,"Morningside Road, A702",55.9279,-3.20938
+00002262,"Morningside Road, A702",55.92764,-3.20934
+00002263,"Morningside Road, A702",55.92727,-3.20929
+00002264,"Morningside Road, A702",55.92716,-3.20927
+00002265,Millar Crescent,55.92715,-3.20927
+00002266,Millar Place,55.92719,-3.21108
+00002267,Short un-named link,55.92668,-3.21099
+00002268,Maxwell Street,55.9262,-3.21113
+00002269,Short un-named link,55.92619,-3.21104
+00002270,Steps continuation,55.92578,-3.21087
+00002271,Steps,55.92574,-3.2109
+00002272,Steps link,55.92568,-3.21094
+00002273,Steps,55.92552,-3.21106
+00002274,Steps continuation,55.9255,-3.21107
+00002275,Balcarres Street,55.9254,-3.21114

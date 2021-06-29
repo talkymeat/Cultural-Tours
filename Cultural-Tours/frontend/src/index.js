@@ -38,6 +38,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Slider from '@material-ui/core/Slider';
+import Input from '@material-ui/core/Input';
 
 // icons
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -735,7 +736,9 @@ class FifthStep extends Component {
       super(props);
       this.step5Ref = React.createRef();
       this.state = {
-        searchesOrFilters: [true, false]
+        searchesOrFilters: [],
+        searches: [],
+        categories: []
       };
   }
 
@@ -785,7 +788,7 @@ class FifthStep extends Component {
                   <Button
                     variant="contained"
                     className={classes.button + ' ' + classes.centred}
-                    onClick={() => {handleNext(2, {'type': 'Cycle'})}}
+                    onClick={() => {this.addSearchOrFilter(false)}}
                   >
                     Add a category filter
                   </Button>
@@ -795,7 +798,7 @@ class FifthStep extends Component {
                   <Button
                     variant="contained"
                     className={classes.button + ' ' + classes.centred}
-                    onClick={() => {handleNext(2, {'type': 'Bus'})}}
+                    onClick={() => {this.addSearchOrFilter(true)}}
                   >
                     Add a search term
                   </Button>
@@ -810,10 +813,24 @@ class FifthStep extends Component {
                 ))}
                 </Grid>
                 <Grid item xs={1}></Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10}>
+                <Button
+                  variant="contained"
+                  className={classes.button + ' ' + classes.centred}
+                  onClick={() => {
+                    handleNext(
+                      6,
+                      {
 
-
-
-
+                      }
+                    )
+                  }}
+                >
+                  GO! <NavigateNextIcon />
+                </Button>
+                </Grid>
+                <Grid item xs={1}></Grid>
                 <Grid item xs={12}></Grid>
               </Grid>
             </Card>
@@ -871,14 +888,6 @@ class LastStep extends Component {
                     className={classes.text + ' ' + classes.cardTitle}
                   >
                     Your tour
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h5"
-                    className={classes.text + ' ' + classes.cardTitle}
-                  >
-                    <em>Coming soon: search and filtering of sites</em>
                   </Typography>
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -952,6 +961,29 @@ class SearchBox extends Component {
           <Typography variant="h6" className={classes.text}>
             Enter search
           </Typography>
+          <FormControl className={classes.formControl}>
+          <InputLabel
+            width={600}
+            className={classes.button}
+            id="search"
+          >
+            {"Enter your search"}
+          </InputLabel>
+            <Input
+              width={600}
+              className={classes.selectEmpty}
+              id="search"
+              inputProps={{
+                name: "search",
+                id: "search",
+                'aria-label': 'Without label'
+              }}
+              defaultValue=""
+              displayEmpty
+            >
+
+            </Input>
+          </FormControl>
         </Card>
     )
   }
@@ -974,6 +1006,36 @@ class CategorySelector extends Component {
           <Typography variant="h6" className={classes.text}>
             Select category
           </Typography>
+          <FormControl className={classes.formControl}>
+          <InputLabel
+            width={600}
+            className={classes.button}
+            id="cat_selector"
+          >
+            {"4 categories"}
+          </InputLabel>
+            <Select
+              width={600}
+              className={classes.selectEmpty}
+              id="which_cat"
+              inputProps={{
+                name: "pick_cat",
+                id: "pick_cat",
+                'aria-label': 'Without label'
+              }}
+              defaultValue=""
+              displayEmpty
+            >
+              {['Charity', 'Digital', 'Historic', 'Making'].map((cat) => (
+                <MenuItem
+                  key={cat}
+                  value={cat}
+                >
+                  {cat}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Card>
     )
   }

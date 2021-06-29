@@ -1,0 +1,42 @@
+{
+  "operator": "Flaneur Cycle Network",
+  "name": "1",
+  "description": "Balcarres Street to Sloan Street",
+  "itinerary_points": [
+    {
+      "name": "Balcarres Street",
+      "lat": 55.9247199,
+      "lon": -3.2177295
+    },
+    {
+      "name": "The Canny Man's",
+      "lat": 55.9275728,
+      "lon": -3.2091179
+    },
+    {
+      "name": "Mugs Cafe",
+      "lat": 55.93321,
+      "lon": -3.210331
+    },
+    {
+      "name": "Queen's Drive",
+      "lat": 55.9411487,
+      "lon": -3.157601
+    },
+    {
+      "name": "The Nether Hill",
+      "lat": 55.9425607,
+      "lon": -3.1620707
+    },
+    {
+      "name": "Dunsapie Crag",
+      "lat": 55.9456422,
+      "lon": -3.1511649
+    },
+    {
+      "name": "Sloan Street",
+      "lat": 55.9647252,
+      "lon": -3.1733039
+    }
+  ]
+}
