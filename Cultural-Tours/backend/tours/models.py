@@ -116,6 +116,7 @@ class WaypointOnRoute(models.Model):
     )
     is_beginning = models.BooleanField(default=False)
     is_end = models.BooleanField(default=False)
+    is_keypoint = models.BooleanField(default=False)
 
     def __str__(self):
         return self.waypoint.name

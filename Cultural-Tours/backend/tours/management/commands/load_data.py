@@ -71,6 +71,7 @@ class Command(BaseCommand):
                     way_pt = Waypoint.objects.get(id=wpt_row['Waypoint'])
                     w_o_r.route = route
                     w_o_r.waypoint = way_pt
+                    w_o_r.is_keypoint = bool(int(wpt_row.get("Is_Keypoint", "1")))
                     if first:
                         w_o_r.is_beginning = True
                         first = False
@@ -83,6 +84,8 @@ class Command(BaseCommand):
                     w_o_r.save()
                     route.waypoints.add(w_o_r)
                     route.save()
+                # After the loop is finished, the loop variable w_o_r will point
+                # to the final waypoint, so mark it as final
                 if not first:
                     w_o_r.is_end = True
                     route.last_stop = w_o_r

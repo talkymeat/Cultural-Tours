@@ -16,7 +16,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         fields = kwargs.pop('fields', None)
-
+        
         # Instantiate the superclass normally
         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
 
@@ -242,6 +242,7 @@ class RouteSerializer(serializers.ModelSerializer):
         # in this way.
         wpt_fields = (
             'name','stop_id','lat','lon','next','is_beginning','is_end','id',
+            'is_keypoint'
         ) + (
             ('sites',)
             if re.match(r'[1-9][0-9]*', self.context.get('max_dist', ''))
@@ -287,6 +288,7 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
     # --- Fields taken directly from the WaypointOnRoute ---
     is_beginning = serializers.BooleanField(read_only=True)
     is_end = serializers.BooleanField(read_only=True)
+    is_keypoint = serializers.BooleanField(read_only=True)
     id = serializers.IntegerField()
     # --- Fields returned by methods, taking data from the Waypoint ---
     name = serializers.SerializerMethodField()
@@ -308,7 +310,7 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
         model = WaypointOnRoute
         fields = [
             'name', 'stop_id', 'id', 'lat', 'lon', 'next', 'is_beginning',
-             'is_end', 'route', 'sites'
+             'is_end', 'is_keypoint', 'route', 'sites'
         ]
 
     def get_name(self, instance):
@@ -379,101 +381,102 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
         # filtering within category by a subcategory), or retrieving Sites
         # based on one or more searches, this condition ensures the requested
         # Sites are returned
-        if self.context.get('search', '') or self.context.get('category', ''):
-            # Create an empty QuerySet on the Sites model. All Sites retrieved
-            # by filters or searches will be added to this. This QuerySet is
-            # then passed through another loop to pick out only the sites
-            # within max_dist metres of the Waypoint.
-            sites_of_interest = Site.objects.none()
-            # First, the sites identified by filters are retrieved
-            if self.context.get('category', False):
-                # more than one category filter may be provided. Ths loop
-                # iterates over the list of relevant categories
-                for cat in self.context.getlist('category'):
-                    # Create a QuerySet containing all sites with the current
-                    # category
-                    sites_in_cat = Site.objects.filter(category__icontains=cat)
-                    # If self.context contains any subcategory filters for the
-                    # current category, this loop picks out just the Sites in
-                    # the category QuerySet with one of these subcategories
-                    for subcat in self.context.getlist('subcat ' + cat.lower(), []):
-                        # Creates a QuerySet with the category _and_
-                        # subcategory, and merges it with sites_of_interest
-                        sites_in_subcat = sites_in_cat.filter(subcategory__icontains=subcat)
-                        sites_of_interest = sites_of_interest | sites_in_subcat
-                        # Breaks the loop when the last subcategory is reached:
-                        # this prevents the else-clause from running unless
-                        # are no subcategories given for the current category.
-                        if subcat == self.context.getlist('subcat ' + cat.lower())[-1]:
-                            break
-                    else:
-                        # If NO subcategories are given for the current
-                        # category, the complete set of sites for the current
-                        # category are merged into sites_of_interest
-                        sites_of_interest = sites_of_interest | sites_in_cat
-            # now, the sites identified by search strings
-            # TODO: This could be  improved if the sqlite3 database
-            # were replaced with PostgreSQL - but that could be
-            # time-consuming and ... *EHN DO IT LATER*. Let's get a basic
-            # version working first.
-            if self.context.get('search', False):
-                # The user may enter multiple search strings: this loops over
-                # all of them, adding the sites for each search to the QuerySet
-                for search in self.context.getlist('search'):
-                    # The parse_search_string(search) method splits the search
-                    # string into a list of search terms (space-separated unless
-                    # enclosed in quotes, in which case a multi-word search term
-                    # is possible; for full details, see the docstring on
-                    # parse_search_string in utils.py). The search proceeds
-                    # first by creating a QuerySet with all Sites, then
-                    # iteratively filtering it, so that at each step, only the
-                    # Sites with the search term in at least ONE of the
-                    # searchable fields remain. As a result, when the loop below
-                    # is finished, only Sites with ALL of the search terms
-                    # SOMEWHERE in their searchable fields remain.
-                    hits = Site.objects.all()
-                    for term in parse_search_string(search):
-                        hits = hits.filter(
-                            Q(category__icontains=term)|
-                            Q(subcategory__icontains=term)|
-                            Q(interest__icontains=term)|
-                            Q(description__icontains=term)|
-                            Q(name__icontains=term)|
-                            Q(organisation__icontains=term)
-                        )
-                    # If any sites remain after filtering, these are merged into
-                    # sites_of_interest
-                    sites_of_interest = sites_of_interest | hits
-        else:
-            # if self.context contains no filters OR searches, all Sites within
-            # max_dist are "of interest"
-            sites_of_interest = Site.objects.all()
-        # Create an empty QuerySet on the Site model. Any Site that is not more
-        # than max_dist metres from the Waypoint will be added to
-        # nearby_sites_of_interest, which will be passed to SiteSerializer to
-        # produce the data to be returned.
-        nearby_sites_of_interest = Site.objects.none()
-        # A dict to store a mapping between the ids of included Sites and the
-        # distance in metres of the Site from the Waypoint. This is passed to
-        # SiteSerializer via the context param, so that SiteSerializer can
-        # include the distance in the site data.
-        dist_dict = {}
-        for s_o_i in sites_of_interest:
-            # The get_distance function is imported from utils.py, and provides
-            # a decent approximation to the arc-length of the distance as the
-            # crow flies on the surface of the Earth, assuming the earth is
-            # exactly spherical.
-            distance = get_distance(
-                instance.waypoint.lat, instance.waypoint.lon,
-                s_o_i.lat, s_o_i.lon
-            )
-            # if the distance is less than max_dist ...
-            if distance <= float(self.context.get("max_dist")):
-                # ... add the id -> distance mapping to dist_dict ...
-                dist_dict[s_o_i.pk] = distance
-                # ... and add the site to nearby_sites_of_interest
-                nearby_sites_of_interest = \
-                    nearby_sites_of_interest | sites_of_interest.filter(pk=s_o_i.pk)
+        if instance.is_keypoint:
+            if self.context.get('search', '') or self.context.get('category', ''):
+                # Create an empty QuerySet on the Sites model. All Sites retrieved
+                # by filters or searches will be added to this. This QuerySet is
+                # then passed through another loop to pick out only the sites
+                # within max_dist metres of the Waypoint.
+                sites_of_interest = Site.objects.none()
+                # First, the sites identified by filters are retrieved
+                if self.context.get('category', False):
+                    # more than one category filter may be provided. Ths loop
+                    # iterates over the list of relevant categories
+                    for cat in self.context.getlist('category'):
+                        # Create a QuerySet containing all sites with the current
+                        # category
+                        sites_in_cat = Site.objects.filter(category__icontains=cat)
+                        # If self.context contains any subcategory filters for the
+                        # current category, this loop picks out just the Sites in
+                        # the category QuerySet with one of these subcategories
+                        for subcat in self.context.getlist('subcat ' + cat.lower(), []):
+                            # Creates a QuerySet with the category _and_
+                            # subcategory, and merges it with sites_of_interest
+                            sites_in_subcat = sites_in_cat.filter(subcategory__icontains=subcat)
+                            sites_of_interest = sites_of_interest | sites_in_subcat
+                            # Breaks the loop when the last subcategory is reached:
+                            # this prevents the else-clause from running unless
+                            # are no subcategories given for the current category.
+                            if subcat == self.context.getlist('subcat ' + cat.lower())[-1]:
+                                break
+                        else:
+                            # If NO subcategories are given for the current
+                            # category, the complete set of sites for the current
+                            # category are merged into sites_of_interest
+                            sites_of_interest = sites_of_interest | sites_in_cat
+                # now, the sites identified by search strings
+                # TODO: This could be  improved if the sqlite3 database
+                # were replaced with PostgreSQL - but that could be
+                # time-consuming and ... *EHN DO IT LATER*. Let's get a basic
+                # version working first.
+                if self.context.get('search', False):
+                    # The user may enter multiple search strings: this loops over
+                    # all of them, adding the sites for each search to the QuerySet
+                    for search in self.context.getlist('search'):
+                        # The parse_search_string(search) method splits the search
+                        # string into a list of search terms (space-separated unless
+                        # enclosed in quotes, in which case a multi-word search term
+                        # is possible; for full details, see the docstring on
+                        # parse_search_string in utils.py). The search proceeds
+                        # first by creating a QuerySet with all Sites, then
+                        # iteratively filtering it, so that at each step, only the
+                        # Sites with the search term in at least ONE of the
+                        # searchable fields remain. As a result, when the loop below
+                        # is finished, only Sites with ALL of the search terms
+                        # SOMEWHERE in their searchable fields remain.
+                        hits = Site.objects.all()
+                        for term in parse_search_string(search):
+                            hits = hits.filter(
+                                Q(category__icontains=term)|
+                                Q(subcategory__icontains=term)|
+                                Q(interest__icontains=term)|
+                                Q(description__icontains=term)|
+                                Q(name__icontains=term)|
+                                Q(organisation__icontains=term)
+                            )
+                        # If any sites remain after filtering, these are merged into
+                        # sites_of_interest
+                        sites_of_interest = sites_of_interest | hits
+            else:
+                # if self.context contains no filters OR searches, all Sites within
+                # max_dist are "of interest"
+                sites_of_interest = Site.objects.all()
+            # Create an empty QuerySet on the Site model. Any Site that is not more
+            # than max_dist metres from the Waypoint will be added to
+            # nearby_sites_of_interest, which will be passed to SiteSerializer to
+            # produce the data to be returned.
+            nearby_sites_of_interest = Site.objects.none()
+            # A dict to store a mapping between the ids of included Sites and the
+            # distance in metres of the Site from the Waypoint. This is passed to
+            # SiteSerializer via the context param, so that SiteSerializer can
+            # include the distance in the site data.
+            dist_dict = {}
+            for s_o_i in sites_of_interest:
+                # The get_distance function is imported from utils.py, and provides
+                # a decent approximation to the arc-length of the distance as the
+                # crow flies on the surface of the Earth, assuming the earth is
+                # exactly spherical.
+                distance = get_distance(
+                    instance.waypoint.lat, instance.waypoint.lon,
+                    s_o_i.lat, s_o_i.lon
+                )
+                # if the distance is less than max_dist ...
+                if distance <= float(self.context.get("max_dist")):
+                    # ... add the id -> distance mapping to dist_dict ...
+                    dist_dict[s_o_i.pk] = distance
+                    # ... and add the site to nearby_sites_of_interest
+                    nearby_sites_of_interest = \
+                        nearby_sites_of_interest | sites_of_interest.filter(pk=s_o_i.pk)
         # Convert nearby_sites_of_interest to json, and return the data
         return SiteSerializer(
             nearby_sites_of_interest, many=True, context=dist_dict
