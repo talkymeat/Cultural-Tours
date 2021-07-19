@@ -4,7 +4,7 @@ from django.db.models import QuerySet, Q
 
 import re
 
-from .models import Site, Route, Waypoint, WaypointOnRoute
+from .models import Site, Route, Waypoint, WaypointOnRoute, Category, Subcategory
 from .utils import parse_search_string, get_distance
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         fields = kwargs.pop('fields', None)
-        
+
         # Instantiate the superclass normally
         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
 
@@ -27,6 +27,22 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
+class CategoriesSerializer(serializers.ModelSerializer):
+    """docstring for CategoriesSerializer."""
+
+    name = serializers.CharField(max_length=49, read_only=True)
+    id = serializers.IntegerField(read_only=True)
+    subcategories = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Site
+        fields = ['name', 'id', 'subcategories']
+
+    def get_subcategories(self, instance):
+        subcats = []
+        for subcat in Subcategory.objects.filter(_super_category=instance):
+            subcats.append({'name': subcat.subcat_name, 'selected': True})
+        return subcats
 
 class SiteSerializer(serializers.ModelSerializer):
     """
@@ -253,11 +269,11 @@ class RouteSerializer(serializers.ModelSerializer):
             # Add the data for w to waypoint_list, using the
             # WaypointOnRouteSerializer, with self.context passed on so that the
             # serializer can use filters and searches when adding Sites
-            waypoint_list += [
+            waypoint_list.append(
                 WaypointOnRouteSerializer(
                     w, context=self.context, fields=wpt_fields
                 ).data
-            ]
+            )
             # Move w on to the next WaypointOnRoute, if w is not the last_stop,
             # and the next field for w is not null. Note that this second
             # condition is only not null in the case that a value for last_stop
@@ -395,19 +411,19 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
                     for cat in self.context.getlist('category'):
                         # Create a QuerySet containing all sites with the current
                         # category
-                        sites_in_cat = Site.objects.filter(category__icontains=cat)
+                        sites_in_cat = Site.objects.filter(category__name__icontains=cat)
                         # If self.context contains any subcategory filters for the
                         # current category, this loop picks out just the Sites in
                         # the category QuerySet with one of these subcategories
-                        for subcat in self.context.getlist('subcat ' + cat.lower(), []):
+                        for subcat in self.context.getlist('subcat_' + cat.lower(), []):
                             # Creates a QuerySet with the category _and_
                             # subcategory, and merges it with sites_of_interest
-                            sites_in_subcat = sites_in_cat.filter(subcategory__icontains=subcat)
+                            sites_in_subcat = sites_in_cat.filter(subcategory___subcat_name__icontains=subcat)
                             sites_of_interest = sites_of_interest | sites_in_subcat
                             # Breaks the loop when the last subcategory is reached:
                             # this prevents the else-clause from running unless
                             # are no subcategories given for the current category.
-                            if subcat == self.context.getlist('subcat ' + cat.lower())[-1]:
+                            if subcat == self.context.getlist('subcat_' + cat.lower())[-1]:
                                 break
                         else:
                             # If NO subcategories are given for the current
@@ -437,8 +453,8 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
                         hits = Site.objects.all()
                         for term in parse_search_string(search):
                             hits = hits.filter(
-                                Q(category__icontains=term)|
-                                Q(subcategory__icontains=term)|
+                                Q(category__name__icontains=term)|
+                                Q(subcategory___subcat_name__icontains=term)|
                                 Q(interest__icontains=term)|
                                 Q(description__icontains=term)|
                                 Q(name__icontains=term)|
@@ -477,7 +493,9 @@ class WaypointOnRouteSerializer(DynamicFieldsModelSerializer):
                     # ... and add the site to nearby_sites_of_interest
                     nearby_sites_of_interest = \
                         nearby_sites_of_interest | sites_of_interest.filter(pk=s_o_i.pk)
-        # Convert nearby_sites_of_interest to json, and return the data
-        return SiteSerializer(
-            nearby_sites_of_interest, many=True, context=dist_dict
-        ).data
+            # Convert nearby_sites_of_interest to json, and return the data
+            return SiteSerializer(
+                nearby_sites_of_interest, many=True, context=dist_dict
+            ).data
+        else:
+            return

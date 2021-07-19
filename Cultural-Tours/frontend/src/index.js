@@ -39,6 +39,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Slider from '@material-ui/core/Slider';
 import Input from '@material-ui/core/Input';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import SearchIcon from '@material-ui/icons/Search';
+
 
 // icons
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -139,22 +143,87 @@ class Frontpage extends Component {
       this.state = {
         currentStep: 0,
         handleNext: this.handleNext,
+        compileTourURL: this.compileTourURL,
         type: "",
         route: {},
         routes: [],
+        categories: []
       };
   }
 
   handleNext = (step, newState) => {
     newState.currentStep = step;
     this.setState(newState);
-  };
+    if (this.state.currentStep===6 && step===6) {
+      console.log('yabadabadaba');
+      this.getTour();
+    }
+  }
+
+
+  compileTourURL = () => {
+    console.log("Compiling Tour URL");
+    const { categories, searches } = this.state;
+    var tourURL =
+      apiDomain + 'api/v1/tour/' + this.state.route.id + '/' +
+        '?max_dist=' + this.state.distance +
+        '&first_stop=' + this.state.start.id +
+        '&last_stop=' + this.state.end.id;
+    for (var i = 0; i < searches.length; i++){
+      tourURL += '&search=' + encodeURIComponent(searches[i])
+    }
+    for (var j = 0; j < categories.length; j++) {
+      if (categories[j].selected) {
+        console.log(categories[j]);
+        var cat = encodeURIComponent(categories[j].name.toLowerCase());
+        tourURL += '&category=' + cat;
+        var allSelected = categories[j].subcategories.reduce((a, b) => {
+          console.log(a, typeof a);
+          console.log(b);
+          console.log(categories[j].subcategories);
+          return (typeof a==='boolean'?a:a.selected) && b.selected;
+        });
+        console.log(categories[j].subcategories, allSelected);
+        if (!allSelected) {
+          var subcat_str = '&subcat_' + cat + '=';
+          console.log(subcat_str, categories[j].subcategories.length);
+          for (var k = 0; k < categories[j].subcategories.length; k++) {
+            console.log(categories[j].subcategories[k], categories[j].subcategories[k].selected, 'pewp');
+            if (categories[j].subcategories[k].selected) {
+              tourURL +=
+                subcat_str +
+                encodeURIComponent(categories[j].subcategories[k].name);
+            }
+          }
+        }
+      }
+    }
+    console.log(tourURL);
+    this.setState({tourURL: tourURL});
+    return tourURL;
+  }
+
+  getTour = async () => {
+    const tURL = this.compileTourURL()
+    fetch(tURL)
+      .then((response) => {
+        return response.json();
+      })
+      .then((tour) => {
+        console.log(tour);
+        console.log(this)
+        this.setState({
+          tour: tour
+        });
+      });
+  }
 
   // Standard React function that runs once the component has loaded. Calls on
   // the API to get the list of routes, then uses asynchronous JS to handle the
   // response, parsing it as JSON and updating the value `routes` in state
   componentDidMount() {
     const routesURL = apiDomain + 'api/v1/routes/';
+    const catsURL = apiDomain + 'api/v1/categories/'
     fetch(routesURL)
       .then((response) => {
         return response.json();
@@ -164,6 +233,18 @@ class Frontpage extends Component {
           routes: routes,
         })
       })
+    fetch(catsURL)
+      .then((response) => {
+        return response.json();
+      })
+      .then((categories) => {
+        for (var i = 0; i < categories.length; i++){
+          categories[i]['selected'] = false;
+        }
+        this.setState({
+          categories: categories,
+        })
+      })
   }
 
   // Main method of the component - this renders the actual page elements
@@ -171,10 +252,10 @@ class Frontpage extends Component {
     // De-structures elements from this.props and this.state, so they can be
     // referred to in the base of the namespage inside the method
     const { classes } = this.props;
-    const { currentStep, type, route, routes, start, end, distance } = this.state;
+    const { currentStep, type, route, routes, start, end, distance, categories } = this.state;
     return (
       <div
-        class="bg_image"
+        className="bg_image"
         style={{
           backgroundImage:'url('+bkgd+')',
           backgroundSize: "cover",
@@ -301,6 +382,7 @@ class Frontpage extends Component {
                 start={start}
                 end={end}
                 distance={distance}
+                categories={categories}
               />
             : null
           }
@@ -314,6 +396,9 @@ class Frontpage extends Component {
                 start={start}
                 end={end}
                 distance={distance}
+                getTour={this.getTour}
+                compileTourURL = {this.compileTourURL}
+                tour={this.state.tour}
               />
             : null
           }
@@ -554,7 +639,7 @@ class ThirdStep extends Component {
                         endPassed = waypoint.stop_id === end.stop_id
                           ? true
                           : endPassed;
-                        return !endPassed || waypoint.stop_id === end.stop_id
+                        return waypoint.is_keypoint && (!endPassed || waypoint.stop_id === end.stop_id)
                           ? <MenuItem
                               key={'wpt_'+waypoint.stop_id}
                               value={waypoint.stop_id}
@@ -596,7 +681,7 @@ class ThirdStep extends Component {
                         startFound = waypoint.stop_id === start.stop_id
                           ? true
                           : startFound;
-                        return startFound
+                        return waypoint.is_keypoint && startFound
                           ? <MenuItem
                               key={'wpt_'+waypoint.stop_id}
                               value={waypoint.stop_id}
@@ -738,7 +823,8 @@ class FifthStep extends Component {
       this.state = {
         searchesOrFilters: [],
         searches: [],
-        categories: []
+        search_count: 0,
+        filter_count: 0
       };
   }
 
@@ -747,14 +833,26 @@ class FifthStep extends Component {
   }
 
   addSearchOrFilter(isSearch) {
+    var newSOF = {
+      isSearch: isSearch,
+      key: (
+        isSearch
+        ?'search_' + (this.state.search_count + 1)
+        :'filter_' + (this.state.filter_count + 1)
+      )
+    }
+    this.state.searchesOrFilters.push(newSOF)
     this.setState({
-      searchesOrFilters: this.state.searchesOrFilters.concat(isSearch)
+      searchesOrFilters: this.state.searchesOrFilters,
+      search_count: this.state.search_count + (isSearch?1:0),
+      filter_count: this.state.filter_count + (isSearch?0:1)
     });
   }
 
   render() {
     const { classes, handleNext, route, start, end, distance } = this.props;
-    var { searchesOrFilters } = this.state;
+    var { searchesOrFilters, searches, search_count, filter_count } = this.state;
+    var { categories } = this.props;
 
     return (
       <div ref={this.step5Ref} style={{ padding: 40 }}>
@@ -776,7 +874,14 @@ class FifthStep extends Component {
                     variant="h5"
                     className={classes.text + ' ' + classes.cardTitle}
                   >
-                    Add search terms and categories to limit the cultural sites displayed.
+                    {
+                      "Add search terms and categories to limit the cultural " +
+                      "sites displayed. If you do not add category filters or" +
+                      " searches, all sites that fall within " + distance +
+                      "m of your route will be displayed. If you add category" +
+                      " filters or searches, all sites found by at least one " +
+                      "of your categories or searches will be displayed."
+                    }
                   </Typography>
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -806,10 +911,21 @@ class FifthStep extends Component {
                 <Grid item xs={2}></Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={10}>
-                {searchesOrFilters.map((sOF) => (
-                  sOF
-                  ? <SearchBox classes={classes}></SearchBox>
-                  : <CategorySelector classes={classes}></CategorySelector>
+                {
+                  searchesOrFilters.map((sOF) => (
+                    sOF.isSearch
+                    ? <SearchBox
+                        classes={classes}
+                        searches={searches}
+                        key = {sOF.key}
+                        key_str = {sOF.key}
+                      />
+                    : <CategorySelector
+                        classes={classes}
+                        categories={categories}
+                        key = {sOF.key}
+                        key_str = {sOF.key}
+                    />
                 ))}
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -819,10 +935,13 @@ class FifthStep extends Component {
                   variant="contained"
                   className={classes.button + ' ' + classes.centred}
                   onClick={() => {
+                    console.log('beep');
                     handleNext(
                       6,
                       {
-
+                        'categories': this.props.categories,
+                        'searches': this.state.searches,
+                        'did_thing': 'thing_done'
                       }
                     )
                   }}
@@ -847,34 +966,18 @@ class LastStep extends Component {
   constructor(props) {
       super(props);
       this.step5Ref = React.createRef()
-      this.state = {
-        tour: {}
-      };
+
   }
 
   async componentDidMount() {
     window.scrollTo(0, this.step5Ref.current.offsetTop)
-
-    const tourURL =
-      apiDomain + 'api/v1/tour/' + this.props.route.id + '/' +
-        '?max_dist=' + this.props.distance +
-        '&first_stop=' + this.props.start.id +
-        '&last_stop=' + this.props.end.id;
-    fetch(tourURL)
-      .then((response) => {
-        return response.json();
-      })
-      .then((tour) => {
-        console.log(tour);
-        this.setState({
-          tour: tour
-        });
-      });
+    console.log(this.props);
+    this.props.getTour()
   }
 
   render() {
-    const { classes, handleNext, route, start, end, distance } = this.props;
-    var { tour } = this.state
+    const { classes, handleNext, route, start, end, distance, tour } = this.props;
+
 
     return (
       <div ref={this.step5Ref} style={{ padding: 40 }}>
@@ -904,32 +1007,34 @@ class LastStep extends Component {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={10}>
                   {
-                    tour.waypoints?
+                    tour && tour.waypoints?
                     <List>
                       {
                         tour.waypoints.map((wpt) => (
-                          <div key={wpt.stop_id}>
-                            <ListItem >
-                              <Waypoint
-                                num={tour.waypoints.indexOf(wpt)+1}
-                                name={wpt.name}
-                                lat={wpt.lat}
-                                lon={wpt.lon}
-                                sites={wpt.sites}
-                                classes={classes}
-                                key={wpt.stop_id + '_wpt'}
-                              />
-                            </ListItem>
-                            {
-                              tour.waypoints.indexOf(wpt)+1 === tour.waypoints.length
-                                ? null
-                                : <Divider />
-                            }
-                          </div>
+                          wpt.is_keypoint?
+                            <div key={wpt.stop_id}>
+                              <ListItem >
+                                <Waypoint
+                                  num={tour.waypoints.indexOf(wpt)+1}
+                                  name={wpt.name}
+                                  lat={wpt.lat}
+                                  lon={wpt.lon}
+                                  sites={wpt.sites}
+                                  classes={classes}
+                                  key={wpt.stop_id + '_wpt'}
+                                />
+                              </ListItem>
+                              {
+                                tour.waypoints.indexOf(wpt)+1 === tour.waypoints.length
+                                  ? null
+                                  : <Divider />
+                              }
+                            </div>
+                            :null
                         ))
                       }
                     </List>:
-                    null
+                    <p>Please wait, loading...</p>
                   }
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -950,40 +1055,68 @@ class SearchBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      search_string: ''
     };
   }
 
   render() {
-    const { num, name, lat, lon, sites, classes } = this.props;
+    const { classes, key_str } = this.props;
+    var { searches } = this.props;
+    var { search_string } = this.state;
     return (
         <Card className={classes.searchbox}>
           <Typography variant="h6" className={classes.text}>
-            Enter search
+            {
+              search_string
+              ?"You searched for '" + search_string + "'"
+              :'Enter your search. You can use "quote marks" to search for ' +
+              'multi-word phrases. Your tour will include all cultural sites ' +
+              'in our database that contain all the words and phrases in your' +
+              ' search'
+            }
           </Typography>
-          <FormControl className={classes.formControl}>
-          <InputLabel
-            width={600}
-            className={classes.button}
-            id="search"
-          >
-            {"Enter your search"}
-          </InputLabel>
-            <Input
-              width={600}
-              className={classes.selectEmpty}
-              id="search"
-              inputProps={{
-                name: "search",
-                id: "search",
-                'aria-label': 'Without label'
-              }}
-              defaultValue=""
-              displayEmpty
-            >
-
-            </Input>
-          </FormControl>
+          <Grid container spacing={3}>
+            <Grid item xs={8}>
+              <FormControl className={classes.formControl}>
+                <InputLabel
+                  width={600}
+                  className={classes.button}
+                  id="search"
+                >
+                  {"Enter your search"}
+                </InputLabel>
+                <Input
+                  width={600}
+                  className={classes.selectEmpty}
+                  id={key_str + "_input"}
+                  inputProps={{
+                    name: "search",
+                    id: key_str + "_input_",
+                    'aria-label': 'Without label'
+                  }}
+                  defaultValue=""
+                  displayEmpty
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={2}>
+              <Button
+                variant="contained"
+                className={classes.button + ' ' + classes.centred}
+                onClick={() => {
+                  var search_str = document.getElementById(key_str + "_input_").value;
+                  searches.push(search_str);
+                  this.setState({
+                    search_string: search_str,
+                    searches: searches
+                  });
+                  console.log(this.state.search_string);
+                }}
+              >
+                Search <SearchIcon />
+              </Button>
+            </Grid>
+          </Grid>
         </Card>
     )
   }
@@ -995,12 +1128,15 @@ class CategorySelector extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
-    };
+      "cat_chosen": -1
+    }
   }
 
   render() {
     const { num, name, lat, lon, sites, classes } = this.props;
+    var { categories } = this.props;
+    var { cat_chosen } = this.state;
+
     return (
         <Card className={classes.searchbox}>
           <Typography variant="h6" className={classes.text}>
@@ -1012,7 +1148,7 @@ class CategorySelector extends Component {
             className={classes.button}
             id="cat_selector"
           >
-            {"4 categories"}
+            {categories.length + " categories"}
           </InputLabel>
             <Select
               width={600}
@@ -1026,15 +1162,56 @@ class CategorySelector extends Component {
               defaultValue=""
               displayEmpty
             >
-              {['Charity', 'Digital', 'Historic', 'Making'].map((cat) => (
-                <MenuItem
-                  key={cat}
-                  value={cat}
+              {categories.map((cat) => (
+                !cat.selected || cat.id===this.state.cat_chosen
+                ?<MenuItem
+                  key={cat.name}
+                  value={cat.id}
+                  onClick={() => {
+                    categories[cat.id]['selected'] = true;
+                    if (cat_chosen >= 0) {
+                      categories[cat_chosen]['selected'] = false;
+                      console.log('It did the thing');
+                    }
+                    this.setState({'cat_chosen': cat.id});
+                  }}
                 >
-                  {cat}
+                  {cat.name}
                 </MenuItem>
-              ))}
+                :null
+              ))};
             </Select>
+            {
+              cat_chosen > -1
+              ?<div>
+                <Typography variant="h6" className={classes.text}>
+                  (Optional) select subcategories
+                </Typography>
+                <Grid container spacing={1}>
+
+                  {categories[cat_chosen]['subcategories'].map((sc) => (
+                    <Grid item xs={4} key={categories[cat_chosen].name+'_'+sc.name}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value = {sc.selected}
+                            checked = {sc.selected}
+                            onChange={() => {
+                              sc.selected = !sc.selected;
+                              this.forceUpdate();
+                            }}
+                            name={sc.name}
+                            color="primary"
+                          />
+                        }
+                        label={sc.name}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+              :null
+            }
           </FormControl>
         </Card>
     )

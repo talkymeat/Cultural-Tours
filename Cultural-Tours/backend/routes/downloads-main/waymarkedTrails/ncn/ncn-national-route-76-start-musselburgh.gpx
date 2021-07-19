@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://www.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Electric Bridge continuation to Electric Bridge continuation</name>
+    <desc>Cycle: Electric Bridge continuation to Electric Bridge continuation</desc>
+    <link href="https://www.cyclestreets.net:443/journey/75202277/"/>
+  </metadata>
+  <rte>
+    <name>Balanced Electric Bridge continuation to Electric Bridge continuation</name>
+    <desc>Balanced cycle journey from Electric Bridge continuation to Electric Bridge continuation</desc>
+    <rtept lon="-3.05063" lat="55.94541">
+      <name>Electric Bridge continuation</name>
+    </rtept>
+    <rtept lon="-3.0507" lat="55.94541">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

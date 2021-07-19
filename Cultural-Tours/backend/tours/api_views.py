@@ -3,17 +3,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 
-from tours.models import Route, Waypoint, WaypointOnRoute, Site
+from tours.models import Route, Waypoint, WaypointOnRoute, Site, Category, \
+    Subcategory
 from tours.serializers import RouteSerializer, WaypointSerializer, \
-    WaypointOnRouteSerializer, SiteSerializer
+    WaypointOnRouteSerializer, SiteSerializer, CategoriesSerializer
 
 class SiteList(ListAPIView):
     """ListAPIView for Sitelist, allowing search and filtering"""
     queryset = Site.objects.all()
     serializer_class = SiteSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter)
-    filter_fields = ('id', 'category', 'interest', 'subcategory',)
-    search_fields = ('name', 'category', 'interest', 'subcategory', 'description', 'organisation')
+    filter_fields = ('id', 'category__name', 'interest', 'subcategory___subcat_name')
+    search_fields = ('name', 'category__name', 'interest', 'subcategory___subcat_name', 'description', 'organisation')
 
 class RouteList(ListAPIView):
     """ListAPIView for Sitelist, allowing search and filtering"""
@@ -59,3 +60,8 @@ class RouteView(GenericAPIView):
         object = self.get_object()
         serializer = RouteSerializer(object, context=request.GET)
         return Response(serializer.data)
+
+class CategoryList(ListAPIView):
+    """ListAPIView for category list"""
+    queryset = Category.objects.all()
+    serializer_class = CategoriesSerializer

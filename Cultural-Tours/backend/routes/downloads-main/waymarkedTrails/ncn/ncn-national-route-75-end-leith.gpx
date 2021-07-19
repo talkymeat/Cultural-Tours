@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://www.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Commercial Quay to Commercial Quay</name>
+    <desc>Cycle: Commercial Quay to Commercial Quay</desc>
+    <link href="https://www.cyclestreets.net:443/journey/75202472/"/>
+  </metadata>
+  <rte>
+    <name>Balanced Commercial Quay to Commercial Quay</name>
+    <desc>Balanced cycle journey from Commercial Quay to Commercial Quay</desc>
+    <rtept lon="-3.17219" lat="55.97709">
+      <name>Commercial Quay</name>
+    </rtept>
+    <rtept lon="-3.17208" lat="55.97707">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

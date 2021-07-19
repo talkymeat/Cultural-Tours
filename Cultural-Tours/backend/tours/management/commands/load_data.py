@@ -2,7 +2,7 @@ from csv import DictReader
 
 from django.core.management import BaseCommand
 
-from tours.models import Site, Waypoint, Route, WaypointOnRoute
+from tours.models import Site, Waypoint, Route, WaypointOnRoute, Category, Subcategory
 
 
 
@@ -23,13 +23,32 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         #  Loads all data from csv files
         if not Site.objects.exists() and not Route.objects.exists():
+            next_cat_id = 0
             print("Loading cultural sites database")
             for row in DictReader(open('./cultural_sites.csv', encoding="utf-8-sig")):
                 site = Site()
                 site.name = row['Name']
-                site.category = row['Category']
+                if Category.objects.filter(name=row['Category']).exists():
+                    cat = Category.objects.filter(name=row['Category'])[0]
+                    site.category = cat
+                else:
+                    cat = Category()
+                    cat.name = row['Category']
+                    cat.id = next_cat_id
+                    next_cat_id += 1
+                    cat.save()
+                    site.category = cat
+                subcat_fn = f"{row['Sub category']}<{row['Category']}>"
+                if Subcategory.objects.filter(_full_name=subcat_fn).exists():
+                    site.subcategory = Subcategory.objects.filter(
+                        _full_name=subcat_fn
+                    )[0]
+                else:
+                    subcat = Subcategory()
+                    subcat.full_name = subcat_fn
+                    subcat.save()
+                    site.subcategory = subcat
                 site.interest = row['Area']
-                site.subcategory = row['Sub category']
                 site.organisation = row['Organisation']
                 site.address = row['Address']
                 site.website = row['Website']

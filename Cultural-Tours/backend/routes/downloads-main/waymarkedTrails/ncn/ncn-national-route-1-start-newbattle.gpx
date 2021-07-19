@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://www.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6 to EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    <desc>Cycle: EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6 to EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</desc>
+    <link href="https://www.cyclestreets.net:443/journey/75202382/"/>
+  </metadata>
+  <rte>
+    <name>Balanced EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6 to EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    <desc>Balanced cycle journey from EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6 to EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</desc>
+    <rtept lon="-3.06252" lat="55.89165">
+      <name>EuroVelo 12 - North Sea Cycle Route - part United Kingdom 6</name>
+    </rtept>
+    <rtept lon="-3.0625" lat="55.8916">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

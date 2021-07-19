@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://www.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Hopetoun Road, B924 to Hopetoun Road, B924</name>
+    <desc>Cycle: Hopetoun Road, B924 to Hopetoun Road, B924</desc>
+    <link href="https://www.cyclestreets.net:443/journey/75202320/"/>
+  </metadata>
+  <rte>
+    <name>Balanced Hopetoun Road, B924 to Hopetoun Road, B924</name>
+    <desc>Balanced cycle journey from Hopetoun Road, B924 to Hopetoun Road, B924</desc>
+    <rtept lon="-3.39857" lat="55.99077">
+      <name>Hopetoun Road, B924</name>
+    </rtept>
+    <rtept lon="-3.39867" lat="55.99079">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>

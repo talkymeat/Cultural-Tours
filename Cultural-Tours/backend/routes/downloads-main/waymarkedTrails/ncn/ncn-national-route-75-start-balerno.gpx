@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="https://www.cyclestreets.net:443/" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Water of Leith Walkway to Water of Leith Walkway</name>
+    <desc>Cycle: Water of Leith Walkway to Water of Leith Walkway</desc>
+    <link href="https://www.cyclestreets.net:443/journey/75202409/"/>
+  </metadata>
+  <rte>
+    <name>Balanced Water of Leith Walkway to Water of Leith Walkway</name>
+    <desc>Balanced cycle journey from Water of Leith Walkway to Water of Leith Walkway</desc>
+    <rtept lon="-3.33877" lat="55.88755">
+      <name>Water of Leith Walkway</name>
+    </rtept>
+    <rtept lon="-3.33868" lat="55.8876">
+      <name>Finish</name>
+    </rtept>
+  </rte>
+</gpx>
