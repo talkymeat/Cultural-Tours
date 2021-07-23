@@ -56,6 +56,13 @@ import theme from './theme';
 
 const apiDomain = 'http://127.0.0.1:8000/' // <<- Change this when the page is live online
 
+// Colour scheme:
+const ef_gold = "#FAB85E"
+const ef_cream = "#F3EFD9"
+const ef_teal = "#107269"
+const ef_sienna = "#C2583E"
+const ef_umber = "#55412F"
+
 // generates styles for page elements, using colours etc from theme
 const useStyles = makeStyles((style) => ({
   root: {
@@ -68,23 +75,23 @@ const useStyles = makeStyles((style) => ({
     flexGrow: 1,
     fontSize: "50px",
     fontWeight: 500,
-    color: "#FFFFFF"
+    color: ef_cream
   },
   text: {
-    color: "#666666"
+    color: ef_umber
   },
   topButton: {
     flexGrow: 1,
     fontSize: "30px",
     fontWeight: 500,
-    color: "#FFFFFF"
+    color: ef_cream
   },
   bar: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: ef_teal
   },
   bigDot: {
     fontSize: "100px",
-    color: theme.palette.secondary.main
+    color: ef_gold
   },
   paper: {
     padding: theme.spacing(2),
@@ -92,10 +99,14 @@ const useStyles = makeStyles((style) => ({
     //color: "transparent",
   },
   button: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: ef_sienna,
     fontSize: "24px",
     fontWeight: 500,
-    size: "large"
+    size: "large",
+    color: ef_cream,
+    '&:hover': {
+      backgroundColor: ef_teal
+    }
   },
   cardTitle: {
     textAlign: "center",
@@ -106,19 +117,20 @@ const useStyles = makeStyles((style) => ({
   formControl: {
     margin: theme.spacing(1),
     width: "100%",
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: ef_sienna,
+    color: ef_cream
   },
   selectEmpty: {
     marginTop: theme.spacing(4),
   },
   waypoint: {
-    backgroundColor: "#eeeeee"
+    backgroundColor: ef_cream
   },
   site: {
     backgroundColor: "#dddddd"
   },
   searchbox: {
-    backgroundColor: "#dddddd"
+    backgroundColor: ef_cream
   },
 }));
 
@@ -777,7 +789,7 @@ class FourthStep extends Component {
                     getAriaValueText={(value) => (value+'m')}
                     aria-labelledby="discrete-slider-always"
                     valueLabelDisplay="auto"
-                    color="secondary"
+                    color={ef_sienna}
                     step={25}
                     marks
                     min={25}
@@ -1283,34 +1295,50 @@ class Site extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      show: false
     };
   }
 
   render() {
     const { site, classes, kee } = this.props;
+    var { show } = this.state;
     return (
       <Card className={classes.site}>
-        <Typography variant="h6" className={classes.text}>
-          {site.name}
-        </Typography>
-        <List>
-          <ListItem>
-            <em>Lat:&nbsp;{site.lat}&nbsp;Lon:&nbsp;{site.lon}</em>
-          </ListItem>
-          {[
-            "category", "subcategory", "description", "interest", "organisation",
-            "dist_to_stop", "website", "address", ].map((item) => {
-              return (
-                site[item]
-                  ? <ListItem key={kee+'_'+item}>
-                      {item}:&nbsp;{site[item]}
-                    </ListItem>
-                  : null
-              )
-            })
-          }
-        </List>
+        <Button
+          variant="contained"
+          className={classes.button + ' ' + classes.centred}
+          onClick={() => {
+            this.setState({
+              show: !show
+            });
+            console.log(this.state.search_string);
+          }}
+        >
+          <Typography variant="h6" className={classes.text}>
+            {site.name}
+          </Typography>
+        </Button>
+        {
+          show
+          ?<List>
+            <ListItem>
+              <em>Lat:&nbsp;{site.lat}&nbsp;Lon:&nbsp;{site.lon}</em>
+            </ListItem>
+            {[
+              "category", "subcategory", "description", "interest", "organisation",
+              "dist_to_stop", "website", "address", ].map((item) => {
+                return (
+                  site[item]
+                    ? <ListItem key={kee+'_'+item}>
+                        {item}:&nbsp;{site[item]}
+                      </ListItem>
+                    : null
+                )
+              })
+            }
+          </List>
+          : null
+        }
       </Card>
     )
   }

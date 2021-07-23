@@ -1,7 +1,11 @@
 Operator,Short name,Direction,Type,Filename
-Dummy Lothian Buses,16,Torphin to Silverknowes,bus,dummy_lothian_bus_16_torphin_silverknowes.csv
-Lothian Buses,16,Torphin to Silverknowes,bus,lothian_bus_16_torphin_silverknowes.csv
-National Cycle Network,76,"Newhalls Road, B924 to Electric Bridge continuation",bike,quietest_55.99058_-3.38423_to_55.95827_-3.24518_to_55.94518_-3.22142_to_55.95351_-3.19765_to_55.94141_-3.18454_to_55.94078_-3.10279_to_55.93282_-3.07206_to_55.94542_-3.05084.csv
-National Cycle Network,76,"Electric Bridge continuation to Newhalls Road, B924",bike,quietest_55.94542_-3.05084_to_55.93282_-3.07206_to_55.94078_-3.10279_to_55.94141_-3.18454_to_55.95351_-3.19765_to_55.94518_-3.22142_to_55.95827_-3.24518_to_55.99058_-3.38423.csv
 Flaneur Cycle Network,1,Balcarres Street to Sloan Street,bike,quietest_55.9247199_-3.2177295_to_55.9275728_-3.2091179_to_55.93321_-3.210331_to_55.9411487_-3.157601_to_55.9425607_-3.1620707_to_55.9456422_-3.1511649_to_55.9647252_-3.1733039.csv
-Flaneur Cycle Network,1,"Balcarres Street to Sloan Street, Reversed",bike,quietest_55.9647252_-3.1733039_to_55.9456422_-3.1511649_to_55.9425607_-3.1620707_to_55.9411487_-3.157601_to_55.93321_-3.210331_to_55.9275728_-3.2091179_to_55.9247199_-3.2177295.csv
+Flaneur Cycle Network,1,Sloan Street to Balcarres Street,bike,quietest_55.9647252_-3.1733039_to_55.9456422_-3.1511649_to_55.9425607_-3.1620707_to_55.9411487_-3.157601_to_55.93321_-3.210331_to_55.9275728_-3.2091179_to_55.9247199_-3.2177295.csv
+Quiet Route,20,Restalrig to Craigleith,bike,quietest_55.95834_-3.24495_to_55.95829_-3.2445_to_55.96649_-3.19955_to_55.9692553_-3.1943041_to_55.95988_-3.1774_to_55.95848_-3.15724.csv
+Quiet Route,20,Craigleith to Restalrig,bike,quietest_55.95848_-3.15724_to_55.95988_-3.1774_to_55.9692553_-3.1943041_to_55.96649_-3.19955_to_55.95829_-3.2445_to_55.95834_-3.24495.csv
+John Muir Way,(JMW),Musselburgh to South Queensferry,bike,John_Muir_Way_(JMW)_Musselburgh_to_South_Queensferry.csv
+John Muir Way,(JMW),South Queensferry to Musselburgh,bike,John_Muir_Way_(JMW)_South_Queensferry_to_Musselburgh.csv
+NCN,National Route 1,Newbattle to Forth Bridge,bike,NCN_National_Route_1_Newbattle_to_Forth_Bridge.csv
+NCN,National Route 1,Forth Bridge to Newbattle,bike,NCN_National_Route_1_Forth_Bridge_to_Newbattle.csv
+NCN,National Route 75,Balerno to Leith,bike,NCN_National_Route_75_Balerno_to_Leith.csv
+NCN,National Route 75,Leith to Balerno,bike,NCN_National_Route_75_Leith_to_Balerno.csv

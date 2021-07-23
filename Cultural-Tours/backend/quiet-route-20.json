@@ -1,0 +1,37 @@
+{
+  "operator": "Quiet Route",
+  "name": "20",
+  "description": "Restalrig to Crigleith",
+  "itinerary_points": [
+    {
+      "lat": 55.95834,
+      "lon": -3.24495,
+      "name": "Quiet Route 20"
+    },
+    {
+      "lat": 55.95829,
+      "lon": -3.2445,
+      "name": "South Groathill Avenue"
+    },
+    {
+      "lat": 55.96649,
+      "lon": -3.19955,
+      "name": "Eildon Street"
+    },
+    {
+      "name": "Warriston Path",
+      "lat": 55.9692553,
+      "lon": -3.1943041
+    },
+    {
+      "lat": 55.95988,
+      "lon": -3.1774,
+      "name": "Brunswick Road"
+    },
+    {
+      "lat": 55.95848,
+      "lon": -3.15724,
+      "name": "Quiet Route 20"
+    }
+  ]
+}

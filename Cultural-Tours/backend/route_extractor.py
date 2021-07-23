@@ -5,6 +5,7 @@ import os, webbrowser
 import requests
 import json
 import math
+from tours.utils import dist_pts
 
 _CS_APIKEY = "985402ceaaed2402"
 
@@ -50,6 +51,8 @@ def make_route_filename(plan, points):
 def file_needs_newline(filename):
     with open(filename) as file:
         return file.read()[-1] != '\n'
+
+
 
 class Route_Extractor():
     """Extracts cycling route data from GPX files and adds it to the CSV files that
@@ -266,6 +269,102 @@ class Route_Extractor():
                 nl_needed = True
             return ID, nl_needed
 
+    def read_waymarked_trails_gpx(self, name, route_fn, start_fn='', end_fn='', start_nm='', end_nm='', desc='', operator=''):
+        def glance_gpx(fn, start=True):
+            with open(fn) as gpx_file:
+                gpx = gpxpy.parse(gpx_file)
+                pt = gpx.routes[0].points[int(start)-1]
+                return {'lat': pt.latitude, 'lon': pt.longitude}
+
+        def init_terminus(fn='', start=True):
+            terminus = {'idx': int(start)-1}
+            if fn:
+                terminus = {**terminus, **glance_gpx(fn, start)}
+                terminus['min_dist'] = 1000000000000000
+            else:
+                terminus['min_dist'] = 0
+            return terminus
+        def terminus_compare(terminus, rt_pt, idx):
+            dist = dist_pts(terminus, rt_pt)
+            if dist < terminus['min_dist']:
+                terminus['min_dist'] = dist
+                terminus['idx'] = idx
+        with open(route_fn) as rt_gpx_file:
+            rt_gpx = gpxpy.parse(rt_gpx_file)
+        termini = (init_terminus(start_fn, True), init_terminus(end_fn, False))
+        routes = []
+        if len(rt_gpx.tracks) > 1:
+            print('Weird. This GPX file has more than one track.')
+        for track in rt_gpx.tracks:
+            route = []
+            for segment in track.segments:
+                for point in segment.points:
+                    rt_pt = {
+                        'lat': point.latitude,
+                        'lon': point.longitude
+                    }
+                    for terminus in termini:
+                        if 'lat' in terminus and 'lon' in terminus:
+                            terminus_compare(terminus, rt_pt, len(route))
+                    route.append(rt_pt)
+            fwds = termini[0]['idx']<termini[1]['idx']
+            route = route[termini[0]['idx']:termini[1]['idx']:1 if fwds else -1]
+            print(
+                f'This route runs {"forwards" if fwds else "backwards"}, has ' +
+                f'{len(route)} waypoints, and ' +
+                f'comes within {termini[0]["min_dist"]:.3f}m of the given start ' +
+                f'at {route[0]["lat"]}, {route[0]["lon"]}, '
+                f'and {termini[1]["min_dist"]:.3f}m of the given end, at ' +
+                f'{route[-1]["lat"]}, {route[0-1]["lon"]}.'
+            )
+            test_segment = len(route) # set to len(route) when testing is done
+            for wpt in route[:test_segment]:
+                closest_point = requests.get(
+                    url = "https://api.cyclestreets.net/v2/nearestpoint?",
+                    params = {
+                        "lonlat": f"{wpt['lon']},{wpt['lat']}",
+                        "key": _CS_APIKEY
+                    }
+                ).json()
+                if len(closest_point['features']) > 1:
+                    raise ValueError(
+                        'CycleStreets returned ' +
+                        f'{len(closest_point["features"])} features for lat: ' +
+                        f'{wpt["lat"]}, lon: {wpt["lon"]}'
+                    )
+                if closest_point['features'][0]['geometry']['type'] != 'Point':
+                    raise ValueError(
+                        'CycleStreets returned a feature of type ' +
+                        f'\'{closest_point["features"][0]["geometry"]["type"]}\' ' +
+                        f'for lat: {wpt["lat"]}, lon: {wpt["lon"]}'
+                    )
+                wpt["lat"] = closest_point['features'][0]['geometry']['coordinates'][1]
+                wpt["lon"] = closest_point['features'][0]['geometry']['coordinates'][0]
+                wpt["name"] = closest_point['features'][0]['properties']['name']
+            for wpt in route[test_segment:]:
+                wpt['name'] = "Test, please remove this"
+            op = operator if operator else 'Bicycle'
+            descs = self.paired_descriptions(
+                desc,
+                f'{start_nm if start_nm else route[0]["name"]}',
+                f'{end_nm if end_nm else route[-1]["name"]}',
+                True
+            )
+            for i in (0,1):
+                routes.append({
+                    'wpts': (route, route[-1::-1])[i],
+                    'type': 'bike',
+                    'description': descs[i],
+                    'operator': op,
+                    'name': name,
+                    'filename': f'{op}_{name}_{descs[i]}.csv'.replace(' ', '_').replace("'", "")
+                })
+        return routes
+
+    def route_json_pts_2_val_ids(self, route_json):
+        route_json['wpts'] = self.wpts_to_IDs(self.validate_points(route_json['wpts'], False))
+        return route_json
+
     def read_gpx(self, filename):
         """Read all the routes in a GPX file and outputs a list of JSON-like
         dicts, each containing the data for one of the routes contained in the
@@ -379,6 +478,12 @@ class Route_Extractor():
                 # Increment route counter
                 count +=1
         return routes_data
+
+    def add_waymarked_trails(self, name, route_fn, start_fn='', end_fn='', start_nm='', end_nm='', desc='', operator=''):
+        routes = self.read_waymarked_trails_gpx(
+            name, route_fn, start_fn, end_fn, start_nm, end_nm, desc, operator)
+        for route in routes:
+            self.write_csvs(self.route_json_pts_2_val_ids(route))
 
     def write_csvs(self, route):
         """Takes a JSON-like dict object containing the metadata and data for
@@ -562,6 +667,11 @@ class Route_Extractor():
                         "Clockwise",
                         "Anticlockwise"
                     )
+                # if the description consists of place names separated by " to ",
+                # reverse the order - but in this case it is better to provide
+                # 'start' and 'end' params.
+                elif " to " in description:
+                    rev_description = " to ".join(description.split(" to ")[-1::-1])
                 # For any other provided description, derive the reverse description
                 # simply by appending ", Reversed"
                 else:
@@ -577,7 +687,7 @@ class Route_Extractor():
                         start_end += [pt['name']]
                     else:
                         raise ValueError(f"{se} lacks the key 'name'")
-                elif isinstance(pr, str):
+                elif isinstance(pt, str):
                     start_end += [pt]
                 else:
                     raise ValueError(f"{se} type is {type(pt)}: only str and " +
@@ -759,34 +869,126 @@ class Route_Extractor():
         # If `reverse` is false, `rev_route` will be the empty dict
         return [fwd_route, rev_route]
 
-    def validate_points(self, wpts):
+    def validate_points(self, wpts, segmented=True):
+        """Take a list of waypoints, remove any that are equivalent (points with
+        the same lat-lon or extremely close, even if they differ in name) to
+        their neighbours, and determines which waypoints on the route are
+        keypoints. Each waypoint is a dict that includes keys for 'lat' and
+        'lon', and this method adds fields:
+
+            'dist': distance from previous waypoint (only added if not already
+                included: CycleStreets outputs already provide this)
+            'kpt' (bool): indicates whether the point is considered a keypoint:
+                the Edinburgh Flaneur frontend lists the keypoints on a route
+                and shows which cultural sites are close to each - points that
+                are not keypoints are only used to display the route as a line
+                on a map
+            'sd': 'sum of distances' -- this is shown for keypoints only, and
+                gives the distance from the last keypoint to the current, using
+                the sum of 'dist' values. This way, 'sd' shows the distance as
+                travelled by someone following the route.
+
+        Parameters:
+            wpts (list(dict)): the original waypoints
+            segmented (bool): True if the original data is organised as route-
+                segments, such that each segment has the same name for all
+                points (e.g. a street name), and the first point of each segment
+                has the same lat & lon as the last point of the previous, and
+                has a 'dist' of zero. CycleStreets data is structured this way.
+
+        Returns:
+            totally_valid (list(dict)): the validated waypoints
+        """
+        # 'dist' is used extensively in assigning keypoint status, and the
+        # status of a point is used both by points behind and ahead. As such
+        # it is best to ensure that all points include a 'dist' value, before
+        # the rest of the computation is done
+        for k in range(len(wpts)):
+            # note that some route data sources provide distances, so the
+            # distance is only calculated if needed.
+            if not 'dist' in wpts[k]:
+                wpts[k]['dist'] = dist_pts(wpts[k], wpts[k-1]) if k else 0
+        # initialise the return variable
         totally_valid = []
+        # used to track the distance travelled since the last keypoint
         sum_dists = 0
         for i in range(len(wpts)):
             sum_dists += wpts[i]['dist']
+            # the validated list of points includes the final point, and all
+            # points that are not approximately the same as the point that
+            # follows
             if i == len(wpts)-1 or not points_approx_eq((wpts[i]['lat'],wpts[i]['lon']),(wpts[i+1]['lat'],wpts[i+1]['lon'])):
+                # the conditional is enough to ensure that invalid points are
+                # skipped - so any point that passes the conditional can be
+                # added to totally_valid. The rest of the computation calculates
+                # keypoint status
                 totally_valid = totally_valid + [wpts[i]]
+                # by default, points are not keypoints ...
                 is_keypoint = False
-                if wpts[i]['dist'] == 0 or i == len(wpts)-1:
+                # ...however, the first and last points of a route are always
+                # keypoints, as are the first points of each segment. For
+                # segmented (`segment == True`) data, a 'dist' of 0 indicates a
+                # new segment; otherwise, a point is considered the start of a
+                # segment if it has a name different from the previous point
+                if (wpts[i]['dist'] == 0 if segmented else wpts[i]['name'] != wpts[i-1]['name']) or i == len(wpts)-1 or i == 0:
                     is_keypoint = True
                 else:
+                    # ... however, some points in between segment boundaries may
+                    # also be keypoints, if the keypoints would otherwise be too
+                    # far apart. If a point is not less than 100m from the last
+                    # keypoint, it will be a keypoint, unless it is less than
+                    # 25m from the next certain-to-be-a-keypoint point
                     if sum_dists >= 100:
+                        # First, keypoint is set to true: it will be set to
+                        # false again if a point is found 25m or less ahead
+                        # which *must* be a keypoint.
                         is_keypoint = True
+                        # create a total to add up distances to the next must-be
+                        # -a-keypoint point, and an index to check through
+                        # points ahead.
                         dist_to_end_segment = 0
                         j = i+1
-                        while j < len(wpts) and dist_to_end_segment < 25 and wpts[j]['dist'] > 0:
+                        # Check points ahead as long as the following conditions
+                        # hold:
+                        #   * The end of the list has not been reached
+                        #   * dist_to_end_segment hasn't gone over 25 (if it
+                        #       has, wpt[i]'s keypoint status is certain, and we
+                        #       can stop checking)
+                        #   * Otherwise, we are looking for the next segment
+                        #       break:
+                        #       - If the route data is segmented, a 'dist' of
+                        #           zero indicates a segment break has been
+                        #           found.
+                        #       - Otherwise, a change of street-name
+                        while j < len(wpts) and dist_to_end_segment < 25 and (wpts[i]['dist'] > 0 if segmented else wpts[i]['name'] == wpts[i-1]['name']):
+                            # add up distances
                             dist_to_end_segment += wpts[j]['dist']
-                            if wpts[j]['dist'] >= 100:
+                            # if a point is found 100m or more from the
+                            # previous, the previous *must* be a keypoint, and
+                            # so, in case wpts[i] is not the previous, keypoint
+                            # is set to false.
+                            if wpts[j]['dist'] >= 100 and wpts[j]['dist'] > wpts[i]['dist']:
                                 is_keypoint = False
+                            # increment the index
                             j += 1
+                        # if a segment-break was found in under 25m, set
+                        # keypoint to false
                         if dist_to_end_segment < 25:
                             is_keypoint = False
+                    # if the next point is over 100m away, the current point
+                    # *must* be a keypoint
                     if i+1 < len(wpts) and wpts[i+1]['dist'] >= 100:
                         is_keypoint = True
+                # In the route JSON, the status os a point as a keypoint is
+                # stored as a 0 or 1
                 totally_valid[-1]["kpt"] = int(is_keypoint)
+                # To check that the function is performing as expected, for each
+                # keypoint, heep a record of how far it is from the previous
+                # keypoint.
                 if is_keypoint:
                     totally_valid[-1]["sd"] = sum_dists
                     sum_dists = 0
+        #print(json.dumps(totally_valid, indent=2))
         return totally_valid
 
     def wpts_to_IDs(self, wpts):
@@ -845,7 +1047,8 @@ class Route_Extractor():
     def add_new_routes(self):
         funcs = {
             "cyclestreets": self.add_cyclestreets,
-            "gpx": self.add_gpx
+            "gpx": self.add_gpx,
+            "waymarked": self.add_waymarked_trails
         }
         with open("load_routes.json") as file:
             new_routes = json.load(file)
@@ -1330,12 +1533,23 @@ if __name__ == '__main__':
     #     # Load the JSON for the route from file
     #     with open("route.json") as file:
     #         cs_json = json.loads(file.read())
-    #routex.add_new_routes()
+    routex.add_new_routes()
     # with open("route.json") as file:
     #     cs_json = json.loads(file.read())
     # #cs_route, itinerary_points, name="Quietest", filename="", rev_filename="", operator="Bicycle", description = "", reverse = True, ids = True
     # route_json, nothing = routex.cyclestreets_to_route_json(cs_json, filename = "fake.csv", description="Testing a Thing", reverse = False, ids = False)
     # geojson = routex.route_json_to_geojson_linestring(route_json)
     # print(routex.send_geojson_to_cyclestreets(geojson))
-    routex.refine_route()
+    # routex.refine_route()
     # print(routex.cyclestreets_geocoder_search("princes Street"))
+    # test_rte = routex.read_waymarked_trails_gpx(
+    #     '(JMW)',
+    #     'routes/downloads-main/waymarkedTrails/ncn/john-muir-way.gpx',
+    #     start_fn='routes/downloads-main/waymarkedTrails/ncn/john-muir-way-start-musselburgh.gpx',
+    #     end_fn='routes/downloads-main/waymarkedTrails/ncn/john-muir-way-end-south-queensferry.gpx',
+    #     start_nm='Musselburgh',
+    #     end_nm='South Queensferry',
+    #     operator='John Muir Way'
+    # )
+    # print(json.dumps(test_rte, indent=2))
+    # def read_waymarked_trails_gpx(self, name, route_fn, start_fn='', end_fn='', start_nm='', end_nm='', desc='' operator=''):

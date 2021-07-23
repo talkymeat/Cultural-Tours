@@ -23,6 +23,9 @@ def get_distance(lat0, lng0, lat1, lng1):
 
     return distance
 
+def dist_pts(pt1, pt2):
+    return get_distance(pt1['lat'], pt1['lon'], pt2['lat'], pt2['lon'])
+
 
 def parse_search_string(search):
     """
