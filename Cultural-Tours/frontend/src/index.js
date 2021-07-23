@@ -789,7 +789,7 @@ class FourthStep extends Component {
                     getAriaValueText={(value) => (value+'m')}
                     aria-labelledby="discrete-slider-always"
                     valueLabelDisplay="auto"
-                    color={ef_sienna}
+                    color={ef_teal}
                     step={25}
                     marks
                     min={25}
