@@ -297,6 +297,7 @@ class Route_Extractor():
             print('Weird. This GPX file has more than one track.')
         for track in rt_gpx.tracks:
             route = []
+            op = operator if operator else 'Bicycle'
             for segment in track.segments:
                 for point in segment.points:
                     rt_pt = {
@@ -307,13 +308,20 @@ class Route_Extractor():
                         if 'lat' in terminus and 'lon' in terminus:
                             terminus_compare(terminus, rt_pt, len(route))
                     route.append(rt_pt)
-            fwds = termini[0]['idx']<termini[1]['idx']
+            fwds = termini[0]['idx']<termini[1]['idx'] or termini[1]['idx'] == -1
             route = route[termini[0]['idx']:termini[1]['idx']:1 if fwds else -1]
+            descs = self.paired_descriptions(
+                desc,
+                f'{start_nm if start_nm else "Start"}',
+                f'{end_nm if end_nm else "End"}',
+                True
+            )
             print(
+                f'Processing {op} {name}, {descs[0]}. ' +
                 f'This route runs {"forwards" if fwds else "backwards"}, has ' +
                 f'{len(route)} waypoints, and ' +
                 f'comes within {termini[0]["min_dist"]:.3f}m of the given start ' +
-                f'at {route[0]["lat"]}, {route[0]["lon"]}, '
+                f'at {route[0]["lat"]}, {route[0]["lon"]}, ' +
                 f'and {termini[1]["min_dist"]:.3f}m of the given end, at ' +
                 f'{route[-1]["lat"]}, {route[0-1]["lon"]}.'
             )
@@ -343,13 +351,6 @@ class Route_Extractor():
                 wpt["name"] = closest_point['features'][0]['properties']['name']
             for wpt in route[test_segment:]:
                 wpt['name'] = "Test, please remove this"
-            op = operator if operator else 'Bicycle'
-            descs = self.paired_descriptions(
-                desc,
-                f'{start_nm if start_nm else route[0]["name"]}',
-                f'{end_nm if end_nm else route[-1]["name"]}',
-                True
-            )
             for i in (0,1):
                 routes.append({
                     'wpts': (route, route[-1::-1])[i],

@@ -1,6 +1,6 @@
 Operator,Short name,Direction,Type,Filename
-Flaneur Cycle Network,1,Balcarres Street to Sloan Street,bike,quietest_55.9247199_-3.2177295_to_55.9275728_-3.2091179_to_55.93321_-3.210331_to_55.9411487_-3.157601_to_55.9425607_-3.1620707_to_55.9456422_-3.1511649_to_55.9647252_-3.1733039.csv
-Flaneur Cycle Network,1,Sloan Street to Balcarres Street,bike,quietest_55.9647252_-3.1733039_to_55.9456422_-3.1511649_to_55.9425607_-3.1620707_to_55.9411487_-3.157601_to_55.93321_-3.210331_to_55.9275728_-3.2091179_to_55.9247199_-3.2177295.csv
+Flaneur Cycle Network,Test Route,Balcarres Street to Sloan Street,bike,quietest_55.9247199_-3.2177295_to_55.9275728_-3.2091179_to_55.93321_-3.210331_to_55.9411487_-3.157601_to_55.9425607_-3.1620707_to_55.9456422_-3.1511649_to_55.9647252_-3.1733039.csv
+Flaneur Cycle Network,Test Route,Sloan Street to Balcarres Street,bike,quietest_55.9647252_-3.1733039_to_55.9456422_-3.1511649_to_55.9425607_-3.1620707_to_55.9411487_-3.157601_to_55.93321_-3.210331_to_55.9275728_-3.2091179_to_55.9247199_-3.2177295.csv
 Quiet Route,20,Restalrig to Craigleith,bike,quietest_55.95834_-3.24495_to_55.95829_-3.2445_to_55.96649_-3.19955_to_55.9692553_-3.1943041_to_55.95988_-3.1774_to_55.95848_-3.15724.csv
 Quiet Route,20,Craigleith to Restalrig,bike,quietest_55.95848_-3.15724_to_55.95988_-3.1774_to_55.9692553_-3.1943041_to_55.96649_-3.19955_to_55.95829_-3.2445_to_55.95834_-3.24495.csv
 John Muir Way,(JMW),Musselburgh to South Queensferry,bike,John_Muir_Way_(JMW)_Musselburgh_to_South_Queensferry.csv
@@ -9,3 +9,29 @@ NCN,National Route 1,Newbattle to Forth Bridge,bike,NCN_National_Route_1_Newbatt
 NCN,National Route 1,Forth Bridge to Newbattle,bike,NCN_National_Route_1_Forth_Bridge_to_Newbattle.csv
 NCN,National Route 75,Balerno to Leith,bike,NCN_National_Route_75_Balerno_to_Leith.csv
 NCN,National Route 75,Leith to Balerno,bike,NCN_National_Route_75_Leith_to_Balerno.csv
+NCN,National Route 76,Musselburgh to South Queensferry,bike,NCN_National_Route_76_Musselburgh_to_South_Queensferry.csv
+NCN,National Route 76,South Queensferry to Musselburgh,bike,NCN_National_Route_76_South_Queensferry_to_Musselburgh.csv
+NCN,National Route 754,Fountainbridge to Clifton,bike,NCN_National_Route_754_Fountainbridge_to_Clifton.csv
+NCN,National Route 754,Clifton to Fountainbridge,bike,NCN_National_Route_754_Clifton_to_Fountainbridge.csv
+NCN,National Route 754,Fountainbridge to Clifton,bike,NCN_National_Route_754_Fountainbridge_to_Clifton.csv
+NCN,National Route 754,Clifton to Fountainbridge,bike,NCN_National_Route_754_Clifton_to_Fountainbridge.csv
+Quiet Route,6,George Square to King's Buildings,bike,Quiet_Route_6_George_Square_to_Kings_Buildings.csv
+Quiet Route,6,King's Buildings to George Square,bike,Quiet_Route_6_Kings_Buildings_to_George_Square.csv
+Quiet Route,8,Edinburgh Park to Haymarket,bike,Quiet_Route_8_Edinburgh_Park_to_Haymarket.csv
+Quiet Route,8,Haymarket to Edinburgh Park,bike,Quiet_Route_8_Haymarket_to_Edinburgh_Park.csv
+Quiet Route,9,Murrayfield to The Gyle,bike,Quiet_Route_9_Murrayfield_to_The_Gyle.csv
+Quiet Route,9,The Gyle to Murrayfield,bike,Quiet_Route_9_The_Gyle_to_Murrayfield.csv
+Quiet Route,10,Leith to Portobello,bike,Quiet_Route_10_Leith_to_Portobello.csv
+Quiet Route,10,Portobello to Leith,bike,Quiet_Route_10_Portobello_to_Leith.csv
+Quiet Route,11,Leith to Roseburn,bike,Quiet_Route_11_Leith_to_Roseburn.csv
+Quiet Route,11,Roseburn to Leith,bike,Quiet_Route_11_Roseburn_to_Leith.csv
+Quiet Route,12,Crammond Coastal,bike,Quiet_Route_12_Crammond_Coastal.csv
+Quiet Route,12,"Crammond Coastal, Reversed",bike,"Quiet_Route_12_Crammond_Coastal,_Reversed.csv"
+Quiet Route,13,Trinity to Lower Granton,bike,Quiet_Route_13_Trinity_to_Lower_Granton.csv
+Quiet Route,13,Lower Granton to Trinity,bike,Quiet_Route_13_Lower_Granton_to_Trinity.csv
+Quiet Route,14,Trinity to Ocean Terminal,bike,Quiet_Route_14_Trinity_to_Ocean_Terminal.csv
+Quiet Route,14,Ocean Terminal to Trinity,bike,Quiet_Route_14_Ocean_Terminal_to_Trinity.csv
+Quiet Route,15,Victoria Park,bike,Quiet_Route_15_Victoria_Park.csv
+Quiet Route,15,"Victoria Park, Reversed",bike,"Quiet_Route_15_Victoria_Park,_Reversed.csv"
+Quiet Route,GBM,Greenbank to The Meadows,bike,Quiet_Route_GBM_Greenbank_to_The_Meadows.csv
+Quiet Route,GBM,The Meadows to Greenbank,bike,Quiet_Route_GBM_The_Meadows_to_Greenbank.csv

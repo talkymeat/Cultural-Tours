@@ -82,7 +82,7 @@
     }
   },
   {
-    "new": 1,
+    "new": 0,
     "source": "waymarked",
     "params": {
       "name": "National Route 1",
@@ -95,7 +95,7 @@
     }
   },
   {
-    "new": 1,
+    "new": 0,
     "source": "waymarked",
     "params": {
       "name": "National Route 75",
@@ -108,7 +108,7 @@
     }
   },
   {
-    "new": 1,
+    "new": 0,
     "source": "waymarked",
     "params": {
       "name": "National Route 76",
@@ -121,7 +121,7 @@
     }
   },
   {
-    "new": 1,
+    "new": 0,
     "source": "waymarked",
     "params": {
       "name": "National Route 754",
@@ -137,7 +137,7 @@
     "source": "waymarked",
     "params": {
       "name": "6",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-6.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-6.gpx",
       "start_nm": "George Square",
       "end_nm": "King's Buildings",
       "operator": "Quiet Route"
@@ -148,7 +148,7 @@
     "source": "waymarked",
     "params": {
       "name": "8",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-8.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-8.gpx",
       "start_nm": "Edinburgh Park",
       "end_nm": "Haymarket",
       "operator": "Quiet Route"
@@ -159,7 +159,7 @@
     "source": "waymarked",
     "params": {
       "name": "9",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-9.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-9.gpx",
       "start_nm": "Murrayfield",
       "end_nm": "The Gyle",
       "operator": "Quiet Route"
@@ -170,7 +170,7 @@
     "source": "waymarked",
     "params": {
       "name": "10",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-10.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-10.gpx",
       "start_nm": "Leith",
       "end_nm": "Portobello",
       "operator": "Quiet Route"
@@ -181,7 +181,7 @@
     "source": "waymarked",
     "params": {
       "name": "11",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-11.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-11.gpx",
       "start_nm": "Leith",
       "end_nm": "Roseburn",
       "operator": "Quiet Route"
@@ -192,7 +192,7 @@
     "source": "waymarked",
     "params": {
       "name": "12",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-12.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-12.gpx",
       "desc": "Crammond Coastal",
       "operator": "Quiet Route"
     }
@@ -202,7 +202,7 @@
     "source": "waymarked",
     "params": {
       "name": "13",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-13.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-13.gpx",
       "start_nm": "Trinity",
       "end_nm": "Lower Granton",
       "operator": "Quiet Route"
@@ -213,7 +213,7 @@
     "source": "waymarked",
     "params": {
       "name": "14",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-14.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-14.gpx",
       "start_nm": "Trinity",
       "end_nm": "Ocean Terminal",
       "operator": "Quiet Route"
@@ -224,7 +224,7 @@
     "source": "waymarked",
     "params": {
       "name": "15",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/quiet-route-15.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/quiet-route-15.gpx",
       "desc": "Victoria Park",
       "operator": "Quiet Route"
     }
@@ -234,7 +234,7 @@
     "source": "waymarked",
     "params": {
       "name": "GBM",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/greenbank-to-meadows-quiet-route.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/greenbank-to-meadows-quiet-route.gpx",
       "start_nm": "Greenbank",
       "end_nm": "The Meadows",
       "operator": "Quiet Route"
@@ -245,7 +245,7 @@
     "source": "waymarked",
     "params": {
       "name": "NSQ",
-      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoute/newbridge-to-south-queensferry.gpx",
+      "route_fn": "routes/downloads-main/waymarkedTrails/quietRoutes/newbridge-to-south-queensferry.gpx",
       "start_nm": "Newbridge",
       "end_nm": "South Queensferry",
       "operator": "Quiet Route"

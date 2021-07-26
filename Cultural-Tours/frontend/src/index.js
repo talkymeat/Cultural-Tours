@@ -43,6 +43,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import SearchIcon from '@material-ui/icons/Search';
 
+// Leaflet.js
+//import './leaflet/leaflet.css';
+//import * as L from './leaflet/leaflet.js';
 
 // icons
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -156,7 +159,7 @@ class Frontpage extends Component {
         currentStep: 0,
         handleNext: this.handleNext,
         compileTourURL: this.compileTourURL,
-        type: "",
+        type: "Cycle",
         route: {},
         routes: [],
         categories: []
@@ -176,6 +179,8 @@ class Frontpage extends Component {
   compileTourURL = () => {
     console.log("Compiling Tour URL");
     const { categories, searches } = this.state;
+    console.log("Searches: ", searches);
+    console.log("Categories: ", categories);
     var tourURL =
       apiDomain + 'api/v1/tour/' + this.state.route.id + '/' +
         '?max_dist=' + this.state.distance +
@@ -243,7 +248,8 @@ class Frontpage extends Component {
       .then((routes) => {
         this.setState({
           routes: routes,
-        })
+        });
+        console.log("Routes: ", routes);
       })
     fetch(catsURL)
       .then((response) => {
@@ -260,6 +266,15 @@ class Frontpage extends Component {
   }
 
   // Main method of the component - this renders the actual page elements
+
+  // NOTE: SKIPPING STEP 1, WHICH SELECTS BETWEEN BIKE AND BUS: REINSTATE AFTER
+  // COVID ... AND WHEN TFE GIVE US AN API KEY. code below:
+  // <div style={{ padding: 40 }}>
+  //   { currentStep > 0
+  //     ? <FirstStep classes={classes} handleNext={this.handleNext}/>
+  //     : null
+  //   }
+  // </div>
   render() {
     // De-structures elements from this.props and this.state, so they can be
     // referred to in the base of the namespage inside the method
@@ -336,7 +351,7 @@ class Frontpage extends Component {
               <Button
                 variant="contained"
                 className={classes.button + ' ' + classes.centred}
-                onClick={() => {this.handleNext(1, {})}}
+                onClick={() => {this.handleNext(2, {})}}
               >
                 Plan my tour!
               </Button>
@@ -344,12 +359,6 @@ class Frontpage extends Component {
             <Grid item xs={6}>
             </Grid>
           </Grid>
-        </div>
-        <div style={{ padding: 40 }}>
-          { currentStep > 0
-            ? <FirstStep classes={classes} handleNext={this.handleNext}/>
-            : null
-          }
         </div>
         <div style={{ padding: 40 }}>
           { currentStep > 1
@@ -493,7 +502,9 @@ class SecondStep extends Component {
   }
 
   async componentDidMount() {
-    window.scrollTo(0, this.step2Ref.current.offsetTop)
+    window.scrollTo(0, this.step2Ref.current.offsetTop);
+    //var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
   }
 
   render() {
@@ -521,8 +532,7 @@ class SecondStep extends Component {
                     Select a route
                   </Typography>
                 </Grid>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <FormControl className={classes.formControl}>
                   <InputLabel
                     width={600}
@@ -560,11 +570,13 @@ class SecondStep extends Component {
                             {route.name}
                           </MenuItem>
                         : null
-                      ))}
+                      ))} 
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={3}></Grid>
+                <Grid item xs={8}>
+                  <div id="mapid" height="250px"></div>
+                </Grid>
               </Grid>
             </Card>
           </Grid>
@@ -788,8 +800,8 @@ class FourthStep extends Component {
                     defaultValue={250}
                     getAriaValueText={(value) => (value+'m')}
                     aria-labelledby="discrete-slider-always"
-                    valueLabelDisplay="auto"
-                    color={ef_teal}
+                    valueLabelDisplay="on"
+                    color="secondary"
                     step={25}
                     marks
                     min={25}
@@ -1311,7 +1323,6 @@ class Site extends Component {
             this.setState({
               show: !show
             });
-            console.log(this.state.search_string);
           }}
         >
           <Typography variant="h6" className={classes.text}>
