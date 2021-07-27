@@ -17,14 +17,17 @@ Including another URLconf
 #from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path,  register_converter
+from django.views.generic.base import RedirectView # ???
 
 #import tours.views
 import tours.api_views
 from tours.converters import WaypointIDConverter
 
 register_converter(WaypointIDConverter, 'wpt')
+favicon_view = RedirectView.as_view(url='/static/favicon.ico', permanent=True)
 
 urlpatterns = [
+    path(r'^favicon\.ico$', favicon_view),
     path('api/v1/sites/', tours.api_views.SiteList.as_view()),
     path('api/v1/routes/', tours.api_views.RouteList.as_view()),
     path('api/v1/tour/<int:id>/', tours.api_views.RouteView.as_view()),

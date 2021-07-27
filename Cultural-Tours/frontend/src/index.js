@@ -44,8 +44,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import SearchIcon from '@material-ui/icons/Search';
 
 // Leaflet.js
-//import './leaflet/leaflet.css';
+import './leaflet/leaflet.css';
 //import * as L from './leaflet/leaflet.js';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 // icons
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -239,10 +240,13 @@ class Frontpage extends Component {
   // the API to get the list of routes, then uses asynchronous JS to handle the
   // response, parsing it as JSON and updating the value `routes` in state
   componentDidMount() {
+    console.log("Frontpage component did mount");
     const routesURL = apiDomain + 'api/v1/routes/';
     const catsURL = apiDomain + 'api/v1/categories/'
+    console.log("Routes URL:", routesURL);
     fetch(routesURL)
       .then((response) => {
+        console.log("fetching routes");
         return response.json();
       })
       .then((routes) => {
@@ -253,6 +257,7 @@ class Frontpage extends Component {
       })
     fetch(catsURL)
       .then((response) => {
+        console.log("fetching categories");
         return response.json();
       })
       .then((categories) => {
@@ -532,7 +537,7 @@ class SecondStep extends Component {
                     Select a route
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <FormControl className={classes.formControl}>
                   <InputLabel
                     width={600}
@@ -570,12 +575,22 @@ class SecondStep extends Component {
                             {route.name}
                           </MenuItem>
                         : null
-                      ))} 
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={8}>
-                  <div id="mapid" height="250px"></div>
+                <Grid item xs={12}>
+                  <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                    <TileLayer
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[51.505, -0.09]}>
+                      <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                      </Popup>
+                    </Marker>
+                  </MapContainer>
                 </Grid>
               </Grid>
             </Card>

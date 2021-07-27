@@ -5,15 +5,15 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#7fbabe',
-      main: '#4f8a8b',
+      main: '#C2583E',
       dark: '#1e5d61',
-      contrastText: '#fff',
+      contrastText: '#F3EFD9',
     },
     secondary: {
       light: '#ffc1a9',
-      main: '#ea907a',
+      main: '#107269',
       dark: '#b5614e',
-      contrastText: '#000',
+      contrastText: '#F3EFD9',
     },
   },
 });
